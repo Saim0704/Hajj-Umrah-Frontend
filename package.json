@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prettier": "prettier --write '**/*.{js,jsx,ts,tsx}'",
+    "prettier:fix": "prettier --write",
+    "prettier:check": "prettier --check ."
   },
   "dependencies": {
     "eslint": "8.43.0",
@@ -14,5 +17,8 @@
     "next": "13.4.7",
     "react": "18.2.0",
     "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "prettier": "3.0.0"
   }
 }
