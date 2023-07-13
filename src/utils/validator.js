@@ -35,7 +35,6 @@ export const emailValidator = email => {
 
   export const validateValues = (inputValues) => {
     let errors = {};
-    console.log(inputValues.email)
     if (!inputValues.name) {
         errors.name = "Name is required";
       }

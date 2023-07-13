@@ -42,7 +42,6 @@ const SideNav = ({ children }) => {
               <h1 className={styles.mainHeader}>MY ACCOUNT</h1>
               <div className={styles.sidebarNav}>
                 <ul className={styles.menuList}>
-                  {console.log(sidebarArray)}
                   {
                     sidebarArray.map((item,index) =>{
                       return(
@@ -52,9 +51,6 @@ const SideNav = ({ children }) => {
                     onClick={() => {
                       router?.push(`${item.href}`);
                     }}>
-                      {
-                        console.log(item.href)
-                      }
                         {item.title} 
                         </li>
                       )
