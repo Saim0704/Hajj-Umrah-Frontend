@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* .bg-home{background-image: url(http://test.indicsoft.com/web/image/2728-6c2c0094/slider1.jpg);
+    height: 500px;} */
+
+    .bg-home{background-image: url(home-bg.jpg);}
+    .bg-cta{background-image: url(cta-bg.jpg);}
+    .blk-bg-trnp{background: #0000009c;}
+
+    .nav-header{position: absolute;
+        z-index: 1;
+        color: #fff;
+        width: 100%;}
