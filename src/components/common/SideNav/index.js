@@ -2,36 +2,33 @@ import { useRouter } from "next/router";
 import AuthCheck from "../AuthCheck";
 import styles from '@/styles/Sidebar.module.css'
 
-
+const sidebarArray = [
+  {
+    title:'Dashboard',
+    href:"/admin/dashboard"
+  },
+  {
+    title:'Applicants',
+    href:"/admin/applicants"
+  },
+  {
+    title:'Packages',
+    href:"/admin/packages"
+  },
+  {
+    title:'Employees',
+    href:"/admin/employees"
+  },
+  {
+    title:'Company Detail',
+    href:"/admin/companyDetails"
+  }
+]
 const SideNav = ({ children }) => {
   const router = useRouter();
 
   const isMobile = false
   const isLoggedIn = true
-
-  const sidebarArray = [
-    {
-      title:'Dashboard',
-      href:"/admin/dashboard"
-    },
-    {
-      title:'Applicants',
-      href:"/admin/applicants"
-    },
-    {
-      title:'Packages',
-      href:"/admin/packages"
-    },
-    {
-      title:'Employees',
-      href:"/admin/employees"
-    },
-    {
-      title:'Company Detail',
-      href:"/admin/companyDetails"
-    }
-  ]
-  
   
   return (
     <div className={styles.wrapper}>
