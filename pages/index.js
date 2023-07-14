@@ -39,7 +39,7 @@ export default function Home() {
                       <input
                         type="date"
                         placeholder=""
-                        class="
+                        class=" 
                     mt-1
                     block
                     w-full
