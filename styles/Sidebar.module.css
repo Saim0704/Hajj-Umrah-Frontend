@@ -37,6 +37,7 @@
   .menu:hover:not(.active) {
     background-color: #f5f9fc;
 color: #000;
+border-right: 2px solid #17803d;
   }
 
   .mainWrapper{
