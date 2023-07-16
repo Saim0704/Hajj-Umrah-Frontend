@@ -2,10 +2,10 @@ import React from 'react'
 
 const Header = () => {
   return (
-    <header className="nav-header">
+    <header className="nav-header bg-black">
   
 
-  <nav id="header" class="w-full z-30 top-0 pt-4 text-white">
+  <nav id="header" class="w-full z-30 top-0 pt-4 pb-4 text-white">
       <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
         <div class="pl-4 flex items-center">
           <a class="toggleColour text-white no-underline hover:no-underline font-bold text-2xl lg:text-4xl" href="#">

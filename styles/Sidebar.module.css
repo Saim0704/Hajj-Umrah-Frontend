@@ -1,36 +1,32 @@
 .wrapper{
     width: 100%;
     margin: 0;
-    height:100vh;
+    
     display:flex;
 }
 .sidebar{
-    background-color: #f2e79b69;
+    background-color: #fff;
     width: 20%;
-    z-index: 1;
-    position: relative;
-    overflow: auto;
+    border-right: 1px solid #e8eaf0;
+    
 }
 .mainHeader{
     background-color: #04360a;
     color: white;
     text-align: center;
     font-size: 25px;
-    font-weight: 800;
-    padding: 20px;
+    font-weight: 300;
+    padding: 15px;
     
 }
+.mainHeader svg{margin-right: 2%; display: inline-block;}
 .sidebarNav{
-    font-size: 20px;
-    font-weight: 700;
-    height: auto !important;  
+   
 }
 .menu{
-    display: block;
-    color: #000;
-    padding: 16px 16px;
-    text-decoration: none;
-    border-bottom: 1px solid gray;
+  Display: block;
+  padding: 18px 28px;
+  text-decoration: none;
   }
   
   .menu.active {
@@ -39,22 +35,23 @@
   }
   
   .menu:hover:not(.active) {
-    background-color: #319e3e;
-    color: white;
+    background-color: #f5f9fc;
+color: #000;
   }
 
   .mainWrapper{
     width: 80%;
+    background: #f5f9fc;
   }
   .title{
-    background-color: #037310;
-    color: white;
-    font-size: 30px;
-    font-weight: 600;
-    padding: 16px;
+    background-color: #fff;
+    color: 000;
+    font-size: 25px;
+    font-weight: 300;
+    padding: 15px;
     
   }
 
   .container{
-    margin:20px
+    
   }
