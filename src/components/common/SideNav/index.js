@@ -9,22 +9,22 @@ const sidebarArray = [
     href: "/admin/dashboard",
   },
   {
-    icon: "/icons/package/dashboard-icon.svg",
+    icon: "/icons/package/application-icon.svg",
     title: "Applicants",
     href: "/admin/applicants",
   },
   {
-    icon: "/icons/package/dashboard-icon.svg",
+    icon: "/icons/package/package-icon.svg",
     title: "Packages",
     href: "/admin/packages",
   },
   {
-    icon: "/icons/package/dashboard-icon.svg",
+    icon: "/icons/package/employees-icon.svg",
     title: "Employees",
     href: "/admin/employees",
   },
   {
-    icon: "/icons/package/dashboard-icon.svg",
+    icon: "/icons/package/company-iocn.svg",
     title: "Company Detail",
     href: "/admin/companyDetails",
   },

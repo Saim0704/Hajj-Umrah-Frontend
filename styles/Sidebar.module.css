@@ -29,6 +29,10 @@
   text-decoration: none;
   }
   
+ .menu img{padding-right: 8px;
+  width: 13%;
+  display: inline-block;}
+  
   .menu.active {
     background-color: #319e3e;
     color: white;
