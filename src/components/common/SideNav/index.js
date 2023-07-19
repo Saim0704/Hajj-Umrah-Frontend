@@ -15,8 +15,8 @@ const sidebarArray = [
   },
   {
     icon: "/icons/package/package-icon.svg",
-    title: "Packages",
-    href: "/admin/packages",
+    title: "Create Packages",
+    href: "/admin/create-package/basic-details",
   },
   {
     icon: "/icons/package/employees-icon.svg",
@@ -48,8 +48,7 @@ const SideNav = ({ children }) => {
                   viewBox="0 0 24 24"
                   stroke-width="1.5"
                   stroke="currentColor"
-                  class="w-8 h-8"
-                >
+                  class="w-8 h-8">
                   <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
@@ -66,9 +65,10 @@ const SideNav = ({ children }) => {
                         key={index}
                         className={styles.menu}
                         onClick={() => {
-                          router?.push(`${item.href}`);
-                        }}
-                      >
+                          router.push(`${item.href}`, undefined, {
+                            shallow: true,
+                          });
+                        }}>
                         <img src={item.icon}></img>
                         {item.title}
                       </li>
