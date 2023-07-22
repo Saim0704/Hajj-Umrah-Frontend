@@ -20,7 +20,7 @@ const sidebarArray = [
   },
   {
     icon: "/icons/package/employees-icon.svg",
-    title: "Employees",
+    title: "Package List",
     href: "/admin/employees",
   },
   {

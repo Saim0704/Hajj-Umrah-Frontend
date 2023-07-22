@@ -1,9 +1,10 @@
+import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 export const Gallery = () => {
+  const router = useRouter();
   const { userData } = useSelector((state) => state.user);
-  console.log("🚀 ~ file: BasicDetails.js:15 ~ Gallery ~ useData:", userData);
   return (
     <div>
       {" "}
@@ -86,7 +87,10 @@ export const Gallery = () => {
 
           <div className="w-full flex pt-4">
             <div className="w-1/2">
-              <button type="button" class="btn-bark">
+              <button
+                type="button"
+                class="btn-bark"
+                onClick={() => router.back()}>
                 Back
               </button>
             </div>
@@ -94,7 +98,10 @@ export const Gallery = () => {
               <button type="button" class="btn-light">
                 Save
               </button>
-              <button type="button" class="btn-green">
+              <button
+                type="button"
+                class="btn-green"
+                onClick={() => router.push("/admin/create-package/gallery")}>
                 Next
               </button>
             </div>
