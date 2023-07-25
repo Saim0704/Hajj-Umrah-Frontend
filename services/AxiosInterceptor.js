@@ -6,26 +6,15 @@ let Api = axios.create({
 });
 
 const getToken = () => {
-  if (
-    typeof window !== "undefined" &&
-    (localStorage.getItem("aToken") || localStorage.getItem("guestAccessToken"))
-  ) {
-    let token = localStorage.getItem("aToken");
-
-    if (!!!token) {
-      let guestAccesToken = localStorage.getItem("guestAccessToken");
-      return guestAccesToken;
-    }
+  if (typeof window !== "undefined" && localStorage.getItem("accessToken")) {
+    let token = localStorage.getItem("accessToken");
     return token;
   }
 };
 
 Api.interceptors.request.use(
   (request) => {
-    if (
-      (request.url.includes("v1/") || request.url.includes("v2/")) &&
-      !request.url.includes("login")
-    ) {
+    if (!request.url.includes("login")) {
       const token = getToken();
       token && (request.headers["Authorization"] = `Bearer ${token}`);
     }
