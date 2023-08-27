@@ -1,4 +1,5 @@
 import "../styles/globals.css";
+import Script from "next/script";
 // import { Provider } from "react-redux";
 // import { persistStore } from "redux-persist";
 // import { PersistGate } from "redux-persist/integration/react";
@@ -38,17 +39,25 @@ function App({ Component, pageProps }) {
   });
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Hydrate state={pageProps.dehydratedState}>
-        <PersistGate
-          persistor={store.__persistor}
-          loading={<h1>Loading...</h1>}>
-          <Layout {...pageProps}>
-            <Component {...pageProps} />
-          </Layout>
-        </PersistGate>
-      </Hydrate>
-    </QueryClientProvider>
+    <>
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <PersistGate
+            persistor={store.__persistor}
+            loading={<h1>Loading...</h1>}
+          >
+            <Layout {...pageProps}>
+              <Component {...pageProps} />
+            </Layout>
+          </PersistGate>
+        </Hydrate>
+      </QueryClientProvider>
+
+      <Script
+        src="https://unpkg.com/flowbite@1.3.3/dist/flowbite.js"
+        strategy="beforeInteractive"
+      />
+    </>
   );
 }
 

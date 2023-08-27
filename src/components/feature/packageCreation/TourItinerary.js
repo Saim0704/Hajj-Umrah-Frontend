@@ -1,54 +1,17 @@
 import React from "react";
 import { FaPlus } from "react-icons/fa6";
 import { FaMinus } from "react-icons/fa6";
-const FlighDetails = () => {
+
+const TourItinerary = () => {
   return (
     <>
       <div className="p-5">
         <div className="bg-white p-4 rounded-xl shadow-md">
           <form className="form-ui">
-            <div class="flex  mt-4">
-              <div class="flex items-center mr-4">
-                <input
-                  id="inline-radio"
-                  type="radio"
-                  value=""
-                  name="inline-radio-group"
-                />
-                <label for="inline-radio" class="mb0 pl-2">
-                  One Way
-                </label>
-              </div>
-              <div class="flex items-center mr-4">
-                <input
-                  id="inline-radio"
-                  type="radio"
-                  value=""
-                  name="inline-radio-group"
-                />
-                <label for="inline-radio" class="mb0 pl-2">
-                  Round Trip
-                </label>
-              </div>
-              <div class="flex items-center mr-4">
-                <input
-                  id="inline-radio"
-                  type="radio"
-                  value=""
-                  name="inline-radio-group"
-                />
-                <label for="inline-radio" class="mb0 pl-2">
-                  Miti City
-                </label>
-              </div>
-            </div>
-            <div className="flex">
-              <hr class="h-px my-8 bg-gray-200 border-0 w-full dark:bg-gray-700" />
-            </div>
-
             <div className="grid gap-6 mb-6 md:grid-cols-2">
               <div>
                 <label for="last_name">Airline Carrier</label>
+
                 <select id="" name="" class="border border-gray-300">
                   <option value="">Specify the Airline</option>
                   <option value="">Saudia </option>
@@ -182,4 +145,4 @@ const FlighDetails = () => {
   );
 };
 
-export default FlighDetails;
+export default TourItinerary;

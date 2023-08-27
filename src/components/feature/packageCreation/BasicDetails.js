@@ -209,7 +209,7 @@ const BasicDetails = () => {
     <div className="p-5">
       <div className="bg-white p-4 rounded-xl shadow-md">
         <form className="form-ui">
-          <div class="grid gap-6 mb-6 md:grid-cols-2">
+          <div class="grid gap-6 mb-6 grid-cols-2">
             <div>
               <label for="first_name">Package Name</label>
               <input
@@ -252,6 +252,8 @@ const BasicDetails = () => {
                 </span>
               )}
             </div>
+          </div>
+          <div class="grid gap-6 mb-6 grid-cols-3">
             <div>
               <label for="">Select Duration</label>
               <select
@@ -264,7 +266,8 @@ const BasicDetails = () => {
                     ? "border-red-500"
                     : "border-gray-300"
                 }`}
-                onFocus={() => handleFieldFocus("durationType")}>
+                onFocus={() => handleFieldFocus("durationType")}
+              >
                 <option value="">Day type</option>
                 {dayType.map((item) => {
                   return (
@@ -281,7 +284,7 @@ const BasicDetails = () => {
               )}
             </div>
             <div>
-              <label for="duration">Duration Nos.</label>
+              <label for="duration">No. of Days</label>
               <select
                 id=""
                 name="duration"
@@ -292,7 +295,8 @@ const BasicDetails = () => {
                     : "border-gray-300"
                 }`}
                 onFocus={() => handleFieldFocus("duration")}
-                onChange={handleChange}>
+                onChange={handleChange}
+              >
                 <option value="">No. of Days </option>
                 {noOfDays.map((item) => {
                   return (
@@ -309,6 +313,37 @@ const BasicDetails = () => {
               )}
             </div>
             <div>
+              <label for="duration">No. of Nights</label>
+              <select
+                id=""
+                name="duration"
+                value={basicDetails.duration}
+                className={`border ${
+                  validationErrors.duration
+                    ? "border-red-500"
+                    : "border-gray-300"
+                }`}
+                onFocus={() => handleFieldFocus("duration")}
+                onChange={handleChange}
+              >
+                <option value="">No. of Nights </option>
+                {noOfDays.map((item) => {
+                  return (
+                    <option value={item} key={item}>
+                      {item}
+                    </option>
+                  );
+                })}
+              </select>
+              {validationErrors.duration && (
+                <span className="text-red-500 mt-2">
+                  {validationErrors.duration}
+                </span>
+              )}
+            </div>
+          </div>
+          <div class="grid gap-6 mb-6 grid-cols-2">
+            <div>
               <label for="from">From</label>
               <select
                 id=""
@@ -320,7 +355,8 @@ const BasicDetails = () => {
                     ? "border-red-500"
                     : "border-gray-300"
                 }`}
-                onChange={handleChange}>
+                onChange={handleChange}
+              >
                 <option value="">Select City</option>
                 {fromCity.map((item) => {
                   return (
@@ -346,7 +382,8 @@ const BasicDetails = () => {
                 className={`border ${
                   validationErrors.toCity ? "border-red-500" : "border-gray-300"
                 }`}
-                onChange={handleChange}>
+                onChange={handleChange}
+              >
                 <option value="">Select City</option>
                 {toCity.map((item) => {
                   return (
@@ -431,7 +468,8 @@ const BasicDetails = () => {
                     : "border-gray-300"
                 }`}
                 onFocus={() => handleFieldFocus("passengerCount")}
-                onChange={handleChange}>
+                onChange={handleChange}
+              >
                 <option value="">Select No. of Person</option>
                 {noOfDays.map((item) => {
                   return (
@@ -457,7 +495,8 @@ const BasicDetails = () => {
               rows="4"
               name="description"
               onChange={handleChange}
-              placeholder="Write your thoughts here..."></textarea>
+              placeholder="Write your thoughts here..."
+            ></textarea>
           </div>
 
           <div className="w-full flex pt-4">
@@ -472,7 +511,8 @@ const BasicDetails = () => {
                   router.push(`/admin/create-package/gallery`, undefined, {
                     shallow: true,
                   })
-                }>
+                }
+              >
                 Next
               </button>
             </div>

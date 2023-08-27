@@ -1,9 +1,13 @@
 import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "next/font/google";
+import { MdOutlineLocationOn } from "react-icons/md";
+import { MdAccessTime } from "react-icons/md";
+import { MdOutlineCalendarMonth } from "react-icons/md";
+import { MdOutlineCurrencyRupee } from "react-icons/md";
+import { MdSearch } from "react-icons/md";
 
-import styles from '../styles/Home.module.css'
-
+import styles from "../styles/Home.module.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,97 +32,87 @@ export default function Home() {
               </p>
               <a
                 class="inline-block text-black font-medium mt-6 rounded-md bg-yellow-500 py-3 px-4"
-                href="#">
+                href="#"
+              >
                 Plan Your Custom Umrah
               </a>
 
               <div className="blk-bg-trnp w-full rounded-lg m-auto py-5 px-12 mt-48 pb-7">
-                <div class="w-8/12 m-auto">
-                  <h2 class="text-lg text-white pl-4 mb-5">Search Tour</h2>
-                  <form className="flex justify-evenly items-end ">
-                    <label>
-                      <span class="text-white text-sm">Arrival Date</span>
-                      <input
-                        type="date"
-                        placeholder=""
-                        class=" 
-                    mt-1
-                    block
-                    w-full
-                    rounded-md
-                    border-gray-300
-                    shadow-sm
-                    focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50
-                  "
-                      />
-                    </label>
-                    <label>
-                      <span class="text-white text-sm">Departure Date</span>
-                      <input
-                        type="date"
-                        placeholder=""
-                        class="
-                    mt-1
-                    block
-                    w-full
-                    rounded-md
-                    border-gray-300
-                    shadow-sm
-                    focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50
-                  "
-                      />
-                    </label>
+                <h2 class="text-white mb-5 text-3xl">Search Packages</h2>
+                <div className="grid gap-6 mb-6 md:grid-cols-5">
+                  <div class="flex icon-select">
+                    <div className="icon">
+                      <MdOutlineLocationOn />
+                    </div>
+                    <select>
+                      <option>Type a Destination</option>
+                      <option>Kerala</option>
+                      <option>Himachal</option>
+                      <option>Andaman</option>
+                      <option>Thailand</option>
+                      <option>Sikkim</option>
+                      <option>Maldives</option>
+                    </select>
+                  </div>
+                  <div class="flex icon-select">
+                    <div className="icon">
+                      <MdAccessTime />
+                    </div>
+                    <select>
+                      <option>Select Duration</option>
+                      <option>1 to 3 days</option>
+                      <option>4 to 6 days</option>
+                      <option>7 to 9 days</option>
+                      <option>10 to 12 days</option>
+                      <option>Not decided</option>
+                    </select>
+                  </div>
 
-                    <label>
-                      <span class="text-white text-sm">Days</span>
-                      <select
-                        class="
-                    block
-                    w-full
-                    mt-1
-                    rounded-md
-                    border-gray-300
-                    shadow-sm
-                    focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50
-                  ">
-                        <option>6 Dyas</option>
-                        <option>8 Dyas</option>
-                        <option>12 Dyas</option>
-                        <option>15 Dyas</option>
-                      </select>
-                    </label>
+                  <div class="flex icon-select">
+                    <div className="icon">
+                      <MdOutlineCalendarMonth />
+                    </div>
+                    <select>
+                      <option>Select Month</option>
+                      <option>August, 2023</option>
+                      <option>September, 2023</option>
+                      <option>October, 2023</option>
+                      <option>November, 2023</option>
+                      <option>December, 2023</option>
+                      <option>Not decided</option>
+                    </select>
+                  </div>
 
-                    <label>
-                      <span class="text-white">Price</span>
-                      <select
-                        class="
-                    block
-                    w-full
-                    mt-1
-                    rounded-md
-                    border-gray-300
-                    shadow-sm
-                    focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50
-                  ">
-                        <option>Rs./ 15,000</option>
-                        <option>Rs./ 15,000</option>
-                        <option>Rs./ 15,000</option>
-                        <option>Rs./ 15,000</option>
-                      </select>
-                    </label>
+                  <div class="flex icon-select">
+                    <div className="icon">
+                      <MdOutlineCurrencyRupee />
+                    </div>
+                    <select>
+                      <option>Price</option>
+                      <option>1,50,000</option>
+                      <option>1,50,000</option>
+                      <option>1,50,000</option>
+                      <option>1,50,000</option>
+                      <option>1,50,000</option>
+                      <option>1,50,000</option>
+                    </select>
+                  </div>
+
+                  <div class="flex">
                     <button
-                      type="Search"
-                      class="text-white rounded-xl bg-green-700 border-none px-5">
-                      Search
+                      type="button"
+                      class="btn-red flex items-center mb-0"
+                    >
+                      <MdSearch /> Search
                     </button>
-                  </form>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="bg-slate-50">
+        <section className="bg-gray-200 pb-10">
           <div className="container px-5 py-10 mx-auto">
             <div className="flex flex-wrap w-full mb-12">
               <div className="w-full">
@@ -158,8 +152,8 @@ export default function Home() {
 
             <div className="flex flex-wrap -m-4">
               <div className="w-1/4 p-2 pt-0 pb-0">
-                <div className=" bg-white pb-8 flex flex-wrap ">
-                  <img src="packages-img.jpg"></img>
+                <div className=" bg-white pb-8 flex flex-wrap rounded-xl shadow-md">
+                  <img src="packages-img.jpg" className="rounded-t-xl"></img>
                   <h3 className="font-semibold p-4">Premium Umrah Package</h3>
                   <div className="flex justify-between w-full bg-green-900 text-white pl-4 pr-4 pt-2 pb-2 font-semibold">
                     <span>15D / 14N</span>
@@ -174,7 +168,8 @@ export default function Home() {
                   <div className="text-center w-full pt-4">
                     <a
                       href="#"
-                      className="border border-green-700 pl-5 pr-5 pt-1 pb-1 hover:bg-green-700 hover:text-white rounded-2xl text-sm">
+                      className="border border-green-700 pl-5 pr-5 pt-1 pb-1 hover:bg-green-700 hover:text-white rounded-2xl text-sm"
+                    >
                       View Details
                     </a>
                   </div>
@@ -182,8 +177,8 @@ export default function Home() {
               </div>
 
               <div className="w-1/4 p-2 pt-0 pb-0">
-                <div className=" bg-white pb-8 flex flex-wrap ">
-                  <img src="packages-img1.jpg"></img>
+                <div className=" bg-white pb-8 flex flex-wrap rounded-xl shadow-md">
+                  <img src="packages-img1.jpg" className="rounded-t-xl"></img>
                   <h3 className="font-semibold p-4">Premium Umrah Package</h3>
                   <div className="flex justify-between w-full bg-green-900 text-white pl-4 pr-4 pt-2 pb-2 font-semibold">
                     <span>15D / 14N</span>
@@ -198,7 +193,8 @@ export default function Home() {
                   <div className="text-center w-full pt-4">
                     <a
                       href="#"
-                      className="border border-green-700 pl-5 pr-5 pt-1 pb-1 hover:bg-green-700 hover:text-white rounded-2xl text-sm">
+                      className="border border-green-700 pl-5 pr-5 pt-1 pb-1 hover:bg-green-700 hover:text-white rounded-2xl text-sm"
+                    >
                       View Details
                     </a>
                   </div>
@@ -206,8 +202,8 @@ export default function Home() {
               </div>
 
               <div className="w-1/4 p-2 pt-0 pb-0">
-                <div className=" bg-white pb-8 flex flex-wrap ">
-                  <img src="packages-img2.jpg"></img>
+                <div className=" bg-white pb-8 flex flex-wrap rounded-xl shadow-md">
+                  <img src="packages-img2.jpg" className="rounded-t-xl"></img>
                   <h3 className="font-bold p-4">Premium Umrah Package</h3>
                   <div className="flex justify-between w-full bg-green-900 text-white pl-4 pr-4 pt-2 pb-2 font-semibold">
                     <span>15D / 14N</span>
@@ -222,7 +218,8 @@ export default function Home() {
                   <div className="text-center w-full pt-4">
                     <a
                       href="#"
-                      className="border border-green-700 pl-5 pr-5 pt-1 pb-1 hover:bg-green-700 hover:text-white rounded-2xl text-sm">
+                      className="border border-green-700 pl-5 pr-5 pt-1 pb-1 hover:bg-green-700 hover:text-white rounded-2xl text-sm"
+                    >
                       View Details
                     </a>
                   </div>
@@ -230,8 +227,8 @@ export default function Home() {
               </div>
 
               <div className="w-1/4 p-2 pt-0 pb-0">
-                <div className=" bg-white pb-8 flex flex-wrap ">
-                  <img src="packages-img3.jpg"></img>
+                <div className=" bg-white pb-8 flex flex-wrap rounded-xl shadow-md">
+                  <img src="packages-img3.jpg" className="rounded-t-xl"></img>
                   <h3 className="font-semibold p-4">Premium Umrah Package</h3>
                   <div className="flex justify-between w-full bg-green-800 text-white pl-4 pr-4 pt-2 pb-2 font-semibold">
                     <span>15D / 14N</span>
@@ -246,7 +243,8 @@ export default function Home() {
                   <div className="text-center w-full pt-4">
                     <a
                       href="#"
-                      className="border border-green-700 pl-5 pr-5 pt-1 pb-1 hover:bg-green-700 hover:text-white rounded-2xl text-sm">
+                      className="border border-green-700 pl-5 pr-5 pt-1 pb-1 hover:bg-green-700 hover:text-white rounded-2xl text-sm"
+                    >
                       View Details
                     </a>
                   </div>
@@ -256,8 +254,8 @@ export default function Home() {
 
             <div className="flex flex-wrap -m-4 mt-10">
               <div className="w-1/4 p-2 pt-0 pb-0">
-                <div className=" bg-white pb-8 flex flex-wrap ">
-                  <img src="packages-img.jpg"></img>
+                <div className=" bg-white pb-8 flex flex-wrap rounded-xl shadow-md">
+                  <img src="packages-img.jpg" className="rounded-t-xl"></img>
                   <h3 className="font-semibold p-4">Premium Umrah Package</h3>
                   <div className="flex justify-between w-full bg-green-900 text-white pl-4 pr-4 pt-2 pb-2 font-semibold">
                     <span>15D / 14N</span>
@@ -272,7 +270,8 @@ export default function Home() {
                   <div className="text-center w-full pt-4">
                     <a
                       href="#"
-                      className="border border-green-700 pl-5 pr-5 pt-1 pb-1 hover:bg-green-700 hover:text-white rounded-2xl text-sm">
+                      className="border border-green-700 pl-5 pr-5 pt-1 pb-1 hover:bg-green-700 hover:text-white rounded-2xl text-sm"
+                    >
                       View Details
                     </a>
                   </div>
@@ -280,8 +279,8 @@ export default function Home() {
               </div>
 
               <div className="w-1/4 p-2 pt-0 pb-0">
-                <div className=" bg-white pb-8 flex flex-wrap ">
-                  <img src="packages-img1.jpg"></img>
+                <div className=" bg-white pb-8 flex flex-wrap rounded-xl shadow-md">
+                  <img src="packages-img1.jpg" className="rounded-t-xl"></img>
                   <h3 className="font-semibold p-4">Premium Umrah Package</h3>
                   <div className="flex justify-between w-full bg-green-900 text-white pl-4 pr-4 pt-2 pb-2 font-semibold">
                     <span>15D / 14N</span>
@@ -296,7 +295,8 @@ export default function Home() {
                   <div className="text-center w-full pt-4">
                     <a
                       href="#"
-                      className="border border-green-700 pl-5 pr-5 pt-1 pb-1 hover:bg-green-700 hover:text-white rounded-2xl text-sm">
+                      className="border border-green-700 pl-5 pr-5 pt-1 pb-1 hover:bg-green-700 hover:text-white rounded-2xl text-sm"
+                    >
                       View Details
                     </a>
                   </div>
@@ -304,7 +304,7 @@ export default function Home() {
               </div>
 
               <div className="w-1/4 p-2 pt-0 pb-0">
-                <div className=" bg-white pb-8 flex flex-wrap ">
+                <div className=" bg-white pb-8 flex flex-wrap shadow-md">
                   <img src="packages-img2.jpg"></img>
                   <h3 className="font-bold p-4">Premium Umrah Package</h3>
                   <div className="flex justify-between w-full bg-green-900 text-white pl-4 pr-4 pt-2 pb-2 font-semibold">
@@ -320,7 +320,8 @@ export default function Home() {
                   <div className="text-center w-full pt-4">
                     <a
                       href="#"
-                      className="border border-green-700 pl-5 pr-5 pt-1 pb-1 hover:bg-green-700 hover:text-white rounded-2xl text-sm">
+                      className="border border-green-700 pl-5 pr-5 pt-1 pb-1 hover:bg-green-700 hover:text-white rounded-2xl text-sm"
+                    >
                       View Details
                     </a>
                   </div>
@@ -328,7 +329,7 @@ export default function Home() {
               </div>
 
               <div className="w-1/4 p-2 pt-0 pb-0">
-                <div className=" bg-white pb-8 flex flex-wrap ">
+                <div className=" bg-white pb-8 flex flex-wrap shadow-md">
                   <img src="packages-img3.jpg"></img>
                   <h3 className="font-semibold p-4">Premium Umrah Package</h3>
                   <div className="flex justify-between w-full bg-green-800 text-white pl-4 pr-4 pt-2 pb-2 font-semibold">
@@ -344,7 +345,8 @@ export default function Home() {
                   <div className="text-center w-full pt-4">
                     <a
                       href="#"
-                      className="border border-green-700 pl-5 pr-5 pt-1 pb-1 hover:bg-green-700 hover:text-white rounded-2xl text-sm">
+                      className="border border-green-700 pl-5 pr-5 pt-1 pb-1 hover:bg-green-700 hover:text-white rounded-2xl text-sm"
+                    >
                       View Details
                     </a>
                   </div>
@@ -384,8 +386,8 @@ export default function Home() {
 
             <div className="flex flex-wrap -m-4 mt-10">
               <div className="w-1/4 p-2 pt-0 pb-0">
-                <div className=" bg-slate-900 text-white  flex flex-wrap ">
-                  <img src="place-img.jpg"></img>
+                <div className=" bg-slate-900 text-white  flex flex-wrap rounded-xl">
+                  <img src="place-img.jpg" className="rounded-t-xl"></img>
                   <h3 className="font-semibold p-4">Al-Kaaba</h3>
                 </div>
               </div>
