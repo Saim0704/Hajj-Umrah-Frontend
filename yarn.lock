@@ -222,6 +222,14 @@
   dependencies:
     mini-svg-data-uri "^1.2.3"
 
+"@tinymce/tinymce-react@^4.3.0":
+  version "4.3.0"
+  resolved "https://registry.npmjs.org/@tinymce/tinymce-react/-/tinymce-react-4.3.0.tgz"
+  integrity sha512-iB4cUsYfcJL4NGuKhqCGYuTmFTje3nPxyPv1HxprTsp/YMGuuiiSNWrv3zwI31QX5Cn8qeq9MrMDnbxuRugHyg==
+  dependencies:
+    prop-types "^15.6.2"
+    tinymce "^6.3.1"
+
 "@types/hoist-non-react-statics@^3.3.1":
   version "3.3.1"
   resolved "https://registry.npmjs.org/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz"
@@ -2203,7 +2211,7 @@ prettier@3.0.0:
   resolved "https://registry.npmjs.org/prettier/-/prettier-3.0.0.tgz"
   integrity sha512-zBf5eHpwHOGPC47h0zrPyNn+eAEIdEzfywMoYn2XPi0P44Zp0tSq64rq0xAREh4auw2cJZHo9QUob+NqCQky4g==
 
-prop-types@^15.8.1:
+prop-types@^15.6.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -2227,7 +2235,7 @@ queue-microtask@^1.2.2:
   resolved "https://registry.npmjs.org/queue-microtask/-/queue-microtask-1.2.3.tgz"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
-"react-dom@^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0", "react-dom@^16.8 || ^17.0 || ^18.0", react-dom@^18, react-dom@^18.2.0, react-dom@>=16.8.0, "react-dom@~0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0", react-dom@18.2.0:
+"react-dom@^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0", "react-dom@^16.8 || ^17.0 || ^18.0", react-dom@^18, "react-dom@^18.0.0 || ^17.0.1 || ^16.7.0", react-dom@^18.2.0, react-dom@>=16.8.0, "react-dom@~0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0", react-dom@18.2.0:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz"
   integrity sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==
@@ -2280,7 +2288,7 @@ react-redux@*, "react-redux@^7.2.1 || ^8.0.2", react-redux@^8.1.1:
     react-is "^18.0.0"
     use-sync-external-store "^1.0.0"
 
-react@*, "react@^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.9.0 || ^17.0.0 || ^18", react@^18, react@^18.2.0, "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", react@>=16.8.0, "react@~0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0", react@18.2.0:
+react@*, "react@^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.9.0 || ^17.0.0 || ^18", react@^18, "react@^18.0.0 || ^17.0.1 || ^16.7.0", react@^18.2.0, "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", react@>=16.8.0, "react@~0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0", react@18.2.0:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
@@ -2640,6 +2648,11 @@ thenify-all@^1.0.0:
   integrity sha512-RVZSIV5IG10Hk3enotrhvz0T9em6cyHBLkH/YAZuKqd8hRkKhSfCGIcP2KUY0EPxndzANBmNllzWPwak+bheSw==
   dependencies:
     any-promise "^1.0.0"
+
+tinymce@^6.3.1:
+  version "6.7.0"
+  resolved "https://registry.npmjs.org/tinymce/-/tinymce-6.7.0.tgz"
+  integrity sha512-Wf2RSobIXQ7XNw3/v4z1lPGiH3Pjsmc/6/7fG28aIS6uVWj/7IhvOPuwfJJDeOx0o0D3nSnoLHgR2KU8JAdE+w==
 
 titleize@^3.0.0:
   version "3.0.0"
