@@ -1,36 +1,58 @@
 import { useRouter } from "next/router";
 import AuthCheck from "../AuthCheck";
 import styles from "../../../../styles/Sidebar.module.css";
+import { useState } from "react";
 
 const sidebarArray = [
+  {
+    icon: "/icons/package/dashboard-icon.svg",
+    title: "Create New Applicant",
+    href: "/admin/create-new-applicant",
+  },
+  {
+    icon: "/icons/package/dashboard-icon.svg",
+    title: "Create Agent",
+    href: "/admin/create-agent",
+  },
+  {
+    icon: "/icons/package/package-icon.svg",
+    title: "Create Package",
+    href: "/admin/create-package/basic-details",
+  },
   {
     icon: "/icons/package/dashboard-icon.svg",
     title: "Dashboard",
     href: "/admin/dashboard",
   },
   {
-    icon: "/icons/package/application-icon.svg",
-    title: "Applicants",
-    href: "/admin/applicants",
-  },
-  {
-    icon: "/icons/package/package-icon.svg",
-    title: "Create Packages",
-    href: "/admin/create-package/basic-details",
-  },
-  {
     icon: "/icons/package/employees-icon.svg",
-    title: "Package List",
-    href: "/admin/employees",
+    title: "Packages List",
+    href: "/admin/packages-list",
+  },
+  {
+    icon: "/icons/package/application-icon.svg",
+    title: "Applicants List",
+    href: "/admin/applicants-list",
+  },
+  {
+    icon: "/icons/package/application-icon.svg",
+    title: "Agent List",
+    href: "/admin/agent-list",
   },
   {
     icon: "/icons/package/company-iocn.svg",
-    title: "Company Detail",
-    href: "/admin/companyDetails",
+    title: "New Booking",
+    href: "/admin/newBooking",
+  },
+  {
+    icon: "/icons/package/company-iocn.svg",
+    title: "Booking List",
+    href: "/admin/bookingList",
   },
 ];
 const SideNav = ({ children }) => {
   const router = useRouter();
+  const [isActive, setActive] = useState(false)
 
   const isMobile = false;
   const isLoggedIn = true;
@@ -63,13 +85,19 @@ const SideNav = ({ children }) => {
                     return (
                       <li
                         key={index}
-                        className={styles.menu}
+                        className={`${styles.menu}`}
                         onClick={() => {
+                          setActive(index)
                           router.push(`${item.href}`, undefined, {
                             shallow: true,
                           });
-                        }}>
-                        <img src={item.icon}></img>
+                        }}
+                        style={{
+                          backgroundColor: isActive === index ? `#00A852` : '',
+                          color: isActive === index ? `#fff` : ''
+                        }}
+                      >
+                        {/* <img src={item.icon}></img> */}
                         {item.title}
                       </li>
                     );
@@ -77,7 +105,6 @@ const SideNav = ({ children }) => {
                 </ul>
               </div>
             </div>
-
             <div className={styles.mainWrapper}>
               <div className={styles.title}>Create Umrah Package</div>
               <div className={styles.container}>{children}</div>

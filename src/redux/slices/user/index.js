@@ -5,6 +5,7 @@ const initialState = {
   accessToken: null,
   refreshToken: null,
   userData: null,
+  basic_Details: null,
   id: null,
 };
 
@@ -17,13 +18,15 @@ const user = createSlice({
       state.refreshToken = payload.refreshToken;
       state.isLoggedIn = payload.isLoggedIn;
     },
-
     setUserData: (state, action) => {
       state.userData = action.payload;
     },
+    setBasic_Details: (state, action) => {
+      state.basic_Details = action.payload;
+    }
   },
 });
 
-export const { setToken, setUserData } = user.actions;
+export const { setToken, setUserData, setBasic_Details } = user.actions;
 
 export default user.reducer;

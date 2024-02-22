@@ -50,3 +50,37 @@ export const toCity = [
     value: "madina",
   },
 ];
+
+export const arrivalCity = [
+  {
+    name: "Makka",
+    value: "makka",
+  },
+  {
+    name: "Madina",
+    value: "madina",
+  },
+];
+
+export const returnCity = [
+  {
+    name: "Delhi",
+    value: "delhi",
+  },
+  {
+    name: "Kanpur",
+    value: "kanpur",
+  },
+  {
+    name: "Allahabad",
+    value: "allahabad",
+  },
+  {
+    name: "Lucknow",
+    value: "lucknow",
+  },
+  {
+    name: "Goa",
+    value: "goa",
+  },
+];
