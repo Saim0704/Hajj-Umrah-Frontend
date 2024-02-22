@@ -1,17 +1,19 @@
 import React from 'react'
+import UnderMaintenance from 'src/components/common/UnderMaintenance'
 
-const Applicant = () => {
+const index = () => {
   return (
-    <h1>Applicant</h1>
+    <div><UnderMaintenance /></div>
   )
 }
 
-export default Applicant
+export default index
+
 export async function getStaticProps() {
-    return {
-      props: {
-        asLayout: "DefaultLayout",
-        withSideBar: true,
-      },
-    };
-  }
+  return {
+    props: {
+      asLayout: "DefaultLayout",
+      withSideBar: true,
+    },
+  };
+}

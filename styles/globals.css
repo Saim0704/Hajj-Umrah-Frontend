@@ -1,16 +1,181 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities;
+
+[type='text']:focus, [type='email']:focus, [type='url']:focus, [type='password']:focus, [type='number']:focus, [type='date']:focus, [type='datetime-local']:focus, [type='month']:focus, [type='search']:focus, [type='tel']:focus, [type='time']:focus, [type='week']:focus, [multiple]:focus, textarea:focus, select:focus {
+    outline: 0px solid transparent;
+    outline-offset: 0px;
+    border-color: inherit;
+    --tw-ring-color: inherit;
+    --tw-ring-offset-shadow: initial;
+    outline: inherit;
+}
+
+.form-ui input:focus, .form-ui select:focus, .form-ui textarea:focus{box-shadow: inherit;}
+
+.btn-ui{
+@apply text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2
+}
+.form-ui label{@apply block mb-2 text-sm font-medium text-gray-900 dark:text-white}
+
+
+.form-ui input, .form-ui select, .form-ui textarea{@apply border border-gray-300  text-gray-900 text-sm rounded-lg focus:ring-green-700 focus:border-green-700 block w-full p-2.5 dark:bg-gray-900 }
+
+.form-ui input[type="radio"]{
+display: inline-block;
+vertical-align: middle;
+background-origin: border-box;
+height: 1rem;
+/* djfbehfgbr */
+width: 1rem;
+color: black;
+background-color: #EDEDED;
+border-color: #6B7280;
+border-width: 1px;
+border-radius: 100%;
+
+}
+
+.form-ui input[type="checkbox"]{
+display: inline-block;
+vertical-align: middle;
+background-origin: border-box;
+height: 0.9rem;
+width: 0.9rem;
+/* color: #15803d; */
+background-color: #EDEDED;
+border-color: #6B7280;
+border-width: 1px;
+border-radius: 0.15rem;
+font-size: 15px;
+padding:1rem;
+margin-right: 1.5rem;
+border: hidden;
+border-radius: 10px;
+}
+
+.btn-green{@apply focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800}
+.btn-light{@apply text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700}
+.btn-red{@apply focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900}
+.btn-bark{@apply text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700}
+.btn-yellow{@apply focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900}
+
+
+
+.num-value{}
+.num-value .plus{padding: 0.625rem;
+border-left: 1px solid #d1d5db;
+border-top-left-radius: 0.5rem;
+border-bottom-left-radius: 0.5rem;
+border-top: 1px solid #d1d5db;
+border-bottom: 1px solid #d1d5db;}
+
+.num-value .minus {
+padding: 0.625rem;
+border-right: 1px solid #d1d5db;
+border-top-right-radius: 0.5rem;
+border-bottom-right-radius: 0.5rem;
+border-top: 1px solid #d1d5db;
+border-bottom: 1px solid #d1d5db;
+}
+
+
+.num-value .plus svg{font-size: 18px;}
+
+.num-value input{border-radius: 0px; border-left: 0px; border-right: 0px;}
+
+
+.icon-select{}
+.icon-select .icon{padding: 0.625rem;
+border-left: 1px solid #fff;
+border-top-left-radius: 0.5rem;
+border-bottom-left-radius: 0.5rem;
+border-top: 1px solid #fff;
+border-bottom: 1px solid #fff; background-color: #fff; padding-right: 0px;}
+
+.icon-select .icon svg{font-size:20px;}
+
+.icon-select select {
+    border-radius: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    border-color: #fff;
+    padding-left: 5px;
+    width: 100%;
+}
+
+
+
+
 
 
 /* .bg-home{background-image: url(http://test.indicsoft.com/web/image/2728-6c2c0094/slider1.jpg);
-    height: 500px;} */
+height: 500px;} */
 
-    .bg-home{background-image: url(home-bg.jpg);}
-    .bg-cta{background-image: url(cta-bg.jpg);}
-    .blk-bg-trnp{background: #0000009c;}
+.bg-home{background-image: url(home-bg.jpg);}
+.bg-cta{background-image: url(cta-bg.jpg);}
+.blk-bg-trnp{background: #0000009c;}
 
-    .nav-header{position: absolute;
-        z-index: 1;
-        color: #fff;
-        width: 100%;}
+/* .nav-header{position: absolute;
+z-index: 1;
+color: #fff;
+width: 100%;} */
+.border-red-500 {
+border: 1px solid red;
+}
+
+.tab-ui {
+background: #fff;
+padding: 0px 15px 0px 15px;
+display: flex;
+border-bottom: 1px solid #e8eaf0;
+margin: 1.25rem 1.25rem 0rem 1.25rem ;
+}
+
+.tab-ui li {
+padding-bottom: 15px;
+padding-top: 15px;
+margin-right: 30px;
+}
+
+.tab-ui li a {
+padding-bottom: 20px;
+margin-right: 25px;
+}
+.tab-ui li a:hover {
+border-bottom: 1px solid #15803d;
+color: #15803d;
+}
+
+.tab-ui li .active {
+border-bottom: 1px solid #15803d;
+color: #15803d;
+}
+.tab-ui li a svg{display: inline-block; padding-right: 5px;}
+.mb0{margin-bottom: 0px !important;}
+.font-imp{font-size: 13px !important; font-weight: 400 !important;}
+@tailwind utilities;
+
+
+.theme-blue-bg{background-color: #007aff;}
+.theme-green-bg{background-color: #28ac48;}
+.theme-orange-bg{background-color: #ff9601;}
+.theme-red-bg{background-color: #ed4949;}
+.theme-pink-bg{background-color: #5b40c6;}
+.theme-gray-bg{background-color: #2c264d;}
+
+.theme-blue-bg-light{background-color: #cde4ff;}
+.theme-green-bg-light{background-color: #d4eeda;}
+.theme-orange-bg-light{background-color: #feeacc;}
+.theme-red-bg-light{background-color: #fbdbdb;}
+.theme-pink-bg-light{background-color: #f4f0ff;}
+.theme-gray-bg-light{background-color: #e1e1e4;}
+
+
+.theme-blue-text{color: #007aff;}
+.theme-green-text{color: #28ac48;}
+.theme-orange-text{color: #ff9601;}
+.theme-red-text{color: #ed4949;}
+.theme-pink-text{color: #5b40c6;}
+.theme-gray-text{color: #2c264d;}
