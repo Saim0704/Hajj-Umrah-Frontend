@@ -14,3 +14,21 @@ export const rawInstance = axios.create({
 });
 
 export default defaultInstance;
+
+const getToken = () => {
+  if (typeof window !== "undefined" && localStorage.getItem("accessToken")) {
+    let token = localStorage.getItem("accessToken");
+    return token;
+  }
+};
+
+defaultInstance.interceptors.request.use(
+  (request) => {
+    const token = getToken();
+    token && (request.headers["Authorization"] = `Bearer ${token}`);
+    return request;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);

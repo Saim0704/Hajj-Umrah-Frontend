@@ -1,1 +1,1 @@
-export { setToken, setUserDetail } from "./slices/user";
+export { setToken, setUserData, setBasic_Details } from "./slices/user";

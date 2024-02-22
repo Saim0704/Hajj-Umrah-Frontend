@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
 import Steps from "./steps";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserData } from "src/redux/slices/user";
+import { setUserData, setBasic_Details } from "src/redux/slices/user";
 import fetcher from "src/dataProvider";
 import { useMutation, useQuery } from "react-query";
-import { dayType, fromCity, noOfDays, toCity } from "src/constants/package";
+import { dayType, fromCity, noOfDays, toCity, arrivalCity, returnCity } from "src/constants/package";
 import { Router, useRouter } from "next/router";
+import { Select } from 'antd';
 import moment from "moment";
+
 const BasicDetails = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-
   const data = { name: "shubhams ", email: "dmdshubham@gmail.com", age: 34 };
+
   useEffect(() => {
     dispatch(setUserData(data));
   }, []);
@@ -21,27 +23,27 @@ const BasicDetails = () => {
     description: "",
     cost: null,
     currency: "INR",
-    durationType: "",
-    duration: "",
+    durationDays: "",
+    durationNights: "",
     fromDate: "",
     toDate: "",
     fromCity: "",
     toCity: "",
-    passengerCount: "",
-    additionalDestinations: [],
+    arrivalCity: "",
+    returnCity: ""
   });
 
   const [validationErrors, setValidationErrors] = useState({
     name: "",
     cost: "",
-    durationType: "",
-    duration: "",
+    durationDays: "",
+    durationNights: "",
     fromDate: "",
     toDate: "",
     fromCity: "",
     toCity: "",
-    passengerCount: "",
-    additionalDestinations: [],
+    arrivalCity: "",
+    returnCity: ""
   });
 
   const isFormValid = () => {
@@ -49,13 +51,14 @@ const BasicDetails = () => {
     setValidationErrors({
       name: "",
       cost: "",
-      durationType: "",
-      duration: "",
+      durationDays: "",
+      durationNights: "",
       fromDate: "",
       toDate: "",
       fromCity: "",
       toCity: "",
-      passengerCount: "",
+      arrivalCity: "",
+      returnCity: ""
     });
 
     let isValid = true;
@@ -76,24 +79,24 @@ const BasicDetails = () => {
       }));
       isValid = false;
     }
-    if (basicDetails.durationType === "") {
+    if (basicDetails.durationDays === "") {
       setValidationErrors((prevState) => ({
         ...prevState,
-        durationType: "Please select duration.",
+        durationDays: "Please select number of days.",
       }));
       isValid = false;
     }
-    if (basicDetails.duration === "") {
+    if (basicDetails.durationNights === "") {
       setValidationErrors((prevState) => ({
         ...prevState,
-        duration: "Please select duration number.",
+        durationNights: "Please select number of nights.",
       }));
       isValid = false;
     }
     if (basicDetails.fromCity === "") {
       setValidationErrors((prevState) => ({
         ...prevState,
-        fromCity: "Please select from city",
+        fromCity: "Please select from city.",
       }));
       isValid = false;
     }
@@ -104,10 +107,24 @@ const BasicDetails = () => {
       }));
       isValid = false;
     }
+    if (basicDetails.arrivalCity === "") {
+      setValidationErrors((prevState) => ({
+        ...prevState,
+        arrivalCity: "Please select arrival city.",
+      }));
+      isValid = false;
+    }
+    if (basicDetails.returnCity === "") {
+      setValidationErrors((prevState) => ({
+        ...prevState,
+        returnCity: "Please select return city.",
+      }));
+      isValid = false;
+    }
     if (basicDetails.fromDate === "") {
       setValidationErrors((prevState) => ({
         ...prevState,
-        fromDate: "Please enter departure. date",
+        fromDate: "Please enter departure date.",
       }));
       isValid = false;
     }
@@ -118,13 +135,7 @@ const BasicDetails = () => {
       }));
       isValid = false;
     }
-    if (basicDetails.passengerCount === "") {
-      setValidationErrors((prevState) => ({
-        ...prevState,
-        passengerCount: "Please select passenger number",
-      }));
-      isValid = false;
-    }
+
 
     // Similar checks for other fields
     // ...
@@ -137,24 +148,23 @@ const BasicDetails = () => {
       ...basicDetails,
       [e.target.name]:
         e.target.type === "number" ||
-        e.target.name == "duration" ||
-        e.target.name == "passengerCount"
+          e.target.name == "durationDays" ||
+          e.target.name == "durationNights"
           ? parseInt(e.target.value)
           : e.target.value,
     };
-
     setBasicDetails(nextFormState);
   };
 
   const handleAdditionalDestinationChange = (e) => {
-    setBasicDetails({ ...basicDetails, additionalDestinations: [] });
+    setBasicDetails({ ...basicDetails });
     const temp = e.target.value;
     let additionalArr = [];
     temp.split(",").map((item) => {
       let obj = { name: item.trim() };
       additionalArr.push(obj);
     });
-    setBasicDetails({ ...basicDetails, additionalDestinations: additionalArr });
+    setBasicDetails({ ...basicDetails });
   };
 
   const handleFieldFocus = (fieldName) => {
@@ -183,6 +193,8 @@ const BasicDetails = () => {
     {
       onSuccess: (res) => {
         alert("Basic Detail Updated");
+        console.log(res.data, "res.data")
+        dispatch(setBasic_Details({ basic_Detail: res.data }));
         router.push(`/admin/create-package/gallery`, undefined, {
           shallow: true,
         });
@@ -201,15 +213,15 @@ const BasicDetails = () => {
     if (!isFormValid()) {
       return;
     }
-
+    console.log(basicDetails, "BASIC")
     createPackage(basicDetails);
   };
 
   return (
     <div className="p-5">
-      <div className="bg-white p-4 rounded-xl shadow-md">
+      <div className="bg-white p-8 rounded-xl shadow-md">
         <form className="form-ui">
-          <div class="grid gap-6 mb-6 grid-cols-2">
+          <div class="grid gap-6 mb-6 grid-cols-1">
             <div>
               <label for="first_name">Package Name</label>
               <input
@@ -221,9 +233,8 @@ const BasicDetails = () => {
                 required
                 onChange={handleChange}
                 onFocus={() => handleFieldFocus("name")}
-                className={`border ${
-                  validationErrors.name ? "border-red-500" : "border-gray-300"
-                }`}
+                className={`border ${validationErrors.name ? "border-red-500" : "border-gray-300"
+                  } bg-neutral-200`}
               />
               {validationErrors.name && (
                 <span className="text-red-500 mt-2">
@@ -231,6 +242,8 @@ const BasicDetails = () => {
                 </span>
               )}
             </div>
+          </div>
+          <div class="grid gap-6 mb-6 grid-cols-2">
             <div>
               <label for="last_name">Package Cost</label>
               <input
@@ -242,9 +255,8 @@ const BasicDetails = () => {
                 required
                 onChange={handleChange}
                 onFocus={() => handleFieldFocus("cost")}
-                className={`border ${
-                  validationErrors.cost ? "border-red-500" : "border-gray-300"
-                }`}
+                className={`border ${validationErrors.cost ? "border-red-500" : "border-gray-300"
+                  } bg-neutral-200`}
               />
               {validationErrors.cost && (
                 <span className="text-red-500 mt-2">
@@ -252,109 +264,78 @@ const BasicDetails = () => {
                 </span>
               )}
             </div>
-          </div>
-          <div class="grid gap-6 mb-6 grid-cols-3">
-            <div>
-              <label for="">Select Duration</label>
-              <select
-                id=""
-                name="durationType"
-                value={basicDetails.durationType}
-                onChange={handleChange}
-                className={`border ${
-                  validationErrors.durationType
-                    ? "border-red-500"
-                    : "border-gray-300"
-                }`}
-                onFocus={() => handleFieldFocus("durationType")}
-              >
-                <option value="">Day type</option>
-                {dayType.map((item) => {
-                  return (
-                    <option value={item.value} key={item.value}>
-                      {item.name}
-                    </option>
-                  );
-                })}
-              </select>
-              {validationErrors.durationType && (
-                <span className="text-red-500 mt-2">
-                  {validationErrors.durationType}
-                </span>
-              )}
-            </div>
-            <div>
-              <label for="duration">No. of Days</label>
-              <select
-                id=""
-                name="duration"
-                value={basicDetails.duration}
-                className={`border ${
-                  validationErrors.duration
-                    ? "border-red-500"
-                    : "border-gray-300"
-                }`}
-                onFocus={() => handleFieldFocus("duration")}
-                onChange={handleChange}
-              >
-                <option value="">No. of Days </option>
-                {noOfDays.map((item) => {
-                  return (
-                    <option value={item} key={item}>
-                      {item}
-                    </option>
-                  );
-                })}
-              </select>
-              {validationErrors.duration && (
-                <span className="text-red-500 mt-2">
-                  {validationErrors.duration}
-                </span>
-              )}
-            </div>
-            <div>
-              <label for="duration">No. of Nights</label>
-              <select
-                id=""
-                name="duration"
-                value={basicDetails.duration}
-                className={`border ${
-                  validationErrors.duration
-                    ? "border-red-500"
-                    : "border-gray-300"
-                }`}
-                onFocus={() => handleFieldFocus("duration")}
-                onChange={handleChange}
-              >
-                <option value="">No. of Nights </option>
-                {noOfDays.map((item) => {
-                  return (
-                    <option value={item} key={item}>
-                      {item}
-                    </option>
-                  );
-                })}
-              </select>
-              {validationErrors.duration && (
-                <span className="text-red-500 mt-2">
-                  {validationErrors.duration}
-                </span>
-              )}
+            <div className="grid grid-cols-1">
+              <label for="duration">Duration</label>
+              <div className="grid gap-6 grid-cols-2">
+                <div>
+                  <select
+                    id=""
+                    name="durationDays"
+                    value={basicDetails.durationDays}
+                    className={`border ${validationErrors.durationDays
+                      ? "border-red-500"
+                      : "border-gray-300"
+                      } bg-neutral-200`}
+                    onFocus={() => handleFieldFocus("durationDays")}
+                    onChange={handleChange}
+                  >
+                    <option value="">No. of Days </option>
+                    {noOfDays.map((item) => {
+                      return (
+                        <option value={item} key={item}>
+                          {item}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  {validationErrors.durationDays && (
+                    <span className="text-red-500 mt-2">
+                      {validationErrors.durationDays}
+                    </span>
+                  )}
+                </div>
+                <div>
+                  <select
+                    id=""
+                    name="durationNights"
+                    value={basicDetails.durationNights}
+                    className={`border ${validationErrors.durationNights
+                      ? "border-red-500"
+                      : "border-gray-300"
+                      } bg-neutral-200`}
+                    onFocus={() => handleFieldFocus("durationNights")}
+                    onChange={handleChange}
+                  >
+                    <option value="">No. of Nights </option>
+                    {noOfDays.map((item) => {
+                      return (
+                        <option value={item} key={item}>
+                          {item}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  {validationErrors.durationNights && (
+                    <span className="text-red-500 mt-2">
+                      {validationErrors.durationNights}
+                    </span>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
           <div class="grid gap-6 mb-6 grid-cols-2">
             <div>
-              <label for="from">From</label>
+              <label for="from">Trip Start</label>
               <select
                 id=""
                 name="fromCity"
                 value={basicDetails.fromCity}
                 onFocus={() => handleFieldFocus("fromCity")}
-                className={`border ${
-                  validationErrors.fromCity
-                    ? "border-red-500"
-                    : "border-gray-300"
-                }`}
+                className={`border ${validationErrors.fromCity
+                  ? "border-red-500"
+                  : "border-gray-300"
+                  } bg-neutral-200`}
                 onChange={handleChange}
               >
                 <option value="">Select City</option>
@@ -373,15 +354,14 @@ const BasicDetails = () => {
               )}
             </div>
             <div>
-              <label for="to"> To</label>
+              <label for="to">Trip To</label>
               <select
                 id=""
                 value={basicDetails.toCity}
                 name="toCity"
                 onFocus={() => handleFieldFocus("toCity")}
-                className={`border ${
-                  validationErrors.toCity ? "border-red-500" : "border-gray-300"
-                }`}
+                className={`border ${validationErrors.toCity ? "border-red-500" : "border-gray-300"
+                  } bg-neutral-200`}
                 onChange={handleChange}
               >
                 <option value="">Select City</option>
@@ -400,18 +380,75 @@ const BasicDetails = () => {
               )}
             </div>
             <div>
-              <label for="departure">Departure</label>
+              <label for="from">Arrival</label>
+              <select
+                id=""
+                name="arrivalCity"
+                value={basicDetails.arrivalCity}
+                onFocus={() => handleFieldFocus("arrivalCity")}
+                className={`border ${validationErrors.arrivalCity
+                  ? "border-red-500"
+                  : "border-gray-300"
+                  } bg-neutral-200`}
+                onChange={handleChange}
+              >
+                <option value="">Select City</option>
+                {arrivalCity.map((item) => {
+                  return (
+                    <option value={item.value} key={item.value}>
+                      {item.name}
+                    </option>
+                  );
+                })}
+              </select>
+              {validationErrors.arrivalCity && (
+                <span className="text-red-500 mt-2">
+                  {validationErrors.arrivalCity}
+                </span>
+              )}
+            </div>
+            <div>
+              <label for="to">Return To</label>
+              <select
+                id=""
+                value={basicDetails.returnCity}
+                name="returnCity"
+                onFocus={() => handleFieldFocus("returnCity")}
+                className={`border ${validationErrors.returnCity ? "border-red-500" : "border-gray-300"
+                  } bg-neutral-200`}
+                onChange={handleChange}
+              >
+                <option value="">Select City</option>
+                {returnCity.map((item) => {
+                  return (
+                    <option value={item.value} key={item.value}>
+                      {item.name}
+                    </option>
+                  );
+                })}
+              </select>
+              {validationErrors.returnCity && (
+                <span className="text-red-500 mt-2">
+                  {validationErrors.returnCity}
+                </span>
+              )}
+            </div>
+          </div>
+          <a for="departure" className="font-semibold">Package Validity Period</a>
+
+          <div class="grid gap-6 mb-6 grid-cols-2">
+            <div>
+              <label for="departure">From</label>
               <input
                 type="date"
                 required
                 name="fromDate"
                 min={moment(new Date()).format("YYYY-MM-DD")}
                 value={basicDetails.fromDate}
-                className={`border ${
-                  validationErrors.fromDate
-                    ? "border-red-500"
-                    : "border-gray-300"
-                }`}
+                className={`border ${validationErrors.fromDate
+                  ? "border-red-500"
+                  : "border-gray-300"
+                  } bg-neutral-200`}
                 onFocus={() => handleFieldFocus("fromDate")}
                 onChange={handleChange}
               />
@@ -422,15 +459,14 @@ const BasicDetails = () => {
               )}
             </div>
             <div>
-              <label for="return">Return</label>
+              <label for="return">To</label>
               <input
                 type="date"
                 required
                 min={basicDetails.fromDate}
                 value={basicDetails.toDate}
-                className={`border ${
-                  validationErrors.toDate ? "border-red-500" : "border-gray-300"
-                }`}
+                className={`border ${validationErrors.toDate ? "border-red-500" : "border-gray-300"
+                  } bg-neutral-200`}
                 name="toDate"
                 onFocus={() => handleFieldFocus("toDate")}
                 onChange={handleChange}
@@ -441,52 +477,7 @@ const BasicDetails = () => {
                 </span>
               )}
             </div>
-
-            <div>
-              <label for="last_name">Additional Destination</label>
-              <input
-                type="text"
-                // value={basicDetails?.additionalDestinations?.map((item) => {
-                //   return item.name;
-                // })}
-                id=""
-                name="additionalDestinations"
-                placeholder="Ex. Madeena (user can add multiple entries with comma separated)"
-                required
-                onBlur={handleAdditionalDestinationChange}
-              />
-            </div>
-            <div>
-              <label for="last_name">No. of Persons</label>
-              <select
-                id=""
-                name="passengerCount"
-                value={basicDetails.passengerCount}
-                className={`border ${
-                  validationErrors.passengerCount
-                    ? "border-red-500"
-                    : "border-gray-300"
-                }`}
-                onFocus={() => handleFieldFocus("passengerCount")}
-                onChange={handleChange}
-              >
-                <option value="">Select No. of Person</option>
-                {noOfDays.map((item) => {
-                  return (
-                    <option value={item} key={item}>
-                      {item}
-                    </option>
-                  );
-                })}
-              </select>
-              {validationErrors.passengerCount && (
-                <span className="text-red-500 mt-2">
-                  {validationErrors.passengerCount}
-                </span>
-              )}
-            </div>
           </div>
-
           <div className="w-full">
             <label for="last_name">Package Details</label>
             <textarea
@@ -496,6 +487,7 @@ const BasicDetails = () => {
               name="description"
               onChange={handleChange}
               placeholder="Write your thoughts here..."
+              className="bg-neutral-200"
             ></textarea>
           </div>
 

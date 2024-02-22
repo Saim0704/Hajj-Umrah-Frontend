@@ -3,8 +3,12 @@ import { useState } from "react";
 import { useMutation } from "react-query";
 import fetcher from "src/dataProvider";
 import login from "src/utils/login";
+import { useRouter } from "next/router";
 
 const Login = () => {
+
+  const router = useRouter();
+
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -31,10 +35,9 @@ const Login = () => {
     (data) => fetcher.post(`/auth/login`, data, "raw"),
     {
       onSuccess: (res) => {
-        alert("Login Successfully");
-        // router.push(`/admin/create-package/gallery`, undefined, {
-        //   shallow: true,
-        // });
+        router.push(`/admin/create-package/gallery`, undefined, {
+          shallow: true,
+        });
         login(res?.data?.access_token);
       },
       onError: ({ response }) => {
@@ -67,6 +70,7 @@ const Login = () => {
                 type="email"
                 autoComplete="email"
                 value={form.email}
+                required
                 onChange={handleLoginForm}
                 className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />

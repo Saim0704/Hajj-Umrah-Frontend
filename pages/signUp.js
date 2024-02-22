@@ -1,26 +1,57 @@
 import Link from "next/link";
 import { useState } from "react";
+import { useMutation } from "react-query";
+import fetcher from "src/dataProvider";
+import { useRouter } from "next/router";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const SignUp = () => {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
 
-  const handleSignUp = (e) => {
-    const nextFormState = {
-      ...form,
-      [e.target.name]: e.target.value,
-    };
-    setForm(nextFormState);
-  };
 
-  const onSubmitForm = (e) => {
-    e.preventDefault();
-    alert(JSON.stringify(form));
-  };
+  const router = useRouter();
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      email: '',
+      role: process.env.NEXT_PUBLIC_ROLE,
+      password: '',
+      confirmPassword: '',
+    },
+    validationSchema: Yup.object().shape({
+      name: Yup.string().required('Name is required'),
+      email: Yup.string().email('Invalid email').required('Email is required'),
+      // role: Yup.string().required('Role is required'),
+      password: Yup.string()
+        .min(8, 'Password must be at least 8 characters')
+        .required('Password is required'),
+      confirmPassword: Yup.string()
+        .oneOf([Yup.ref('password'), null], 'Passwords must match')
+        .required('Confirm Password is required'),
+    }),
+    onSubmit: (values, { resetForm, setSubmitting }) => {
+      const valuesToSend = { ...values };
+      delete valuesToSend.confirmPassword;
+      createUser(valuesToSend)
+      setSubmitting(false);
+    }
+  })
+
+  const { mutate: createUser } = useMutation(
+    (data) => fetcher.post(`/v1/user`, data, "raw"),
+    {
+      onSuccess: (res) => {
+        router.push(`/login`, undefined, {
+          shallow: true,
+        });
+      },
+      onError: ({ response }) => {
+        console.log(response.data.message);
+        alert(response.data.message);
+      },
+    }
+  );
+
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -30,7 +61,7 @@ const SignUp = () => {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" onSubmit={onSubmitForm} method="POST">
+        <form className="space-y-3" onSubmit={formik.handleSubmit} method="POST">
           <div>
             <label
               htmlFor="email"
@@ -42,12 +73,22 @@ const SignUp = () => {
                 id="name"
                 name="name"
                 type="text"
-                onChange={handleSignUp}
+                onChange={(event) => {
+                  formik.setFieldValue("name", event.target.value);
+                }}
                 autoComplete="name"
-                required
                 className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
+            {
+              formik.errors.name && (
+                <p className="text-red-500">
+                  {
+                    formik.errors.name
+                  }
+                </p>
+              )
+            }
           </div>
           <div>
             <label
@@ -61,13 +102,22 @@ const SignUp = () => {
                 name="email"
                 type="email"
                 autoComplete="email"
-                onChange={handleSignUp}
-                required
+                onChange={(event) => {
+                  formik.setFieldValue("email", event.target.value);
+                }}
                 className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
+            {
+              formik.errors.email && (
+                <p className="text-red-500">
+                  {
+                    formik.errors.email
+                  }
+                </p>
+              )
+            }
           </div>
-
           <div>
             <div className="flex items-center justify-between">
               <label
@@ -82,11 +132,21 @@ const SignUp = () => {
                 name="password"
                 type="password"
                 autoComplete="current-password"
-                onChange={handleSignUp}
-                required
+                onChange={(event) => {
+                  formik.setFieldValue("password", event.target.value);
+                }}
                 className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
+            {
+              formik.errors.password && (
+                <p className="text-red-500">
+                  {
+                    formik.errors.password
+                  }
+                </p>
+              )
+            }
           </div>
           <div>
             <div className="flex items-center justify-between">
@@ -98,15 +158,25 @@ const SignUp = () => {
             </div>
             <div className="mt-2">
               <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                onChange={handleSignUp}
-                required
+                id="confirmPassword"
+                name="confirmPassword"
+                type="confirmPassword"
+                autoComplete="confirmPassword"
+                onChange={(event) => {
+                  formik.setFieldValue("confirmPassword", event.target.value);
+                }}
                 className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
+            {
+              formik.errors.confirmPassword && (
+                <p className="text-red-500">
+                  {
+                    formik.errors.confirmPassword
+                  }
+                </p>
+              )
+            }
           </div>
           <div>
             <button
