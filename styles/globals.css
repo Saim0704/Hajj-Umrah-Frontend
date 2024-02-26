@@ -179,3 +179,10 @@ color: #15803d;
 .theme-red-text{color: #ed4949;}
 .theme-pink-text{color: #5b40c6;}
 .theme-gray-text{color: #2c264d;}
+
+
+/* header css..................................... */
+
+.main-logo{
+    text-align: -webkit-center;
+}
