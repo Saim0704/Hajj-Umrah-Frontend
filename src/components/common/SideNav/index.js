@@ -49,6 +49,21 @@ const sidebarArray = [
     title: "Booking List",
     href: "/admin/bookingList",
   },
+  {
+    icon: "/icons/package/company-iocn.svg",
+    title: "Master Data Sightseeing",
+    href: "/admin/master-data/sightseeing",
+  },
+  {
+    icon: "/icons/package/company-iocn.svg",
+    title: "Master Data Additional Items",
+    href: "/admin/master-data/additional-items",
+  },
+  {
+    icon: "/icons/package/company-iocn.svg",
+    title: "Master Data Local Place",
+    href: "/admin/master-data/local-transport",
+  },
 ];
 const SideNav = ({ children }) => {
   const router = useRouter();
