@@ -1,11 +1,54 @@
-import React from "react";
+import { useFormik } from "formik";
+import React, { useState } from "react";
 import { MdDirectionsBus } from "react-icons/md";
 import { MdDirectionsCar } from "react-icons/md";
 import { MdDirectionsSubwayFilled } from "react-icons/md";
 import { MdDirectionsRailway } from "react-icons/md";
 import { VscArrowBoth } from "react-icons/vsc";
+import * as Yup from "yup";
 
 const LocalTransport = () => {
+
+  const [localItinerary, setLocalItinerary] = useState([{ fromLocation: '', toLocation: '', bus:'', car:'', metro:'', train:'' }]);
+
+  const formik = useFormik({
+    initialValues: localItinerary,
+    validationSchema: Yup.object().shape({
+      flightItinerary: Yup.array().of(
+        Yup.object().shape({
+          airlineCarrier: Yup.object().shape({
+            name: Yup.string().required('Airline name is required'),
+            code: Yup.string().required('Airline code is required'),
+            logo: Yup.string().url('Invalid URL for airline logo').required('Airline logo is required'),
+          }),
+          ticketClass: Yup.string().required('Ticket class is required'),
+          fromCity: Yup.string().required('Departure city is required'),
+          toCity: Yup.string().required('Destination city is required'),
+          date: Yup.date().required('Date is required'),
+          luggageWeight: Yup.number().required('Luggage weight is required').positive('Luggage weight must be positive'),
+          isDirect: Yup.boolean().required('Direct flight information is required'),
+        })
+      ),
+    }),
+
+    onSubmit: (values, { setSubmitting }) => {
+      const flightDetails = values.flightItinerary.map(value => ({
+        ...value,
+        luggageWeight: parseInt(value.luggageWeight)
+      }))
+      const newDetails = {
+        "ticketType": "ONE_WAY",
+        flightItinerary: flightDetails
+      }
+      createPackage(newDetails);
+      setSubmitting(false);
+    }
+  })
+
+  const addLocalItinerary = () => {
+    setLocalItinerary([...localItinerary, { fromLocation: '', toLocation: '', bus:'', car:'', metro:'', train:'' }]);
+  };
+
   return (
     <>
       <div className="p-5">
@@ -32,69 +75,10 @@ const LocalTransport = () => {
                       <option value="">Air Arabia </option>
                     </select>
                   </div>
-
-                  <div className="flex items-center	">
-                    <select id="" name="" class="" style={{ borderRadius: '0px', borderColor: 'black' }}>
-                      <option value="">Makkah</option>
-                      <option value="">Saudia </option>
-                      <option value="">Etihad Airways </option>
-                      <option value=""> Airways </option>
-                      <option value="">Air Arabia </option>
-                    </select>
-                    <VscArrowBoth className="text-8xl px-2	" />
-                    <select id="" name="" class="" style={{ borderRadius: '0px', borderColor: 'black' }}>
-                      <option value="">Jeddah</option>
-                      <option value="">Saudia </option>
-                      <option value="">Etihad Airways </option>
-                      <option value=""> Airways </option>
-                      <option value="">Air Arabia </option>
-                    </select>
-                  </div>
                 </div>
-
                 <div>
                   <h2 className="text-xl pb-4">Travel By</h2>
                   <div className="md:col-span-3 flex ">
-                    <div class="flex items-center mr-4">
-                      <input
-                        id="inline-radio"
-                        type="radio"
-                        value=""
-                        name="inline-radio-group"
-                        className="bg-[#ededed] ibg"
-                      // style={{backgroundColor:'#ededed', borderColor:'none'}}
-                      />
-                      <label for="inline-radio" class="mb0 pl-2" style={{ fontSize: '20px' }}>
-                        Bus
-                      </label>
-                    </div>
-                    <div class="flex items-center mr-4">
-                      <input
-                        id="inline-radio"
-                        type="radio"
-                        value=""
-                        name="inline-radio-group"
-                        className="bg-[#EDEDED] ibg"
-                      />
-                      <label for="inline-radio" class="mb0 pl-2" style={{ fontSize: '20px' }}>
-                        Car
-                      </label>
-                    </div>
-                    <div class="flex items-center mr-4">
-                      <input
-                        id="inline-radio"
-                        type="radio"
-                        value=""
-                        name="inline-radio-group"
-                        className="bg-[#EDEDED] ibg"
-                      />
-                      <label for="inline-radio" class="mb0 pl-2" style={{ fontSize: '20px' }}>
-                        Train
-                      </label>
-                    </div>
-                  </div>
-
-                  <div className="md:col-span-3 flex mt-10">
                     <div class="flex items-center mr-4">
                       <input
                         id="inline-radio"

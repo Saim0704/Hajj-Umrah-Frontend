@@ -1,1 +1,1 @@
-export { setToken, setUserData, setBasic_Details } from "./slices/user";
+export { setToken, setUserData, setBasic_Details, setFlight_Details, setGallery } from "./slices/user";

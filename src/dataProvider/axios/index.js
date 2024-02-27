@@ -7,13 +7,14 @@ const defaultInstance = axios.create({
   },
 });
 
+export default defaultInstance;
+
+
 export const rawInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
 });
-
-export default defaultInstance;
 
 const getToken = () => {
   if (typeof window !== "undefined" && localStorage.getItem("accessToken")) {
