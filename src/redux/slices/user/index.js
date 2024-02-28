@@ -8,6 +8,7 @@ const initialState = {
   basic_Details: null,
   flight_Details: null,
   gallery: null,
+  localTransport:null,
   id: null,
 };
 
@@ -31,10 +32,13 @@ const user = createSlice({
     },
     setGallery: (state, action) => {
       state.gallery = action.payload
+    },
+    setLocalTransport: (state, action) => {
+      state.localTransport = action.payload
     }
   },
 });
 
-export const { setToken, setUserData, setBasic_Details, setFlight_Details, setGallery } = user.actions;
+export const { setToken, setUserData, setBasic_Details, setFlight_Details, setGallery, setLocalTransport } = user.actions;
 
 export default user.reducer;

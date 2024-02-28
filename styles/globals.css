@@ -25,14 +25,12 @@ display: inline-block;
 vertical-align: middle;
 background-origin: border-box;
 height: 1rem;
-/* djfbehfgbr */
 width: 1rem;
 color: black;
-background-color: #EDEDED;
+/* background-color: #EDEDED; */
 border-color: #6B7280;
 border-width: 1px;
 border-radius: 100%;
-
 }
 
 .form-ui input[type="checkbox"]{
@@ -42,13 +40,14 @@ background-origin: border-box;
 height: 0.9rem;
 width: 0.9rem;
 /* color: #15803d; */
-background-color: #EDEDED;
+color: black;
+/* background-color: #EDEDED; */
 border-color: #6B7280;
 border-width: 1px;
 border-radius: 0.15rem;
 font-size: 15px;
 padding:1rem;
-margin-right: 1.5rem;
+margin-right: .5rem;
 border: hidden;
 border-radius: 10px;
 }

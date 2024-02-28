@@ -1,164 +1,273 @@
+import { Select } from "antd";
 import { useFormik } from "formik";
-import React, { useState } from "react";
-import { MdDirectionsBus } from "react-icons/md";
-import { MdDirectionsCar } from "react-icons/md";
-import { MdDirectionsSubwayFilled } from "react-icons/md";
-import { MdDirectionsRailway } from "react-icons/md";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import { VscArrowBoth } from "react-icons/vsc";
+import { useSelector } from "react-redux";
 import * as Yup from "yup";
+import { setLocalTransport } from "src/redux/slices/user";
+import { useMutation } from "react-query";
+import fetcher from "src/dataProvider";
 
 const LocalTransport = () => {
 
-  const [localItinerary, setLocalItinerary] = useState([{ fromLocation: '', toLocation: '', bus:'', car:'', metro:'', train:'' }]);
+  const[masterData, setMasterData] = useState({})
+
+  const SaveId = useSelector(state => state.user.basic_Details.basic_Detail._id);
+  const router = useRouter();
 
   const formik = useFormik({
-    initialValues: localItinerary,
+    initialValues: { localItinerary: [{ fromLocation: '', toLocation: '', bus: false, car: false, metro: false, train: false }] },
     validationSchema: Yup.object().shape({
-      flightItinerary: Yup.array().of(
+      localItinerary: Yup.array().of(
         Yup.object().shape({
-          airlineCarrier: Yup.object().shape({
-            name: Yup.string().required('Airline name is required'),
-            code: Yup.string().required('Airline code is required'),
-            logo: Yup.string().url('Invalid URL for airline logo').required('Airline logo is required'),
-          }),
-          ticketClass: Yup.string().required('Ticket class is required'),
-          fromCity: Yup.string().required('Departure city is required'),
-          toCity: Yup.string().required('Destination city is required'),
-          date: Yup.date().required('Date is required'),
-          luggageWeight: Yup.number().required('Luggage weight is required').positive('Luggage weight must be positive'),
-          isDirect: Yup.boolean().required('Direct flight information is required'),
+          fromLocation: Yup.string().required('From location is required'),
+          toLocation: Yup.string().required('To location is required'),
+          bus: Yup.boolean(),
+          car: Yup.boolean(),
+          metro: Yup.boolean(),
+          train: Yup.boolean(),
+        }).test('at-least-one', 'At least one of Bus, Car, Metro, or Train must be selected', function (value) {
+          const { bus, car, metro, train } = this.parent; // Access parent object (current array element)
+          if (!value.bus && !value.car && !value.metro && !value.train) {
+            return this.createError({
+              path: `${this.path}.bus`, // Specify the path to the field to highlight in case of error
+              message: 'At least one of Bus, Car, Metro, or Train must be selected'
+            });
+          }
+          return true;
         })
-      ),
+      )
     }),
-
     onSubmit: (values, { setSubmitting }) => {
-      const flightDetails = values.flightItinerary.map(value => ({
-        ...value,
-        luggageWeight: parseInt(value.luggageWeight)
-      }))
-      const newDetails = {
-        "ticketType": "ONE_WAY",
-        flightItinerary: flightDetails
-      }
-      createPackage(newDetails);
+      console.log(values, "KKKKKK")
+      createPackage(values);
       setSubmitting(false);
     }
   })
 
-  const addLocalItinerary = () => {
-    setLocalItinerary([...localItinerary, { fromLocation: '', toLocation: '', bus:'', car:'', metro:'', train:'' }]);
+  const { mutate: createPackage } = useMutation(
+    (data) => fetcher.post(`/v1/package/${SaveId}/local-transport`, data, "raw"),
+    {
+      onSuccess: (res) => {
+        alert("Local Transport Updated");
+        console.log(res.data, "res.data")
+        dispatch(setLocalTransport({ localTransport: res.data }));
+        router.push(`/admin/create-package/tour-itinerary`, undefined, {
+          shallow: true,
+        });
+      },
+      onError: ({ response }) => {
+        console.log(response.data.message);
+        alert(response.data.message);
+      },
+    }
+  );
+
+  const addSection = () => {
+    formik.setValues({ localItinerary: [...formik.values.localItinerary, { fromLocation: '', toLocation: '', bus: false, car: false, metro: false, train: false }] })
   };
+
+  const { mutate: getMasterData } = useMutation(
+    () => fetcher.get(`v1/master-data/type?type=place,TRAVEL_BY`),
+    {
+      onSuccess: (res) => {
+        setMasterData(res.data)
+      },
+      onError: ({ response }) => {
+        console.log(response.data.message);
+        alert(response.data.message);
+      },
+    }
+  );
+
+  useEffect(() => {
+    getMasterData();
+  },[])
+
+
+  console.log(formik.values, "values")
+  console.log(formik.errors, "ERRORS")
+  console.log(masterData, "MASTERDATA")
 
   return (
     <>
       <div className="p-5">
         <div className="bg-white p-4 rounded-xl shadow-md">
-          <form className="form-ui">
+          <form className="form-ui" onSubmit={formik.handleSubmit}>
             <div className="container">
               <h2 className="text-2xl pb-4"><b>Local Transport</b></h2>
-              <div className="grid gap-6 mb-6 md:grid-cols-3 sm:grid-cols-1">
-                <div>
-                  <div className="flex items-center	">
-                    <select id="" name="" class="" style={{ borderRadius: '0px', borderColor: 'black' }}>
-                      <option value="">Jeddah</option>
-                      <option value="">Saudia </option>
-                      <option value="">Etihad Airways </option>
-                      <option value=""> Airways </option>
-                      <option value="">Air Arabia </option>
-                    </select>
+              {formik.values.localItinerary.map((section, index) => (
+                <div className="grid grid-cols-2 gap-4" key={index}>
+                  <div className="flex items-center	py-4 w-full">
+                    <div>
+                      <Select id=""
+                        name="fromLocation"
+                        className="w-52 h-11"
+                        placeholder="Select Origin"
+                        onChange={(e) => {
+                          formik.setFieldValue(`localItinerary.[${index}]fromLocation`, e);
+                        }}>
+                          {masterData?.PLACE?.map((place,index) => {
+                            return (
+                              <option value={place._id} key={index}>{place.name}</option>
+                            )
+                          })}
+                      </Select>
+                      {(formik?.errors?.localItinerary && formik?.errors?.localItinerary[index]) ? (
+                        <p className="text-red-500">
+                          {
+                            formik?.errors?.localItinerary[index]?.fromLocation
+                          }
+                        </p>
+                      ) : <></>
+                      }
+                    </div>
                     <VscArrowBoth className="text-8xl px-2	" />
-                    <select id="" name="" class="" style={{ borderRadius: '0px', borderColor: 'black' }}>
-                      <option value="">Makkah</option>
-                      <option value="">Saudia </option>
-                      <option value="">Etihad Airways </option>
-                      <option value=""> Airways </option>
-                      <option value="">Air Arabia </option>
-                    </select>
-                  </div>
-                </div>
-                <div>
-                  <h2 className="text-xl pb-4">Travel By</h2>
-                  <div className="md:col-span-3 flex ">
-                    <div class="flex items-center mr-4">
-                      <input
-                        id="inline-radio"
-                        type="radio"
-                        value=""
-                        name="inline-radio-group"
-                        className="bg-[#ededed] ibg"
-                      // style={{backgroundColor:'#ededed', borderColor:'none'}}
-                      />
-                      <label for="inline-radio" class="mb0 pl-2" style={{ fontSize: '20px' }}>
-                        Bus
-                      </label>
-                    </div>
-                    <div class="flex items-center mr-4">
-                      <input
-                        id="inline-radio"
-                        type="radio"
-                        value=""
-                        name="inline-radio-group"
-                        className="bg-[#EDEDED] ibg"
-                      />
-                      <label for="inline-radio" class="mb0 pl-2" style={{ fontSize: '20px' }}>
-                        Car
-                      </label>
-                    </div>
-                    <div class="flex items-center mr-4">
-                      <input
-                        id="inline-radio"
-                        type="radio"
-                        value=""
-                        name="inline-radio-group"
-                        className="bg-[#EDEDED] ibg"
-                      />
-                      <label for="inline-radio" class="mb0 pl-2" style={{ fontSize: '20px' }}>
-                        Train
-                      </label>
+                    <div>
+                      <Select id=""
+                        name="toLocation"
+                        placeholder="Select Destination"
+                        className="w-52 h-11"
+                        onChange={(e) => {
+                          formik.setFieldValue(`localItinerary.[${index}]toLocation`, e);
+                        }}>
+                        {masterData?.PLACE?.map((place,index) => {
+                            return (
+                              <option value={place._id} key={index}>{place.name}</option>
+                            )
+                          })}
+                      </Select>
+                      {/* {
+                        formik?.errors?.localItinerary[index]?.toLocation && (
+                          <p className="text-red-500">
+                            {
+                              formik?.errors?.localItinerary[index]?.toLocation
+                            }
+                          </p>
+                        )
+                      } */}
+                      {(formik?.errors?.localItinerary && formik?.errors?.localItinerary[index]) ? (
+                        <p className="text-red-500">
+                          {
+                            formik?.errors?.localItinerary[index]?.toLocation
+                          }
+                        </p>
+                      ) : <></>
+                      }
                     </div>
                   </div>
-
-                </div>
-
-
-                <div>
-                  <div class="flex justify-end">
-                    <label for="dropzone-file" class="bg-white mt-12 rounded-lg flex items-center" style={{ border: '1px solid grey' }}>
-                      <div class="w-20 h-20 text-center">
-                        <p class="text-3xl text-gray-800 p-5 dark:text-gray-400 font-semibold">+</p>
-                        <input id="dropzone-file" type="file" class="invisible" />
+                  <div >
+                    <h2 className="text-xl pb-4">Travel By</h2>
+                    <div className="md:col-span-4 flex ">
+                      {
+                        
+                      }
+                      <div className="flex items-center mr-8">
+                        <input
+                          type="checkbox"
+                          name="bus"
+                          className="bg-[#EDEDED]"
+                          onClick={(e) => {
+                            formik.setFieldValue(`localItinerary.[${index}]bus`, e.target.checked);
+                          }}
+                        />
+                        <label className="mb0 pl-2" style={{ fontSize: '20px' }}>
+                          Bus
+                        </label>
                       </div>
-
-                    </label>
+                      <div className="flex items-center mr-8">
+                        <input
+                          type="checkbox"
+                          name="car"
+                          className="bg-[#EDEDED]"
+                          onClick={(e) => {
+                            formik.setFieldValue(`localItinerary.[${index}]car`, e.target.checked);
+                          }} />
+                        <label className="mb0 pl-2" style={{ fontSize: '20px' }}>
+                          Car
+                        </label>
+                      </div>
+                      <div className="flex items-center mr-8">
+                        <input
+                          type="checkbox"
+                          name="train"
+                          className="bg-[#EDEDED]"
+                          onClick={(e) => {
+                            formik.setFieldValue(`localItinerary.[${index}]train`, e.target.checked);
+                          }}
+                        />
+                        <label className="mb0 pl-2" style={{ fontSize: '20px' }}>
+                          Train
+                        </label>
+                      </div>
+                      <div className="flex items-center mr-8">
+                        <input
+                          type="checkbox"
+                          name="metro"
+                          value=""
+                          className="bg-[#EDEDED]"
+                          onClick={(e) => {
+                            formik.setFieldValue(`localItinerary.[${index}]metro`, e.target.checked);
+                          }}
+                        />
+                        <label className="mb0 pl-2" style={{ fontSize: '20px' }}>
+                          Metro
+                        </label>
+                      </div>
+                    </div>
+                    {/* {
+                        formik?.errors?.localItinerary[index]?.bus && (
+                          <p className="text-red-500">
+                            {
+                              formik?.errors?.localItinerary[index]?.bus
+                            }
+                          </p>
+                        )
+                      } */}
+                      {(formik?.errors?.localItinerary && formik?.errors?.localItinerary[index]) ? (
+                        <p className="text-red-500">
+                          {
+                            formik?.errors?.localItinerary[index]?.bus
+                          }
+                        </p>
+                      ) : <></>
+                      }
                   </div>
                 </div>
-              </div>
-
+              ))
+              }
+            </div>
+            <div>
+              <button
+                type="button"
+                className="flex item-center bg-white rounded-lg px-2"
+                style={{ border: '1px solid grey' }}
+                onClick={() => addSection()}
+              >
+                <span className="text-2xl font-bold m-4">+</span>
+              </button>
             </div>
             <div className="flex">
-              <hr class="h-px my-4 bg-gray-200 border-0 w-full dark:bg-gray-700" />
+              <hr className="h-px my-4 bg-gray-200 border-0 w-full dark:bg-gray-700" />
             </div>
-
-
-
             <div className="w-full flex pt-4">
               <div className="w-1/2">
-                {/* <button
+                <button
                   type="button"
                   class="btn-bark"
-                  onClick={() => router.back()}
-                >
+                  onClick={() => router.back()}>
                   Back
-                </button> */}
+                </button>
               </div>
               <div className="w-1/2 text-right">
-                <button type="button" class="border py-2 px-5 mr-2 text-white" style={{ background: 'grey', borderRadius: '8px' }}>
-                  Back
+                <button type="submit" class="btn-light">
+                  Save
                 </button>
-                <button type="button" class="border py-2 px-5 mr-2" style={{ background: 'white', borderRadius: '8px', border: '1px solid #06603c', color: '#06603c' }}>
-                  Reset
-                </button>
-                <button type="button" class="text-white py-2 px-5 mr-2" style={{ background: '#06603C', borderRadius: '8px', border: '1px solid #06603c' }}>
+                <button
+                  type="button"
+                  class="btn-green"
+                  onClick={() => router.push("/admin/create-package/gallery")}>
                   Next
                 </button>
               </div>
