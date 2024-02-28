@@ -6,6 +6,16 @@ import { MdAccessTime } from "react-icons/md";
 import { MdOutlineCalendarMonth } from "react-icons/md";
 import { MdOutlineCurrencyRupee } from "react-icons/md";
 import { MdSearch } from "react-icons/md";
+import { FaArrowRightArrowLeft } from "react-icons/fa6";
+import { MdFlightTakeoff } from "react-icons/md";
+import { MdEmojiTransportation } from "react-icons/md";
+import { LiaHotelSolid } from "react-icons/lia";
+import { FaPrayingHands } from "react-icons/fa";
+import { IoIosMailUnread } from "react-icons/io";
+import { IoCallSharp } from "react-icons/io5";
+import { FaWhatsapp } from "react-icons/fa";
+
+
 
 import styles from "../styles/Home.module.css";
 
@@ -24,28 +34,29 @@ export default function Home() {
         <section class="bg-fixed bg-home bg-cover min-h-screen">
           <div class="container mx-auto flex py-44 flex-col">
             <div class="w-full">
-              <h1 class="text-7xl text-white pb-4">Best Adil Travels Tours</h1>
-              <p class="text-white">
+              <h1 class="text-7xl text-white pb-4">Best Tour & Travel</h1>
+              <p class="text-white text-lg">
                 Chillwave portland ugh, knausgaard fam polaroid iPhone.{" "}
-                <br></br>Man braid swag typewriter affogato, hella selvage wolf
+                <br></br>Man braid swag typewriter affogato, hella selvage wolf{" "}
+                <br />
                 narwhal dreamcatcher.
               </p>
-              <a
+              {/* <a
                 class="inline-block text-black font-medium mt-6 rounded-md bg-yellow-500 py-3 px-4"
                 href="#"
               >
                 Plan Your Custom Umrah
-              </a>
+              </a> */}
 
-              <div className="blk-bg-trnp w-full rounded-lg m-auto py-5 px-12 mt-48 pb-7">
-                <h2 class="text-white mb-5 text-3xl">Search Packages</h2>
-                <div className="grid gap-6 mb-6 md:grid-cols-5">
+              <div className="bg-white w-full rounded-lg m-auto py-5 px-12 mt-48 ">
+                {/* <h2 class="text-white mb-5 text-3xl">Search Packages</h2> */}
+                <div className="grid gap-6  md:grid-cols-6">
                   <div class="flex icon-select">
-                    <div className="icon">
+                    {/* <div className="icon">
                       <MdOutlineLocationOn />
-                    </div>
+                    </div> */}
                     <select>
-                      <option>Type a Destination</option>
+                      <option>Select Package</option>
                       <option>Kerala</option>
                       <option>Himachal</option>
                       <option>Andaman</option>
@@ -55,55 +66,63 @@ export default function Home() {
                     </select>
                   </div>
                   <div class="flex icon-select">
-                    <div className="icon">
+                    {/* <div className="icon">
                       <MdAccessTime />
-                    </div>
-                    <select>
-                      <option>Select Duration</option>
-                      <option>1 to 3 days</option>
-                      <option>4 to 6 days</option>
-                      <option>7 to 9 days</option>
-                      <option>10 to 12 days</option>
-                      <option>Not decided</option>
-                    </select>
+                    </div> */}
+                    <input
+                      type="date"
+                      placeholder="Select date"
+                      style={{ border: "none" }}
+                    />
                   </div>
 
                   <div class="flex icon-select">
-                    <div className="icon">
+                    {/* <div className="icon">
                       <MdOutlineCalendarMonth />
-                    </div>
+                    </div> */}
+                    <input
+                      type="date"
+                      placeholder="Select date"
+                      style={{ border: "none" }}
+                    />
+                  </div>
+
+                  <div class="flex icon-select">
+                    {/* <div className="icon">
+                      <MdOutlineLocationOn />
+                    </div> */}
                     <select>
-                      <option>Select Month</option>
-                      <option>August, 2023</option>
-                      <option>September, 2023</option>
-                      <option>October, 2023</option>
-                      <option>November, 2023</option>
-                      <option>December, 2023</option>
-                      <option>Not decided</option>
+                      <option>Duration</option>
+                      <option>Kerala</option>
+                      <option>Himachal</option>
+                      <option>Andaman</option>
+                      <option>Thailand</option>
+                      <option>Sikkim</option>
+                      <option>Maldives</option>
                     </select>
                   </div>
 
                   <div class="flex icon-select">
-                    <div className="icon">
-                      <MdOutlineCurrencyRupee />
-                    </div>
+                    {/* <div className="icon">
+                      <MdOutlineLocationOn />
+                    </div> */}
                     <select>
-                      <option>Price</option>
-                      <option>1,50,000</option>
-                      <option>1,50,000</option>
-                      <option>1,50,000</option>
-                      <option>1,50,000</option>
-                      <option>1,50,000</option>
-                      <option>1,50,000</option>
+                      <option>Price Range</option>
+                      <option>Kerala</option>
+                      <option>Himachal</option>
+                      <option>Andaman</option>
+                      <option>Thailand</option>
+                      <option>Sikkim</option>
+                      <option>Maldives</option>
                     </select>
                   </div>
 
                   <div class="flex">
                     <button
                       type="button"
-                      class="btn-red flex items-center mb-0"
+                      class="bg-[#00A852] text-white py-3 px-8 text-lg rounded"
                     >
-                      <MdSearch /> Search
+                      <b>Search</b>
                     </button>
                   </div>
                 </div>
@@ -112,380 +131,420 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="bg-gray-200 pb-10">
+        <section>
           <div className="container px-5 py-10 mx-auto">
-            <div className="flex flex-wrap w-full mb-12">
-              <div className="w-full">
-                <h2 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
-                  Best Umrah Packages
-                </h2>
-                <div className="h-1 w-20 bg-indigo-500 rounded"></div>
-              </div>
-            </div>
-            {/* <div className="flex flex-wrap -m-4">
-      <div className="w-1/3 p-2 pt-0 pb-0">
-        <div className=' bg-white flex flex-wrap  p-2'>
-        <div className='text-center'>
-          <img src='demo.jpg' className='rounded-md'></img>
-         
-          </div>
-
-          <div className="text-left pl-5">
-          <h3 className='font-semibold w-4/5 leading-5'>Premium Umrah Package</h3>
-          <span className='inline-block border mt-4 text-sm border-slate-300 rounded-full pl-10 pr-10 pt-1 pb-1'>15D / 14N</span>
-          <span className='block pt-4 text-green-700 font-bold text-sm'>INR 108000</span>
-          <span className='text-xs text-red-600'>*Terms Apply</span>
-
-          </div>
-
-        </div>
-      </div>
-
-      <div className="w-1/3 p-2 pt-0 pb-0">
-        <div className=' bg-white  p-2'>222</div>
-      </div>
-
-      <div className="w-1/3 p-2 pt-0 pb-0">
-        <div className=' bg-white  p-2'>3333</div>
-      </div>
-    </div> */}
-
-            <div className="flex flex-wrap -m-4">
-              <div className="w-1/4 p-2 pt-0 pb-0">
-                <div className=" bg-white pb-8 flex flex-wrap rounded-xl shadow-md">
-                  <img src="packages-img.jpg" className="rounded-t-xl"></img>
-                  <h3 className="font-semibold p-4">Premium Umrah Package</h3>
-                  <div className="flex justify-between w-full bg-green-900 text-white pl-4 pr-4 pt-2 pb-2 font-semibold">
-                    <span>15D / 14N</span>
-                    <span>INR 108000</span>
-                  </div>
-
-                  <div className="flex p-4 justify-between w-full">
-                    <img src="icon.jpg"></img>
-                    <span className="text-black">From Delhi</span>
-                  </div>
-
-                  <div className="text-center w-full pt-4">
-                    <a
-                      href="#"
-                      className="border border-green-700 pl-5 pr-5 pt-1 pb-1 hover:bg-green-700 hover:text-white rounded-2xl text-sm"
-                    >
-                      View Details
-                    </a>
-                  </div>
+            <div className="grid gap-6 mb-6 md:grid-cols-6 sm:grid-cols-2">
+              <div
+                className="bg-[#f5f5f5] text-center px-5 py-8 rounded-xl"
+                style={{ border: "1px solid darkgray" }}
+              >
+                <div className="w-full flex justify-center items-center pb-5 ">
+                  <img
+                    src="icons/package/fb-img.png"
+                    style={{ width: "50%" }}
+                    className="cursor-pointer"
+                  />
                 </div>
-              </div>
-
-              <div className="w-1/4 p-2 pt-0 pb-0">
-                <div className=" bg-white pb-8 flex flex-wrap rounded-xl shadow-md">
-                  <img src="packages-img1.jpg" className="rounded-t-xl"></img>
-                  <h3 className="font-semibold p-4">Premium Umrah Package</h3>
-                  <div className="flex justify-between w-full bg-green-900 text-white pl-4 pr-4 pt-2 pb-2 font-semibold">
-                    <span>15D / 14N</span>
-                    <span>INR 108000</span>
-                  </div>
-
-                  <div className="flex p-4 justify-between w-full">
-                    <img src="icon.jpg"></img>
-                    <span className="text-black">From Delhi</span>
-                  </div>
-
-                  <div className="text-center w-full pt-4">
-                    <a
-                      href="#"
-                      className="border border-green-700 pl-5 pr-5 pt-1 pb-1 hover:bg-green-700 hover:text-white rounded-2xl text-sm"
-                    >
-                      View Details
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <div className="w-1/4 p-2 pt-0 pb-0">
-                <div className=" bg-white pb-8 flex flex-wrap rounded-xl shadow-md">
-                  <img src="packages-img2.jpg" className="rounded-t-xl"></img>
-                  <h3 className="font-bold p-4">Premium Umrah Package</h3>
-                  <div className="flex justify-between w-full bg-green-900 text-white pl-4 pr-4 pt-2 pb-2 font-semibold">
-                    <span>15D / 14N</span>
-                    <span>INR 108000</span>
-                  </div>
-
-                  <div className="flex p-4 justify-between w-full">
-                    <img src="icon.jpg"></img>
-                    <span className="text-black">From Delhi</span>
-                  </div>
-
-                  <div className="text-center w-full pt-4">
-                    <a
-                      href="#"
-                      className="border border-green-700 pl-5 pr-5 pt-1 pb-1 hover:bg-green-700 hover:text-white rounded-2xl text-sm"
-                    >
-                      View Details
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <div className="w-1/4 p-2 pt-0 pb-0">
-                <div className=" bg-white pb-8 flex flex-wrap rounded-xl shadow-md">
-                  <img src="packages-img3.jpg" className="rounded-t-xl"></img>
-                  <h3 className="font-semibold p-4">Premium Umrah Package</h3>
-                  <div className="flex justify-between w-full bg-green-800 text-white pl-4 pr-4 pt-2 pb-2 font-semibold">
-                    <span>15D / 14N</span>
-                    <span>INR 108000</span>
-                  </div>
-
-                  <div className="flex p-4 justify-between w-full">
-                    <img src="icon.jpg"></img>
-                    <span className="text-black">From Delhi</span>
-                  </div>
-
-                  <div className="text-center w-full pt-4">
-                    <a
-                      href="#"
-                      className="border border-green-700 pl-5 pr-5 pt-1 pb-1 hover:bg-green-700 hover:text-white rounded-2xl text-sm"
-                    >
-                      View Details
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap -m-4 mt-10">
-              <div className="w-1/4 p-2 pt-0 pb-0">
-                <div className=" bg-white pb-8 flex flex-wrap rounded-xl shadow-md">
-                  <img src="packages-img.jpg" className="rounded-t-xl"></img>
-                  <h3 className="font-semibold p-4">Premium Umrah Package</h3>
-                  <div className="flex justify-between w-full bg-green-900 text-white pl-4 pr-4 pt-2 pb-2 font-semibold">
-                    <span>15D / 14N</span>
-                    <span>INR 108000</span>
-                  </div>
-
-                  <div className="flex p-4 justify-between w-full">
-                    <img src="icon.jpg"></img>
-                    <span className="text-black">From Delhi</span>
-                  </div>
-
-                  <div className="text-center w-full pt-4">
-                    <a
-                      href="#"
-                      className="border border-green-700 pl-5 pr-5 pt-1 pb-1 hover:bg-green-700 hover:text-white rounded-2xl text-sm"
-                    >
-                      View Details
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <div className="w-1/4 p-2 pt-0 pb-0">
-                <div className=" bg-white pb-8 flex flex-wrap rounded-xl shadow-md">
-                  <img src="packages-img1.jpg" className="rounded-t-xl"></img>
-                  <h3 className="font-semibold p-4">Premium Umrah Package</h3>
-                  <div className="flex justify-between w-full bg-green-900 text-white pl-4 pr-4 pt-2 pb-2 font-semibold">
-                    <span>15D / 14N</span>
-                    <span>INR 108000</span>
-                  </div>
-
-                  <div className="flex p-4 justify-between w-full">
-                    <img src="icon.jpg"></img>
-                    <span className="text-black">From Delhi</span>
-                  </div>
-
-                  <div className="text-center w-full pt-4">
-                    <a
-                      href="#"
-                      className="border border-green-700 pl-5 pr-5 pt-1 pb-1 hover:bg-green-700 hover:text-white rounded-2xl text-sm"
-                    >
-                      View Details
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <div className="w-1/4 p-2 pt-0 pb-0">
-                <div className=" bg-white pb-8 flex flex-wrap shadow-md">
-                  <img src="packages-img2.jpg"></img>
-                  <h3 className="font-bold p-4">Premium Umrah Package</h3>
-                  <div className="flex justify-between w-full bg-green-900 text-white pl-4 pr-4 pt-2 pb-2 font-semibold">
-                    <span>15D / 14N</span>
-                    <span>INR 108000</span>
-                  </div>
-
-                  <div className="flex p-4 justify-between w-full">
-                    <img src="icon.jpg"></img>
-                    <span className="text-black">From Delhi</span>
-                  </div>
-
-                  <div className="text-center w-full pt-4">
-                    <a
-                      href="#"
-                      className="border border-green-700 pl-5 pr-5 pt-1 pb-1 hover:bg-green-700 hover:text-white rounded-2xl text-sm"
-                    >
-                      View Details
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <div className="w-1/4 p-2 pt-0 pb-0">
-                <div className=" bg-white pb-8 flex flex-wrap shadow-md">
-                  <img src="packages-img3.jpg"></img>
-                  <h3 className="font-semibold p-4">Premium Umrah Package</h3>
-                  <div className="flex justify-between w-full bg-green-800 text-white pl-4 pr-4 pt-2 pb-2 font-semibold">
-                    <span>15D / 14N</span>
-                    <span>INR 108000</span>
-                  </div>
-
-                  <div className="flex p-4 justify-between w-full">
-                    <img src="icon.jpg"></img>
-                    <span className="text-black">From Delhi</span>
-                  </div>
-
-                  <div className="text-center w-full pt-4">
-                    <a
-                      href="#"
-                      className="border border-green-700 pl-5 pr-5 pt-1 pb-1 hover:bg-green-700 hover:text-white rounded-2xl text-sm"
-                    >
-                      View Details
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="bg-cta bg-bottom bg-fixed">
-          <div className="container  py-52 mx-auto">
-            <div className="text-center">
-              <h2 className="text-white font-semibold text-5xl pb-5">
-                Adil Travels Choice Best of the Best Experiences
-              </h2>
-              <p className="text-white pb-5">
-                Reference site about Lorem Ipsum, giving information on its
-                origins, as well as a random Lipsum generator.
-              </p>
-              <a href="#" className="bg-white text-black py-2 px-6 rounded-2xl">
-                Explore
-              </a>
-            </div>
-          </div>
-        </section>
-
-        <section className="bg-slate-50">
-          <div className="container px-5 py-10 mx-auto">
-            <div className="flex flex-wrap w-full mb-12">
-              <div className="w-full">
-                <h2 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
-                  Places to visit in Umrah{" "}
-                </h2>
-                <div className="h-1 w-20 bg-indigo-500 rounded"></div>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap -m-4 mt-10">
-              <div className="w-1/4 p-2 pt-0 pb-0">
-                <div className=" bg-slate-900 text-white  flex flex-wrap rounded-xl">
-                  <img src="place-img.jpg" className="rounded-t-xl"></img>
-                  <h3 className="font-semibold p-4">Al-Kaaba</h3>
-                </div>
-              </div>
-
-              <div className="w-1/4 p-2 pt-0 pb-0">
-                <div className=" bg-slate-900 text-white flex flex-wrap ">
-                  <img src="place-img1.jpg"></img>
-                  <h3 className="font-semibold p-4">Jabal-e-Noor</h3>
-                </div>
-              </div>
-
-              <div className="w-1/4 p-2 pt-0 pb-0">
-                <div className=" bg-slate-900 text-white flex flex-wrap ">
-                  <img src="place-img2.jpg"></img>
-                  <h3 className="font-bold p-4">Mount Arafat</h3>
-                </div>
-              </div>
-
-              <div className="w-1/4 p-2 pt-0 pb-0">
-                <div className=" bg-slate-900 text-white flex flex-wrap ">
-                  <img src="place-img3.jpg"></img>
-                  <h3 className="font-semibold p-4">Masjid-e-Aisha</h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="bg-green-800">
-          <div className="container px-5 py-10 mx-auto">
-            <div className="flex flex-wrap w-full">
-              <div className="w-1/3">
-                <h3 className="text-4xl font-thin text-white pb-5">
-                  About Adil Travels
-                </h3>
-                <p className="text-white mt-10">
-                  Established in 2000, Adil Travels has since positioned itself
-                  as one of the leading companies, providing great offers,
-                  competitive airfares, exclusive discounts, and a seamless
-                  online booking experience to many of its customers. The
-                  experience of booking your flight tickets, hotel stay, and
-                  holiday package through our desktop site or mobile app can be
-                  done with complete ease and no hassles at all. We also deliver
-                  amazing offers, such as Instant Discounts, Fare Calendar,
-                  MyRewardsProgram, MyWallet, and many more while updating them
-                  from time to time to better suit our customers’ evolving needs
-                  and demands.
+                <p>
+                  WE OFFER <br /> DAILY TOURS
                 </p>
               </div>
-              <div className="w-2/3 pl-20">
-                <h2 className="text-4xl text-center font-thin text-white pb-5">
-                  Why Travel with us?
-                </h2>
-                <ul className="flex flex-wrap mt-10 justify-evenly text-white">
-                  <li className="text-center">
-                    <img src="icon1.png" className="inline"></img>
-                    <p className="pt-3 m-auto w-2/3 text-sm">
-                      WE OFFER DAILY TOURS
-                    </p>
-                  </li>
-                  <li className="text-center">
-                    <img src="icon2.png" className="inline"></img>
-                    <p className="pt-3 m-auto w-2/3 text-center text-sm">
-                      BETTER TOUR ARRANGEMENTS
-                    </p>
-                  </li>
-                  <li className="text-center">
-                    <img src="icon3.png" className="inline"></img>
-                    <p className="pt-3 m-auto w-2/3 text-center text-sm">
-                      HIGHEST STANDARD OF SERVICES
-                    </p>
-                  </li>
-                </ul>
 
-                <ul className="flex flex-wrap mt-10 justify-evenly text-white">
-                  <li className="text-center">
-                    <img src="icon1.png" className="inline"></img>
-                    <p className="pt-3 m-auto w-2/3 text-center text-sm">
-                      WE OFFER DAILY TOURS
-                    </p>
-                  </li>
-                  <li className="text-center">
-                    <img src="icon2.png" className="inline"></img>
-                    <p className="pt-3 m-auto w-2/3 text-center text-sm">
-                      BETTER TOUR ARRANGEMENTS
-                    </p>
-                  </li>
-                  <li className="text-center">
-                    <img src="icon3.png" className="inline"></img>
-                    <p className="pt-3 m-auto w-2/3 text-center text-sm">
-                      HIGHEST STANDARD OF SERVICES
-                    </p>
-                  </li>
-                </ul>
+              <div
+                className="bg-[#f5f5f5] text-center rounded-xl px-5 py-8"
+                style={{ border: "1px solid darkgray" }}
+              >
+                <div className="w-full flex justify-center items-center pb-5 ">
+                  <img
+                    src="icons/package/fb-img.png"
+                    style={{ width: "50%" }}
+                    className="cursor-pointer"
+                  />
+                </div>
+                <p>
+                  FLY FROM <br /> 11 CITIES OF INDIA
+                </p>
+              </div>
+
+              <div
+                className="bg-[#f5f5f5] text-center rounded-xl px-5 py-8"
+                style={{ border: "1px solid darkgray" }}
+              >
+                <div className="w-full flex justify-center items-center pb-5 ">
+                  <img
+                    src="icons/package/fb-img.png"
+                    style={{ width: "50%" }}
+                    className="cursor-pointer"
+                  />
+                </div>
+                <p>
+                  BETTER TOUR <br /> ARRANGEMENTS
+                </p>
+              </div>
+
+              <div
+                className="bg-[#f5f5f5] text-center px-4 py-8 rounded-xl"
+                style={{ border: "1px solid darkgray" }}
+              >
+                <div className="w-full flex justify-center items-center pb-5 ">
+                  <img
+                    src="icons/package/fb-img.png"
+                    style={{ width: "50%" }}
+                    className="cursor-pointer"
+                  />
+                </div>
+                <p>
+                  HIGHEST STANDARD <br /> OF SERVICES
+                </p>
+              </div>
+
+              <div
+                className="bg-[#f5f5f5] text-center px-5 py-8 rounded-xl"
+                style={{ border: "1px solid darkgray" }}
+              >
+                <div className="w-full flex justify-center items-center pb-5 ">
+                  <img
+                    src="icons/package/fb-img.png"
+                    style={{ width: "50%" }}
+                    className="cursor-pointer"
+                  />
+                </div>
+                <p>
+                  QUALITY <br /> ACCOMMODATIONS
+                </p>
+              </div>
+
+              <div
+                className="bg-[#f5f5f5] text-center px-5 py-8 rounded-xl"
+                style={{ border: "1px solid darkgray" }}
+              >
+                <div className="w-full flex justify-center items-center pb-10 ">
+                  <img
+                    src="icons/package/fb-img.png"
+                    style={{ width: "50%" }}
+                    className="cursor-pointer"
+                  />
+                </div>
+                <p>TRUST & SAFETY</p>
+              </div>
+            </div>
+
+            <hr class="h-px my-10 bg-gray-200 border-0 w-full dark:bg-gray-700" />
+
+            <h2 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
+              Tour Packages
+            </h2>
+
+            <div className="grid gap-10 mb-6 md:grid-cols-3 sm:grid-cols-1">
+              <div className="bg-[#F5F5F5]">
+                <div className="relative	">
+                  <img src="place-img.jpg" className="opacity-70"></img>
+                  <FaArrowRightArrowLeft className="absolute top-5	right-5 bg-white w-12	h-12 rounded-full	p-2" />
+                  <p className="text-[#FF7A00] text-sm bg-[#ffffff] rounded-lg px-3 py-2 w-fit	absolute bottom-5	left-5">
+                    <b>15D / 14N</b>
+                  </p>
+                </div>
+
+                <div className="p-5">
+                  <h1 className="text-2xl">
+                    Ramadan Package | Voco Makkah & Saja Al Madinah
+                  </h1>
+
+                  <hr class="h-px my-4 bg-gray-200 border-0 w-full dark:bg-gray-700" />
+
+                  <div className="grid gap-1 md:grid-cols-4">
+                    <div className="flex justify-evenly	text-sm">
+                      <MdFlightTakeoff className="mt-1" />
+                      <p>Flights</p>
+                    </div>
+
+                    <div className="flex justify-evenly text-sm">
+                      <MdEmojiTransportation className="mt-1" />
+                      <p>Transfers</p>
+                    </div>
+
+                    <div className="flex justify-evenly	text-sm">
+                      <LiaHotelSolid className="mt-1" />
+                      <p>Hotels</p>
+                    </div>
+
+                    <div className="flex justify-evenly text-sm	">
+                      <FaPrayingHands className="mt-1" />
+                      <p>Activities</p>
+                    </div>
+                  </div>
+
+                  <hr class="h-px my-4 bg-gray-200 border-0 w-full dark:bg-gray-700" />
+
+                  <div className="grid gap-4 md:grid-cols-3">
+                    <div>
+                      <img
+                        src="icons/package/scanner-img.png"
+                        className="cursor-pointer"
+                      />
+                    </div>
+                    <div className="col-span-2">
+                      <p className="text-[#00A852] mt-5 text-2xl">
+                        <b>INR 108000</b>
+                      </p>
+                      <p> Per Person</p>
+                    </div>
+                  </div>
+
+                  <button className="bg-[#00A852] text-white rounded w-full mt-5 p-3">
+                    View Detail
+                  </button>
+                </div>
+                <div></div>
+              </div>
+
+              <div className="bg-[#F5F5F5]">
+                <div className="relative	">
+                  <img src="place-img.jpg" className="opacity-70"></img>
+                  <FaArrowRightArrowLeft className="absolute top-5	right-5 bg-white w-12	h-12 rounded-full	p-2" />
+                  <p className="text-[#FF7A00] text-sm bg-[#ffffff] rounded-lg px-3 py-2 w-fit	absolute bottom-5	left-5">
+                    <b>15D / 14N</b>
+                  </p>
+                </div>
+
+                <div className="p-5">
+                  <h1 className="text-2xl">
+                    Ramadan Package | Voco Makkah & Saja Al Madinah
+                  </h1>
+
+                  <hr class="h-px my-4 bg-gray-200 border-0 w-full dark:bg-gray-700" />
+
+                  <div className="grid gap-1 md:grid-cols-4">
+                    <div className="flex justify-evenly	text-sm">
+                      <MdFlightTakeoff className="mt-1" />
+                      <p>Flights</p>
+                    </div>
+
+                    <div className="flex justify-evenly text-sm">
+                      <MdEmojiTransportation className="mt-1" />
+                      <p>Transfers</p>
+                    </div>
+
+                    <div className="flex justify-evenly	text-sm">
+                      <LiaHotelSolid className="mt-1" />
+                      <p>Hotels</p>
+                    </div>
+
+                    <div className="flex justify-evenly text-sm	">
+                      <FaPrayingHands className="mt-1" />
+                      <p>Activities</p>
+                    </div>
+                  </div>
+
+                  <hr class="h-px my-4 bg-gray-200 border-0 w-full dark:bg-gray-700" />
+
+                  <div className="grid gap-4 md:grid-cols-3">
+                    <div>
+                      <img
+                        src="icons/package/scanner-img.png"
+                        className="cursor-pointer"
+                      />
+                    </div>
+                    <div className="col-span-2">
+                      <p className="text-[#00A852] mt-5 text-2xl">
+                        <b>INR 108000</b>
+                      </p>
+                      <p> Per Person</p>
+                    </div>
+                  </div>
+
+                  <button className="bg-[#00A852] text-white rounded w-full mt-5 p-3">
+                    View Detail
+                  </button>
+                </div>
+                <div></div>
+              </div>
+
+              <div className="bg-[#F5F5F5]">
+                <div className="relative	">
+                  <img src="place-img.jpg" className="opacity-70"></img>
+                  <FaArrowRightArrowLeft className="absolute top-5	right-5 bg-white w-12	h-12 rounded-full	p-2" />
+                  <p className="text-[#FF7A00] text-sm bg-[#ffffff] rounded-lg px-3 py-2 w-fit	absolute bottom-5	left-5">
+                    <b>15D / 14N</b>
+                  </p>
+                </div>
+
+                <div className="p-5">
+                  <h1 className="text-2xl">
+                    Ramadan Package | Voco Makkah & Saja Al Madinah
+                  </h1>
+
+                  <hr class="h-px my-4 bg-gray-200 border-0 w-full dark:bg-gray-700" />
+
+                  <div className="grid gap-1 md:grid-cols-4">
+                    <div className="flex justify-evenly	text-sm">
+                      <MdFlightTakeoff className="mt-1" />
+                      <p>Flights</p>
+                    </div>
+
+                    <div className="flex justify-evenly text-sm">
+                      <MdEmojiTransportation className="mt-1" />
+                      <p>Transfers</p>
+                    </div>
+
+                    <div className="flex justify-evenly	text-sm">
+                      <LiaHotelSolid className="mt-1" />
+                      <p>Hotels</p>
+                    </div>
+
+                    <div className="flex justify-evenly text-sm	">
+                      <FaPrayingHands className="mt-1" />
+                      <p>Activities</p>
+                    </div>
+                  </div>
+
+                  <hr class="h-px my-4 bg-gray-200 border-0 w-full dark:bg-gray-700" />
+
+                  <div className="grid gap-4 md:grid-cols-3">
+                    <div>
+                      <img
+                        src="icons/package/scanner-img.png"
+                        className="cursor-pointer"
+                      />
+                    </div>
+                    <div className="col-span-2">
+                      <p className="text-[#00A852] mt-5 text-2xl">
+                        <b>INR 108000</b>
+                      </p>
+                      <p> Per Person</p>
+                    </div>
+                  </div>
+
+                  <button className="bg-[#00A852] text-white rounded w-full mt-5 p-3">
+                    View Detail
+                  </button>
+                </div>
+                <div></div>
               </div>
             </div>
           </div>
         </section>
+
+        <section className="relative">
+          <img
+            src="cta-bg.jpg"
+            style={{ width: "100%", height: "400px" }}
+            className="cursor-pointer"
+          />
+          <div className="text-center absolute text-white top-28 left-10">
+            <p className="text-5xl">
+              <b>Tailor Made Tour</b>
+            </p>
+            <p className="text-2xl">Plan Your Custom Made Tour</p>
+            <button
+              className="py-2 px-5 text-xl mt-5 rounded "
+              style={{ border: "1px solid white" }}
+            >
+              <b>Plan Your Custom Trip</b>
+            </button>
+          </div>
+        </section>
+
+        <section className="">
+          <div className="container px-5 py-10 mx-auto">
+            <div className="flex flex-wrap w-full mb-12">
+              <div className="w-full">
+                <h2 className="text-center text-3xl font-medium title-font mb-2 text-gray-900">
+                  Top Attractions
+                </h2>
+              </div>
+            </div>
+
+            <div className="grid gap-10 mb-6 md:grid-cols-3 sm:grid-cols-1 px-5">
+              <div className="bg-[#F5F5F5] text-center">
+                <img src="place-img.jpg"></img>
+                <p className="text-2xl pt-5">
+                  <b>Makkah</b>
+                </p>
+                <p className="text-lg pt-2">
+                  Embark on the Journey of a Lifetime
+                </p>
+                <button className="bg-[#00a852] px-5 py-2 rounded text-white text-lg my-5">
+                  View Detail
+                </button>
+              </div>
+
+              <div className="bg-[#F5F5F5] text-center">
+                <img src="place-img.jpg"></img>
+                <p className="text-2xl pt-5">
+                  <b>Makkah</b>
+                </p>
+                <p className="text-lg pt-2">
+                  Embark on the Journey of a Lifetime
+                </p>
+                <button className="bg-[#00a852] px-5 py-2 rounded text-white text-lg my-5">
+                  View Detail
+                </button>
+              </div>
+
+              <div className="bg-[#F5F5F5] text-center">
+                <img src="place-img.jpg"></img>
+                <p className="text-2xl pt-5">
+                  <b>Makkah</b>
+                </p>
+                <p className="text-lg pt-2">
+                  Embark on the Journey of a Lifetime
+                </p>
+                <button className="bg-[#00a852] px-5 py-2 rounded text-white text-lg my-5">
+                  View Detail
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <section>
+          <div className="container px-10 py-10 mx-auto bg-[#f5f5f5] p-10">
+            <h1 className="text-2xl"><b>Why Travel with us?</b></h1>
+            <p className="leading-10 pt-3">Established in 2000, Adil Travels has since positioned itself as one of the leading companies, providing great offers, competitive airfares, exclusive discounts, and a seamless online booking experience to many of its customers. The experience of booking your flight tickets, hotel stay, and holiday package through our desktop site or mobile app can be done with complete ease and no hassles at all. We also deliver amazing offers, such as Instant Discounts, Fare Calendar, MyRewardsProgram, MyWallet, and many more while updating them from time to time to better suit our customers’ evolving needs and demands.</p>
+            <div className="grid gap-10 mb-6 md:grid-cols-4 sm:grid-cols-1 mt-6">
+              <div className="flex p-3 justify-around	items-center bg-[#C0E4FF]">
+              <IoIosMailUnread style={{width: '40px', height: '40px'}}/>
+              Email Us <br/>support@adiltravel.com
+              </div>
+              <div className="flex p-3 justify-around	items-center bg-[#F3EBCF]">
+              <IoCallSharp style={{width: '40px', height: '40px'}}/>
+              Call Us <br/>+91- 123456789
+              </div>
+              <div className="flex p-3 justify-around	items-center bg-[#CEF4CF]">
+              <FaWhatsapp style={{width: '40px', height: '40px'}}/>
+              Whatsapp <br/>+91-123456789
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div className="container py-10 mx-auto ">
+            
+            <div className="grid gap-10 mb-6 md:grid-cols-3 sm:grid-cols-1 mt-6">
+
+              <div className=" p-5 rounded-xl" style={{border: '4px solid #f5f5f5'}}>
+              <p className="text-xl py-2"><b>Custom tour from Adil Travels</b></p>
+              <p className="text-base	">MakeMyTrip has since positioned itself as one of the leading companies, providing great offers, competitive airfares, exclusive discounts, and a seamless online booking experience to many of its customers. The experience of booking your flight tickets, hotel stay, and holiday package through our desktop site or mobile app can be done with complete ease and no hassles at all. We also deliver amazing offers, such as Instant Discounts, Fare Calendar, MyRewardsProgram, MyWallet, and many more while updating them from time to time to better suit our customers’ evolving needs and demands.</p>
+              </div>
+
+              <div className=" p-5 rounded-xl" style={{border: '4px solid #f5f5f5'}}>
+              <p className="text-xl py-2"><b>Custom tour from Adil Travels</b></p>
+              <p className="text-base	">MakeMyTrip has since positioned itself as one of the leading companies, providing great offers, competitive airfares, exclusive discounts, and a seamless online booking experience to many of its customers. The experience of booking your flight tickets, hotel stay, and holiday package through our desktop site or mobile app can be done with complete ease and no hassles at all. We also deliver amazing offers, such as Instant Discounts, Fare Calendar, MyRewardsProgram, MyWallet, and many more while updating them from time to time to better suit our customers’ evolving needs and demands.</p>
+              </div>
+
+              <div className=" p-5 rounded-xl" style={{border: '4px solid #f5f5f5'}}>
+              <p className="text-xl py-2"><b>Custom tour from Adil Travels</b></p>
+              <p className="text-base	">MakeMyTrip has since positioned itself as one of the leading companies, providing great offers, competitive airfares, exclusive discounts, and a seamless online booking experience to many of its customers. The experience of booking your flight tickets, hotel stay, and holiday package through our desktop site or mobile app can be done with complete ease and no hassles at all. We also deliver amazing offers, such as Instant Discounts, Fare Calendar, MyRewardsProgram, MyWallet, and many more while updating them from time to time to better suit our customers’ evolving needs and demands.</p>
+              </div>
+              
+            </div>
+          </div>
+        </section>
+
+        
       </div>
     </>
   );
