@@ -27,8 +27,7 @@ const Ctable = () => {
     () => fetcher.get(`/v1/master-data/type?type=place`, "raw"),
     {
       onSuccess: (res) => {
-        console.log(res)
-        setPlaces(res.data)
+        setPlaces(res.data.PLACE)
         setShowModal(false);
       },
       onError: ({ response }) => {
@@ -42,7 +41,6 @@ const Ctable = () => {
     (data) => fetcher.post(`/v1/master-data`, data, "raw"),
     {
       onSuccess: (res) => {
-        console.log(res.data)
         SuccessToast.fire({
             icon: "success",
             title: "Place Added Successfully!"
@@ -62,7 +60,6 @@ const Ctable = () => {
   useEffect(()=>{
     fetchPlaces();
   },[])
-  
  
 
     return (
