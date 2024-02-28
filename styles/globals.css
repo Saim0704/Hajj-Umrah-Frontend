@@ -131,7 +131,7 @@ border-bottom: 1px solid #fff; background-color: #fff; padding-right: 0px;}
 /* .bg-home{background-image: url(http://test.indicsoft.com/web/image/2728-6c2c0094/slider1.jpg);
 height: 500px;} */
 
-.bg-home{background-image: url(home-bg.jpg);}
+.bg-home{background-image: url(main-home-bg.png);}
 .bg-cta{background-image: url(cta-bg.jpg);}
 .blk-bg-trnp{background: #0000009c;}
 
@@ -197,3 +197,10 @@ color: #15803d;
 .theme-red-text{color: #ed4949;}
 .theme-pink-text{color: #5b40c6;}
 .theme-gray-text{color: #2c264d;}
+
+
+/* header css..................................... */
+
+.main-logo{
+    text-align: -webkit-center;
+}

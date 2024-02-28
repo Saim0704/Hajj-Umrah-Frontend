@@ -2,7 +2,41 @@ import React from "react";
 
 const Header = () => {
   return (
-    <header className="nav-header bg-black">
+   <header>
+    <div className="grid gap-4 md:grid-cols-4 sm:grid-cols-1 py-5 bg-white">
+      <div className="main-logo pt-2 grid justify-items-center" style={{textalign: '-webkit-center'}}><img src="icons/package/Adil Travels.png" style={{width: '50%'}} className="cursor-pointer"/></div>
+
+      <div className="main-nav col-span-2 grid items-center	">
+        <nav>
+          <ul className="flex justify-around items-center">
+            <li className="cursor-pointer	text-lg">Home</li>
+            <li className="cursor-pointer	text-lg">Umrah & Ziyarah </li>
+            <li className="cursor-pointer	text-lg">Makkah</li>
+            <li className="cursor-pointer	text-lg">Madinah</li>
+            <li className="cursor-pointer	text-lg">Hotels</li>
+            <li className="cursor-pointer	text-lg">Blog</li>
+          </ul>
+        </nav>
+      </div>
+
+      <div className="main-login flex justify-center">
+        <button className="text-lg font-bold px-5 py-3 rounded-xl	text-[#00A852]" style={{ border: '1px solid #00a852'}}>Plan Your Custom Trip</button>
+        <select id="" name="" class="border-0" style={{width:'25%'}}>
+                  <option value="">Eng</option>
+                  <option value="">Premium Economy </option>
+                  <option value="">Business </option>
+                  <option value=""> First Class </option>
+                </select>
+      </div>
+    </div>
+   </header>
+  );
+};
+
+export default Header;
+
+
+{/* <header className="nav-header bg-black">
       <nav id="header" class="w-full z-30 top-0 pt-4 pb-4 text-white">
         <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
           <div class="pl-4 flex items-center">
@@ -91,10 +125,5 @@ const Header = () => {
             </ul>
           </div>
         </div>
-        {/* <hr class="border-b border-gray-100 opacity-25 my-0 py-0" /> */}
       </nav>
-    </header>
-  );
-};
-
-export default Header;
+    </header> */}
