@@ -1,14 +1,21 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import styled from 'styled-components';
+import { useMutation } from "react-query";
+import fetcher from "src/dataProvider";
+import axios from "axios";
+import { setUserData, setBasic_Details, setFlight_Details, setGallery } from "src/redux/slices/user";
 
 
 export const Gallery = () => {
   const router = useRouter();
   const { userData } = useSelector((state) => state.user);
+  const [uploadedImages, setUploadedImages] = useState({})
+  const SaveId = useSelector(state => state.user.basic_Details.basic_Detail._id);
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -58,15 +65,8 @@ export const Gallery = () => {
             )
         ),
       galleryImages: Yup.array()
-        .required("Gallery is required")
-        .min(1, "Minimum 1 image is required")
-        .max(10, "Maximum 10 images allowed")
-        // .test(
-        //   "fileSize",
-        //   "File too large, max size is 2MB",
-        //   (value) =>
-        //     value && value.every((image) => image.size <= 2000000)
-        // )
+        .required("Gallery Images are required")
+        .min(1, "Gallery Images are required")
         .test(
           "fileType",
           "Unsupported file format",
@@ -79,20 +79,50 @@ export const Gallery = () => {
             )
         ),
     }),
-    onSubmit: (values, { setSubmitting }) => {
-      let payLoad = new FormData();
-      payLoad.append("thumbImages", values.thumbImages);
-      payLoad.append("headerImages", values.headerImages);
-      payLoad.append("galleryImages", values.galleryImages)
-      // values.galleryImages.map((image) => {
-      //   payLoad.append("gallery", image);
-      // });
-      console.log([...payLoad])
-      setSubmitting(false);
+    onSubmit: () => {
+      saveImageToDB(uploadedImages);
     }
   })
 
-  console.log(formik, "FFFFFF")
+  const { mutate: saveImageToDB } = useMutation(
+    (data) => fetcher.post(`/v1/package/${SaveId}/gallery`, data, "raw"),
+    {
+      onSuccess: (res) => {
+        alert("Image Uploaded");
+        console.log(res.data, "res.data")
+        dispatch(setGallery({ gallery: res.data }));
+        router.push(`/admin/create-package/flight-details`, undefined, {
+          shallow: true,
+        });
+      },
+      onError: ({ response }) => {
+        console.log(response.data.message);
+        alert(response.data.message);
+      },
+    }
+  );
+
+  const handleCloudImages = (event, name = event.target.name) => {
+    formik.setFieldValue(name, Array.from(event.currentTarget.files));
+    const formData = new FormData();
+    Array.from(event.currentTarget.files).map((item) => {
+      formData.append('files', item);
+    })
+    const serviceName = 'adil-travels';
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Service-Name': serviceName
+      }
+    };
+    axios.post(`${process.env.NEXT_PUBLIC_CLOUD_URL}/upload/multiple`, formData, config)
+      .then(response => {
+        setUploadedImages({ ...uploadedImages, [name]: response.data.data }); // Handle response data
+      })
+      .catch(error => {
+        console.error('Error:', error); // Handle errors
+      });
+  }
 
   return (
     <div>
@@ -133,9 +163,10 @@ export const Gallery = () => {
 
                     </div>
                     <input id="thumbImages" type="file" class="invisible" multiple
-                      onChange={(event) => {
-                        formik.setFieldValue("thumbImages", Array.from(event.currentTarget.files));
-                      }}
+                      onChange={(event) => handleCloudImages(event)}
+                      // onChange={(event) => {
+                      //   formik.setFieldValue("thumbImages", Array.from(event.currentTarget.files));
+                      // }}
                       name="thumbImages"
                     />
                   </label>
@@ -192,9 +223,10 @@ export const Gallery = () => {
                       </span>}
                     </div>
                     <input id="headerImages" type="file" class="invisible" multiple
-                      onChange={(event) => {
-                        formik.setFieldValue("headerImages", Array.from(event.currentTarget.files));
-                      }}
+                      // onChange={(event) => {
+                      //   formik.setFieldValue("headerImages", Array.from(event.currentTarget.files));
+                      // }}
+                      onChange={(event) => handleCloudImages(event)}
                       name="headerImages"
                     />
                   </label>
@@ -244,18 +276,19 @@ export const Gallery = () => {
                   </div>
                 </label>
                 {
-                  formik.errors.headerImages && (
+                  formik.errors.galleryImages && (
                     <p className="text-red-500">
                       {
-                        formik.errors.headerImages
+                        formik.errors.galleryImages
                       }
                     </p>
                   )
                 }
                 <input id="galleryImages" type="file" class="invisible" multiple
-                  onChange={(event) => {
-                    formik.setFieldValue("galleryImages", Array.from(event.currentTarget.files));
-                  }}
+                  // onChange={(event) => {
+                  //   formik.setFieldValue("galleryImages", Array.from(event.currentTarget.files));
+                  // }}
+                  onChange={(event) => handleCloudImages(event)}
                   name="galleryImages"
                 />
 

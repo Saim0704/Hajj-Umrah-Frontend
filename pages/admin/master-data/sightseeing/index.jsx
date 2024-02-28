@@ -116,7 +116,7 @@ const Index = () => {
         () => fetcher.get(`/v1/master-data/type?type=SIGHTSEEING`, "raw"),
         {
             onSuccess: (res) => {
-                setZiarahPlaces(res.data)
+                setZiarahPlaces(res.data.SIGHTSEEING)
             },
             onError: ({ response }) => {
                 console.log(response.data);
