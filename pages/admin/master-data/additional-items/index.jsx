@@ -27,7 +27,7 @@ const AddiitionalItem = () => {
         () => fetcher.get(`/v1/master-data/type?type=ADDITIONAL_ITEM`, "raw"),
         {
             onSuccess: (res) => {
-                setAdditionItems(res.data)
+                setAdditionItems(res.data.ADDITIONAL_ITEM)
                 setShowModal(false);
             },
             onError: ({ response }) => {
