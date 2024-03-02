@@ -4,7 +4,9 @@ import { ErrorToast } from 'src/components/common/Toater';
 import fetcher from "src/dataProvider";
 import Link from "next/link";
 import { useMutation } from "react-query";
+import { useRouter } from "next/router";
 const Index = () => {
+	const router = useRouter();
 	const [ziarahPlaces,setZiarahPlaces] = useState([])
 	const activityItems = [
 		{
@@ -113,10 +115,10 @@ const Index = () => {
 		},
 	];
 	const { mutate: fetchZiarahPlaces } = useMutation(
-        () => fetcher.get(`/v1/master-data/type?type=SIGHTSEEING`, "raw"),
+        () => fetcher.get(`/v1/master-data?type=SIGHTSEEING`, "raw"),
         {
             onSuccess: (res) => {
-                setZiarahPlaces(res.data.SIGHTSEEING)
+                setZiarahPlaces(res.data.masterData)
             },
             onError: ({ response }) => {
                 console.log(response.data);
@@ -183,7 +185,7 @@ const Index = () => {
 							</tr>
 						</thead>
 						<tbody className="divide-y divide-white/5">
-							{ziarahPlaces.map((item,index) => (
+							{ziarahPlaces.map((item, index) => (
 								<tr key={index}>
 									<td className="py-4 pl-4 pr-8 sm:pl-6 lg:pl-8">
 										<div className="flex items-center gap-x-4">
@@ -195,22 +197,55 @@ const Index = () => {
 									<td className="py-4 pl-0 pr-4 sm:table-cell sm:pr-8">
 										<div className="flex gap-x-3">
 											<div className="font-mono text-sm leading-6 text-gray-400">
-												{item.description}
+												{item.description.length > 15
+													? `${item.description.substring(0, 15)}...`
+													: item.description}
 											</div>
 										</div>
 									</td>
 									<td className="py-4 text-sm leading-6 sm:pr-8 lg:pr-20">
 										<div className="flex items-center justify-end gap-x-2 sm:justify-start">
 											<div className="hidden text-black sm:block">
-												{item.status === "ACTIVE" ? "Active" : "InActive"}
+												{item?.status === "ACTIVE" ? (
+													<span className="inline-flex items-center gap-x-1.5 rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700">
+														<svg
+															className="h-1.5 w-1.5 fill-green-500"
+															viewBox="0 0 6 6"
+															aria-hidden="true"
+														>
+															<circle cx={3} cy={3} r={3} />
+														</svg>
+														Active
+													</span>
+												) : (
+													<span className="inline-flex items-center gap-x-1.5 rounded-full bg-red-100 px-2 py-1 text-xs font-medium text-red-700">
+														<svg
+															className="h-1.5 w-1.5 fill-red-500"
+															viewBox="0 0 6 6"
+															aria-hidden="true"
+														>
+															<circle cx={3} cy={3} r={3} />
+														</svg>
+														InActive
+													</span>
+												)}
 											</div>
 										</div>
 									</td>
 									<td className="py-2 pl-0 pr-4 text-sm text-center leading-6 text-gray-400 md:table-cell sm:pr-6 lg:pr-8">
-										<div className="flex items-center justify-end gap-x-2 sm:justify-start">
-											<AiFillEye className="cursor-pointer text-2xl" />
-											<AiOutlineEdit className="cursor-pointer text-2xl" />
-											<AiFillDelete className="cursor-pointer text-2xl" />
+										<div className="flex items-center justify-center gap-x-2 sm:justify-center">
+											<AiFillEye
+												className="cursor-pointer text-2xl"
+												onClick={() => {
+													router.push(
+														`/admin/master-data/sightseeing/update/${item._id}`,
+														undefined,
+														{
+															shallow: true,
+														},
+													);
+												}}
+											/>
 										</div>
 									</td>
 								</tr>

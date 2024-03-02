@@ -6,13 +6,13 @@ import React from 'react'
     <footer className='bg-[#06603C] py-10'>
     <div className="grid gap-4 md:grid-cols-4 sm:grid-cols-1 py-10 px-10 bg-[#06603C] text-white">
       <div className="" >
-        <img src="icons/package/Adil Travels-white.png" style={{width: '50%'}} className="cursor-pointer pb-5"/>
+        <img src="/icons/package/Adil Travels-white.png" style={{width: '50%'}} className="cursor-pointer pb-5"/>
         <p className='pr-10 text-lg leading-8'>MakeMyTrip has since positioned itself as one of the leading companies, providing great offers, competitive airfares, exclusive discounts, and a seamless online booking experience .</p>
         <div className='flex mt-5'>
-        <img src="icons/package/fb-img.png" style={{width: '13%'}} className="cursor-pointer"/>
-        <img src="icons/package/twit-img.png" style={{width: '13%'}} className="cursor-pointer ml-5"/>
-        <img src="icons/package/insta-img.png" style={{width: '13%'}} className="cursor-pointer ml-5"/>
-        <img src="icons/package/youtube-img.png" style={{width: '13%'}} className="cursor-pointer ml-5"/>
+        <img src="/icons/package/fb-img.png" style={{width: '13%'}} className="cursor-pointer"/>
+        <img src="/icons/package/twit-img.png" style={{width: '13%'}} className="cursor-pointer ml-5"/>
+        <img src="/icons/package/insta-img.png" style={{width: '13%'}} className="cursor-pointer ml-5"/>
+        <img src="/icons/package/youtube-img.png" style={{width: '13%'}} className="cursor-pointer ml-5"/>
         </div>
         </div>
 

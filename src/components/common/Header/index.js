@@ -4,7 +4,7 @@ const Header = () => {
   return (
    <header>
     <div className="grid gap-4 md:grid-cols-4 sm:grid-cols-1 py-5 bg-white">
-      <div className="main-logo pt-2 grid justify-items-center" style={{textalign: '-webkit-center'}}><img src="icons/package/Adil Travels.png" style={{width: '50%'}} className="cursor-pointer"/></div>
+      <div className="main-logo pt-2 grid justify-items-center" style={{textalign: '-webkit-center'}}><img src="/icons/package/Adil Travels.png" style={{width: '50%'}} className="cursor-pointer"/></div>
 
       <div className="main-nav col-span-2 grid items-center	">
         <nav>
