@@ -64,6 +64,11 @@ const sidebarArray = [
     title: "Master Data Local Place",
     href: "/admin/master-data/local-transport",
   },
+  {
+    icon: "/icons/package/company-iocn.svg",
+    title: "Master Data Travel By",
+    href: "/admin/master-data/travel-by",
+  },
 ];
 const SideNav = ({ children,...rest }) => {
   const router = useRouter();
