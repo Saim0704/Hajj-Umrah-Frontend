@@ -4,6 +4,7 @@ import fetcher from "src/dataProvider";
 import { useMutation } from "react-query";
 import * as Yup from "yup";
 import { ErrorToast, SuccessToast } from 'src/components/common/Toater';
+import Link from 'next/link';
 const Ctable = () => {
     const [showModal, setShowModal] = React.useState(false);
     const [places,setPlaces] = useState([]);
@@ -24,15 +25,18 @@ const Ctable = () => {
   })
 
   const { mutate: fetchPlaces } = useMutation(
-    () => fetcher.get(`/v1/master-data/type?type=place`, "raw"),
+    () => fetcher.get(`/v1/master-data?type=PLACE`, "raw"),
     {
       onSuccess: (res) => {
-        setPlaces(res.data.PLACE)
+        setPlaces(res.data.masterData)
         setShowModal(false);
       },
       onError: ({ response }) => {
         console.log(response.data.message);
-        alert(response.data.message);
+        ErrorToast.fire({
+            title: response.data.message || "Unable Get Places List",
+            icon: "error"
+        })
       },
     }
   );
@@ -204,17 +208,37 @@ const Ctable = () => {
                                             </div>
                                         </td>
                                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                                            <span className={`inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-${place.status ? 'green' : 'red'}-700 ring-1 ring-inset ring-green-600/20`}>
-                                                {place.status}
-                                            </span>
+                                            {place?.status === "ACTIVE" ? (
+													<span className="inline-flex items-center gap-x-1.5 rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700">
+														<svg
+															className="h-1.5 w-1.5 fill-green-500"
+															viewBox="0 0 6 6"
+															aria-hidden="true"
+														>
+															<circle cx={3} cy={3} r={3} />
+														</svg>
+														Active
+													</span>
+												) : (
+													<span className="inline-flex items-center gap-x-1.5 rounded-full bg-red-100 px-2 py-1 text-xs font-medium text-red-700">
+														<svg
+															className="h-1.5 w-1.5 fill-red-500"
+															viewBox="0 0 6 6"
+															aria-hidden="true"
+														>
+															<circle cx={3} cy={3} r={3} />
+														</svg>
+														InActive
+													</span>
+												)}
                                         </td>
                                         <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                                            <a
-                                                href="#"
+                                            <Link
+                                                href={`/admin/master-data/local-transport/update/${place._id}`}
                                                 className="text-indigo-600 hover:text-indigo-900"
                                             >
                                                 Edit<span className="sr-only">, {place.name}</span>
-                                            </a>
+                                            </Link>
                                         </td>
                                     </tr>
                                 ))) : (

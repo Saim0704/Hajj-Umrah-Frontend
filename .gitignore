@@ -7,6 +7,7 @@
 node_modules/
 dist/
 .next
+launch.json
 
 # Compiled Java class files
 *.class

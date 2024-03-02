@@ -4,6 +4,8 @@ import fetcher from "src/dataProvider";
 import { useMutation } from "react-query";
 import * as Yup from "yup";
 import { ErrorToast, SuccessToast } from 'src/components/common/Toater';
+import Link from 'next/link';
+import {  AiOutlineEdit} from "react-icons/ai";
 const AddiitionalItem = () => {
     const [showModal, setShowModal] = React.useState(false);
     const [additionItems, setAdditionItems] = useState([]);
@@ -24,10 +26,10 @@ const AddiitionalItem = () => {
     })
 
     const { mutate: fetchAdditionalItems } = useMutation(
-        () => fetcher.get(`/v1/master-data/type?type=ADDITIONAL_ITEM`, "raw"),
+        () => fetcher.get(`/v1/master-data?type=ADDITIONAL_ITEM`, "raw"),
         {
             onSuccess: (res) => {
-                setAdditionItems(res.data.ADDITIONAL_ITEM)
+                setAdditionItems(res.data.masterData)
                 setShowModal(false);
             },
             onError: ({ response }) => {
@@ -191,8 +193,8 @@ const AddiitionalItem = () => {
                                                 >
                                                     Status
                                                 </th>
-                                                <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
-                                                    <span className="sr-only">Edit</span>
+                                                <th scope="col"className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                                    Action
                                                 </th>
                                             </tr>
                                         </thead>
@@ -216,12 +218,13 @@ const AddiitionalItem = () => {
                                                             </span>
                                                         </td>
                                                         <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                                                            <a
-                                                                href="#"
+                                                            <Link
+                                                                href={`/admin/master-data/additional-items/update/${item._id}`}
                                                                 className="text-indigo-600 hover:text-indigo-900"
                                                             >
-                                                                Edit<span className="sr-only">, {item.name}</span>
-                                                            </a>
+                                                                {/* Edit<span className="sr-only">, {item.name}</span> */}
+                                                                <AiOutlineEdit className="cursor-pointer text-2xl"/>
+                                                            </Link>
                                                         </td>
                                                     </tr>
                                                 ))) : (
