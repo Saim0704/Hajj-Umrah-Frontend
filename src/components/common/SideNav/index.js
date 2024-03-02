@@ -65,7 +65,7 @@ const sidebarArray = [
     href: "/admin/master-data/local-transport",
   },
 ];
-const SideNav = ({ children }) => {
+const SideNav = ({ children,...rest }) => {
   const router = useRouter();
   const [isActive, setActive] = useState(false)
 
@@ -121,7 +121,7 @@ const SideNav = ({ children }) => {
               </div>
             </div>
             <div className={styles.mainWrapper}>
-              <div className={styles.title}>Create Umrah Package</div>
+              <div className={styles.title}>{rest?.pageTitle ? rest.pageTitle : "Adil Travels"}</div>
               <div className={styles.container}>{children}</div>
             </div>
           </>
