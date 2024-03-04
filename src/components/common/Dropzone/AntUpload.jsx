@@ -66,7 +66,7 @@ const AntUpload = ({multiple,maxUploadCount,onUploadComplete,accept}) => {
 		}
         if (newFileList.length > 0) {
             const lastItem = newFileList[newFileList.length - 1];
-            if (lastItem.hasOwnProperty('response')) {
+            if (lastItem.hasOwnProperty('response') && lastItem.status === 'done') {
                 onUploadComplete(newFileList);
             }
         }
