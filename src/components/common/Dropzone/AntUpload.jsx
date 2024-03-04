@@ -60,17 +60,17 @@ const AntUpload = ({multiple,maxUploadCount,onUploadComplete,accept}) => {
 		setPreviewOpen(true);
 		setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf("/") + 1));
 	};
-	const handleChange = ({ fileList: newFileList,file:uploadedFile,event:uploadingEven }) =>{ 
-		if(uploadedFile?.status){
+	const handleChange = ({ fileList: newFileList, file: uploadedFile, event: uploadingEven }) => {
+		if (uploadedFile?.status) {
 			setFileList(newFileList);
 		}
-        if (newFileList.length > 0) {
-            const lastItem = newFileList[newFileList.length - 1];
-            if (lastItem.hasOwnProperty('response') && lastItem.status === 'done') {
-                onUploadComplete(newFileList);
-            }
-        }
-    };
+		if (newFileList.length > 0) {
+			const allItemsDone = newFileList.every((item) => item.status === "done");
+			if (allItemsDone) {
+				onUploadComplete(newFileList);
+			}
+		}
+	};
 	const uploadButton = (
 		<>
 			<button
