@@ -51,7 +51,7 @@ const stepData = [
 const Steps = ({ activeStep, children }) => {
   return (
     <div>
-      <ul className="tab-ui p-4 rounded-xl">
+      <ul className="tab-ui p-4 rounded-xl max-lg:hidden">
         {stepData.map((item, idx) => (
           <li className="list-none" key={idx}>
             <Link

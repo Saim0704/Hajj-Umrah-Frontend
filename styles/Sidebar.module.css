@@ -70,3 +70,16 @@
 }
 
 .container {}
+
+@media (max-width: 1024px) { 
+  .sidebar{
+    display: none !important;
+  }
+  .mainWrapper {
+    width: 100%;
+    background: #f5f9fc;
+  }
+  .title {
+    padding-left: 15px;
+  }
+ }

@@ -140,7 +140,7 @@ export default function Home() {
               >
                 <div className="w-full flex justify-center items-center pb-5 ">
                   <img
-                    src="icons/package/fb-img.png"
+                    src="Mask group.png"
                     style={{ width: "50%" }}
                     className="cursor-pointer"
                   />
@@ -156,7 +156,7 @@ export default function Home() {
               >
                 <div className="w-full flex justify-center items-center pb-5 ">
                   <img
-                    src="icons/package/fb-img.png"
+                    src="m-2.png"
                     style={{ width: "50%" }}
                     className="cursor-pointer"
                   />
@@ -172,7 +172,7 @@ export default function Home() {
               >
                 <div className="w-full flex justify-center items-center pb-5 ">
                   <img
-                    src="icons/package/fb-img.png"
+                    src="m-1.png"
                     style={{ width: "50%" }}
                     className="cursor-pointer"
                   />
@@ -188,7 +188,7 @@ export default function Home() {
               >
                 <div className="w-full flex justify-center items-center pb-5 ">
                   <img
-                    src="icons/package/fb-img.png"
+                    src="Mask group-4.png"
                     style={{ width: "50%" }}
                     className="cursor-pointer"
                   />
@@ -204,7 +204,7 @@ export default function Home() {
               >
                 <div className="w-full flex justify-center items-center pb-5 ">
                   <img
-                    src="icons/package/fb-img.png"
+                    src="Mask group-3.png"
                     style={{ width: "50%" }}
                     className="cursor-pointer"
                   />
@@ -220,7 +220,7 @@ export default function Home() {
               >
                 <div className="w-full flex justify-center items-center pb-10 ">
                   <img
-                    src="icons/package/fb-img.png"
+                    src="Mask group-2.png"
                     style={{ width: "50%" }}
                     className="cursor-pointer"
                   />
@@ -238,7 +238,7 @@ export default function Home() {
             <div className="grid gap-10 mb-6 md:grid-cols-3 sm:grid-cols-1">
               <div className="bg-[#F5F5F5]">
                 <div className="relative	">
-                  <img src="place-img.jpg" className="opacity-70"></img>
+                  <img src="tp-1.png" className="opacity-70"></img>
                   <FaArrowRightArrowLeft className="absolute top-5	right-5 bg-white w-12	h-12 rounded-full	p-2" />
                   <p className="text-[#FF7A00] text-sm bg-[#ffffff] rounded-lg px-3 py-2 w-fit	absolute bottom-5	left-5">
                     <b>15D / 14N</b>
@@ -300,7 +300,7 @@ export default function Home() {
 
               <div className="bg-[#F5F5F5]">
                 <div className="relative	">
-                  <img src="place-img.jpg" className="opacity-70"></img>
+                  <img src="tp-1.png" className="opacity-70"></img>
                   <FaArrowRightArrowLeft className="absolute top-5	right-5 bg-white w-12	h-12 rounded-full	p-2" />
                   <p className="text-[#FF7A00] text-sm bg-[#ffffff] rounded-lg px-3 py-2 w-fit	absolute bottom-5	left-5">
                     <b>15D / 14N</b>
@@ -362,7 +362,7 @@ export default function Home() {
 
               <div className="bg-[#F5F5F5]">
                 <div className="relative	">
-                  <img src="place-img.jpg" className="opacity-70"></img>
+                  <img src="tp-1.png" className="opacity-70"></img>
                   <FaArrowRightArrowLeft className="absolute top-5	right-5 bg-white w-12	h-12 rounded-full	p-2" />
                   <p className="text-[#FF7A00] text-sm bg-[#ffffff] rounded-lg px-3 py-2 w-fit	absolute bottom-5	left-5">
                     <b>15D / 14N</b>
@@ -457,7 +457,7 @@ export default function Home() {
 
             <div className="grid gap-10 mb-6 md:grid-cols-3 sm:grid-cols-1 px-5">
               <div className="bg-[#F5F5F5] text-center">
-                <img src="place-img.jpg"></img>
+                <img src="ta-1.png"></img>
                 <p className="text-2xl pt-5">
                   <b>Makkah</b>
                 </p>
@@ -470,12 +470,12 @@ export default function Home() {
               </div>
 
               <div className="bg-[#F5F5F5] text-center">
-                <img src="place-img.jpg"></img>
+                <img src="ta-2.png"></img>
                 <p className="text-2xl pt-5">
-                  <b>Makkah</b>
+                  <b>Jeddah</b>
                 </p>
                 <p className="text-lg pt-2">
-                  Embark on the Journey of a Lifetime
+                Explore the Arabian Splendor
                 </p>
                 <button className="bg-[#00a852] px-5 py-2 rounded text-white text-lg my-5">
                   View Detail
@@ -483,12 +483,12 @@ export default function Home() {
               </div>
 
               <div className="bg-[#F5F5F5] text-center">
-                <img src="place-img.jpg"></img>
+                <img src="ta-1.png"></img>
                 <p className="text-2xl pt-5">
-                  <b>Makkah</b>
+                  <b>Al Madinah Al Munawwarah</b>
                 </p>
                 <p className="text-lg pt-2">
-                  Embark on the Journey of a Lifetime
+                Discover the city of lights
                 </p>
                 <button className="bg-[#00a852] px-5 py-2 rounded text-white text-lg my-5">
                   View Detail
