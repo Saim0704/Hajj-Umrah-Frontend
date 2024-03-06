@@ -10,12 +10,13 @@ import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { Router, useRouter } from "next/router";
 import { setUserData, setBasic_Details, setFlight_Details  } from "src/redux/slices/user";
+import Swal from "sweetalert2";
 
 const FlightDetails = () => {
 
   const [airportOptions, setAirportOptions] = useState([]);
   const [airlinesOptions, setAirlinesOptions] = useState([]);
-  const SaveId = useSelector(state => state.user.basic_Details.basic_Detail._id);
+  const SaveId = useSelector(state => state?.user?.basic_Details?.basic_Detail?._id);
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -86,8 +87,12 @@ const FlightDetails = () => {
     (data) => fetcher.post(`/v1/package/${SaveId}/flight-details`, data, "raw"),
     {
       onSuccess: (res) => {
-        alert("Basic Detail Updated");
-        console.log(res.data, "res.data")
+        Swal.fire({
+          icon: "success",
+          title: "Flight Details Saved",
+          showConfirmButton: false,
+          timer: 1500
+        });
         dispatch(setFlight_Details({ flight_Detail: res.data }));
         router.push(`/admin/create-package/accommodation`, undefined, {
           shallow: true,
@@ -141,6 +146,9 @@ const FlightDetails = () => {
     formik.setFieldValue(`flightItinerary[1].airlineCarrier`, selectedOption);
   };
 
+  console.log(formik.values,"VALUES")
+  console.log(formik.errors,"ERROR")
+
   return (
     <>
       <div className="p-5">
@@ -189,9 +197,10 @@ const FlightDetails = () => {
                 <Select id="" name="flightItinerary.ticketClass" style={{ width: '100%', height: '42px' }} placeholder="Select Class" onChange={(e) => {
                   formik.setFieldValue(`flightItinerary[0].ticketClass`, e);
                 }}>
-                  <option value="Economy">Economy</option>
-                  <option value="Business">Business</option>
-                  <option value="First">First</option>
+                  <option value="ECONOMY">ECONOMY</option>
+                  <option value="PREMIUM_ECONOMY">PREMIUM_ECONOMY</option>
+                  <option value="BUSINESS">BUSINESS</option>
+                  <option value="FIRST_CLASS">FIRST_CLASS</option>
                 </Select>
                 {(formik?.errors?.flightItinerary && formik?.errors?.flightItinerary[0]) ? (
                   <span className="text-red-500 mt-2">
@@ -361,9 +370,10 @@ const FlightDetails = () => {
                 <Select id="" name="flightItinerary.ticketClass" style={{ width: '100%', height: '42px' }} placeholder="Select Class" onChange={(e) => {
                   formik.setFieldValue(`flightItinerary[1].ticketClass`, e);
                 }}>
-                  <option value="Economy">Economy</option>
-                  <option value="Business">Business</option>
-                  <option value="First">First</option>
+                  <option value="ECONOMY">ECONOMY</option>
+                  <option value="PREMIUM_ECONOMY">PREMIUM_ECONOMY</option>
+                  <option value="BUSINESS">BUSINESS</option>
+                  <option value="FIRST_CLASS">FIRST_CLASS</option>
                 </Select>
                 {(formik?.errors?.flightItinerary && formik?.errors?.flightItinerary[1]) ? (
                   <span className="text-red-500 mt-2">

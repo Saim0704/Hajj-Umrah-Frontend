@@ -18,10 +18,71 @@ import { FaWhatsapp } from "react-icons/fa";
 
 
 import styles from "../styles/Home.module.css";
+import { useEffect, useState } from "react";
+import { useMutation } from "react-query";
+import fetcher from "src/dataProvider";
+import axios from "axios";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+
+  const [packagesList, setPackagesList] = useState([]);
+
+
+  const getCloudImages = async (url) => {
+    const serviceName = 'adil-travels';
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Service-Name': serviceName,
+        'Object-Name': url
+      }
+    };
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_CLOUD_URL}/upload/get-multiple`, config);
+      return response.data.data;
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    }
+  }
+
+  const { mutate: getPackagesList } = useMutation(
+    () => fetcher.get(`/v1/package-details/?page=1&limit=100`, "raw"),
+    {
+      onSuccess: async (res) => {
+        console.log(res.data,"START")
+        let allFetchedData = res.data;
+        try {
+          if (Array.isArray(allFetchedData?.records)) {
+            for (let i = 0; i < allFetchedData?.records?.length; i++) {
+              const listItem = allFetchedData?.records[i];
+              if (listItem.gallery) {
+                const listHeaderImages = await getCloudImages(listItem?.gallery?.headerImages);
+                listItem.gallery.headerImages = listHeaderImages;
+              }
+            };
+          }
+          setPackagesList(allFetchedData);
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      },
+      onError: ({ response }) => {
+        console.log(response.data.message);
+        alert(response.data.message);
+      },
+    }
+  );
+
+
+  useEffect(() => {
+    getPackagesList();
+  }, [])
+
+  console.log(packagesList, "packagesList")
+
   return (
     <>
       <Head>
@@ -236,66 +297,83 @@ export default function Home() {
             </h2>
 
             <div className="grid gap-10 mb-6 md:grid-cols-3 sm:grid-cols-1">
-              <div className="bg-[#F5F5F5]">
-                <div className="relative	">
-                  <img src="tp-1.png" className="opacity-70"></img>
-                  <FaArrowRightArrowLeft className="absolute top-5	right-5 bg-white w-12	h-12 rounded-full	p-2" />
-                  <p className="text-[#FF7A00] text-sm bg-[#ffffff] rounded-lg px-3 py-2 w-fit	absolute bottom-5	left-5">
-                    <b>15D / 14N</b>
-                  </p>
-                </div>
-
-                <div className="p-5">
-                  <h1 className="text-2xl">
-                    Ramadan Package | Voco Makkah & Saja Al Madinah
-                  </h1>
-
-                  <hr class="h-px my-4 bg-gray-200 border-0 w-full dark:bg-gray-700" />
-
-                  <div className="grid gap-1 md:grid-cols-4">
-                    <div className="flex justify-evenly	text-sm">
-                      <MdFlightTakeoff className="mt-1" />
-                      <p>Flights</p>
-                    </div>
-
-                    <div className="flex justify-evenly text-sm">
-                      <MdEmojiTransportation className="mt-1" />
-                      <p>Transfers</p>
-                    </div>
-
-                    <div className="flex justify-evenly	text-sm">
-                      <LiaHotelSolid className="mt-1" />
-                      <p>Hotels</p>
-                    </div>
-
-                    <div className="flex justify-evenly text-sm	">
-                      <FaPrayingHands className="mt-1" />
-                      <p>Activities</p>
-                    </div>
-                  </div>
-
-                  <hr class="h-px my-4 bg-gray-200 border-0 w-full dark:bg-gray-700" />
-
-                  <div className="grid gap-4 md:grid-cols-3">
-                    <div>
-                      <img
-                        src="icons/package/scanner-img.png"
-                        className="cursor-pointer"
-                      />
-                    </div>
-                    <div className="col-span-2">
-                      <p className="text-[#00A852] mt-5 text-2xl">
-                        <b>INR 108000</b>
+              {packagesList?.records?.map((item, index) => {
+                return (
+                  <div className="bg-[#F5F5F5]" key={index}>
+                    <div className="relative	">
+                    {
+                            item?.gallery?.headerImages 
+                            ?
+                              <img
+                                src={item?.gallery?.headerImages[0].secure_url}
+                                className="cursor-pointer"
+                              />
+                            :
+                              <img src="place-img.jpg" className="opacity-70"></img>
+                          }
+                      {/* <img src="place-img.jpg" className="opacity-70"></img> */}
+                      <FaArrowRightArrowLeft className="absolute top-5	right-5 bg-white w-12	h-12 rounded-full	p-2" />
+                      <p className="text-[#FF7A00] text-sm bg-[#ffffff] rounded-lg px-3 py-2 w-fit	absolute bottom-5	left-5">
+                        <b>{item?.durationDays}D / {item?.durationNights}N</b>
                       </p>
-                      <p> Per Person</p>
                     </div>
-                  </div>
 
-                  <button className="bg-[#00A852] text-white rounded w-full mt-5 p-3">
-                    View Detail
-                  </button>
-                </div>
-                <div></div>
+                    <div className="p-5">
+                      <h1 className="text-2xl">
+                        {item?.name}
+                      </h1>
+
+                      <hr class="h-px my-4 bg-gray-200 border-0 w-full dark:bg-gray-700" />
+
+                      <div className="grid gap-1 md:grid-cols-4">
+                        <div className="flex justify-evenly	text-sm">
+                          <MdFlightTakeoff className="mt-1" />
+                          <p>Flights</p>
+                        </div>
+
+                        <div className="flex justify-evenly text-sm">
+                          <MdEmojiTransportation className="mt-1" />
+                          <p>Transfers</p>
+                        </div>
+
+                        <div className="flex justify-evenly	text-sm">
+                          <LiaHotelSolid className="mt-1" />
+                          <p>Hotels</p>
+                        </div>
+
+                        <div className="flex justify-evenly text-sm	">
+                          <FaPrayingHands className="mt-1" />
+                          <p>Activities</p>
+                        </div>
+                      </div>
+
+                      <hr class="h-px my-4 bg-gray-200 border-0 w-full dark:bg-gray-700" />
+
+                      <div className="grid gap-4 md:grid-cols-3">
+                        <div>
+                          <img
+                            src="icons/package/scanner-img.png"
+                            className="cursor-pointer"
+                          />
+                        </div>
+                        <div className="col-span-2">
+                          <p className="text-[#00A852] mt-5 text-2xl">
+                            <b>INR {item?.cost}</b>
+                          </p>
+                          <p> Per Person</p>
+                        </div>
+                      </div>
+
+                      <button className="bg-[#00A852] text-white rounded w-full mt-5 p-3">
+                        View Detail
+                      </button>
+                    </div>
+                    <div></div>
+                    
+                  </div>
+                )})}
+
+                  
               </div>
 
               <div className="bg-[#F5F5F5]">
@@ -422,7 +500,6 @@ export default function Home() {
                 <div></div>
               </div>
             </div>
-          </div>
         </section>
 
         <section className="relative">
@@ -505,16 +582,16 @@ export default function Home() {
             <p className="leading-10 pt-3">Established in 2000, Adil Travels has since positioned itself as one of the leading companies, providing great offers, competitive airfares, exclusive discounts, and a seamless online booking experience to many of its customers. The experience of booking your flight tickets, hotel stay, and holiday package through our desktop site or mobile app can be done with complete ease and no hassles at all. We also deliver amazing offers, such as Instant Discounts, Fare Calendar, MyRewardsProgram, MyWallet, and many more while updating them from time to time to better suit our customers’ evolving needs and demands.</p>
             <div className="grid gap-10 mb-6 md:grid-cols-4 sm:grid-cols-1 mt-6">
               <div className="flex p-3 justify-around	items-center bg-[#C0E4FF]">
-              <IoIosMailUnread style={{width: '40px', height: '40px'}}/>
-              Email Us <br/>support@adiltravel.com
+                <IoIosMailUnread style={{ width: '40px', height: '40px' }} />
+                Email Us <br />support@adiltravel.com
               </div>
               <div className="flex p-3 justify-around	items-center bg-[#F3EBCF]">
-              <IoCallSharp style={{width: '40px', height: '40px'}}/>
-              Call Us <br/>+91- 123456789
+                <IoCallSharp style={{ width: '40px', height: '40px' }} />
+                Call Us <br />+91- 123456789
               </div>
               <div className="flex p-3 justify-around	items-center bg-[#CEF4CF]">
-              <FaWhatsapp style={{width: '40px', height: '40px'}}/>
-              Whatsapp <br/>+91-123456789
+                <FaWhatsapp style={{ width: '40px', height: '40px' }} />
+                Whatsapp <br />+91-123456789
               </div>
             </div>
           </div>
@@ -522,29 +599,29 @@ export default function Home() {
 
         <section>
           <div className="container py-10 mx-auto ">
-            
+
             <div className="grid gap-10 mb-6 md:grid-cols-3 sm:grid-cols-1 mt-6">
 
-              <div className=" p-5 rounded-xl" style={{border: '4px solid #f5f5f5'}}>
-              <p className="text-xl py-2"><b>Custom tour from Adil Travels</b></p>
-              <p className="text-base	">MakeMyTrip has since positioned itself as one of the leading companies, providing great offers, competitive airfares, exclusive discounts, and a seamless online booking experience to many of its customers. The experience of booking your flight tickets, hotel stay, and holiday package through our desktop site or mobile app can be done with complete ease and no hassles at all. We also deliver amazing offers, such as Instant Discounts, Fare Calendar, MyRewardsProgram, MyWallet, and many more while updating them from time to time to better suit our customers’ evolving needs and demands.</p>
+              <div className=" p-5 rounded-xl" style={{ border: '4px solid #f5f5f5' }}>
+                <p className="text-xl py-2"><b>Custom tour from Adil Travels</b></p>
+                <p className="text-base	">MakeMyTrip has since positioned itself as one of the leading companies, providing great offers, competitive airfares, exclusive discounts, and a seamless online booking experience to many of its customers. The experience of booking your flight tickets, hotel stay, and holiday package through our desktop site or mobile app can be done with complete ease and no hassles at all. We also deliver amazing offers, such as Instant Discounts, Fare Calendar, MyRewardsProgram, MyWallet, and many more while updating them from time to time to better suit our customers’ evolving needs and demands.</p>
               </div>
 
-              <div className=" p-5 rounded-xl" style={{border: '4px solid #f5f5f5'}}>
-              <p className="text-xl py-2"><b>Custom tour from Adil Travels</b></p>
-              <p className="text-base	">MakeMyTrip has since positioned itself as one of the leading companies, providing great offers, competitive airfares, exclusive discounts, and a seamless online booking experience to many of its customers. The experience of booking your flight tickets, hotel stay, and holiday package through our desktop site or mobile app can be done with complete ease and no hassles at all. We also deliver amazing offers, such as Instant Discounts, Fare Calendar, MyRewardsProgram, MyWallet, and many more while updating them from time to time to better suit our customers’ evolving needs and demands.</p>
+              <div className=" p-5 rounded-xl" style={{ border: '4px solid #f5f5f5' }}>
+                <p className="text-xl py-2"><b>Custom tour from Adil Travels</b></p>
+                <p className="text-base	">MakeMyTrip has since positioned itself as one of the leading companies, providing great offers, competitive airfares, exclusive discounts, and a seamless online booking experience to many of its customers. The experience of booking your flight tickets, hotel stay, and holiday package through our desktop site or mobile app can be done with complete ease and no hassles at all. We also deliver amazing offers, such as Instant Discounts, Fare Calendar, MyRewardsProgram, MyWallet, and many more while updating them from time to time to better suit our customers’ evolving needs and demands.</p>
               </div>
 
-              <div className=" p-5 rounded-xl" style={{border: '4px solid #f5f5f5'}}>
-              <p className="text-xl py-2"><b>Custom tour from Adil Travels</b></p>
-              <p className="text-base	">MakeMyTrip has since positioned itself as one of the leading companies, providing great offers, competitive airfares, exclusive discounts, and a seamless online booking experience to many of its customers. The experience of booking your flight tickets, hotel stay, and holiday package through our desktop site or mobile app can be done with complete ease and no hassles at all. We also deliver amazing offers, such as Instant Discounts, Fare Calendar, MyRewardsProgram, MyWallet, and many more while updating them from time to time to better suit our customers’ evolving needs and demands.</p>
+              <div className=" p-5 rounded-xl" style={{ border: '4px solid #f5f5f5' }}>
+                <p className="text-xl py-2"><b>Custom tour from Adil Travels</b></p>
+                <p className="text-base	">MakeMyTrip has since positioned itself as one of the leading companies, providing great offers, competitive airfares, exclusive discounts, and a seamless online booking experience to many of its customers. The experience of booking your flight tickets, hotel stay, and holiday package through our desktop site or mobile app can be done with complete ease and no hassles at all. We also deliver amazing offers, such as Instant Discounts, Fare Calendar, MyRewardsProgram, MyWallet, and many more while updating them from time to time to better suit our customers’ evolving needs and demands.</p>
               </div>
-              
+
             </div>
           </div>
         </section>
 
-        
+
       </div>
     </>
   );
