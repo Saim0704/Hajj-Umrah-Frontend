@@ -8,13 +8,14 @@ import { useMutation } from "react-query";
 import fetcher from "src/dataProvider";
 import axios from "axios";
 import { setUserData, setBasic_Details, setFlight_Details, setGallery } from "src/redux/slices/user";
+import Swal from "sweetalert2";
 
 
 export const Gallery = () => {
   const router = useRouter();
   const { userData } = useSelector((state) => state.user);
   const [uploadedImages, setUploadedImages] = useState({})
-  const SaveId = useSelector(state => state.user.basic_Details.basic_Detail._id);
+  const SaveId = useSelector(state => state?.user?.basic_Details?.basic_Detail?._id);
   const dispatch = useDispatch();
 
   const formik = useFormik({
@@ -88,8 +89,12 @@ export const Gallery = () => {
     (data) => fetcher.post(`/v1/package/${SaveId}/gallery`, data, "raw"),
     {
       onSuccess: (res) => {
-        alert("Image Uploaded");
-        console.log(res.data, "res.data")
+        Swal.fire({
+          icon: "success",
+          title: "Gallery Images Saved",
+          showConfirmButton: false,
+          timer: 1500
+        });
         dispatch(setGallery({ gallery: res.data }));
         router.push(`/admin/create-package/flight-details`, undefined, {
           shallow: true,
@@ -115,6 +120,7 @@ export const Gallery = () => {
         'Service-Name': serviceName
       }
     };
+    console.log(formData.getAll("files"),"FORMDATA")
     axios.post(`${process.env.NEXT_PUBLIC_CLOUD_URL}/upload/multiple`, formData, config)
       .then(response => {
         setUploadedImages({ ...uploadedImages, [name]: response.data.data }); // Handle response data
@@ -123,6 +129,11 @@ export const Gallery = () => {
         console.error('Error:', error); // Handle errors
       });
   }
+
+  console.log(formik.values,"VALUES")
+  console.log(formik.errors,"ERROR")
+  console.log(uploadedImages,"uploadedImages")
+
 
   return (
     <div>

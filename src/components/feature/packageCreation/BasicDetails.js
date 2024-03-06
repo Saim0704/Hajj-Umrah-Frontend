@@ -8,6 +8,7 @@ import { dayType, fromCity, noOfDays, toCity, arrivalCity, returnCity } from "sr
 import { Router, useRouter } from "next/router";
 import { Select } from 'antd';
 import moment from "moment";
+import Swal from "sweetalert2";
 
 const BasicDetails = () => {
   const dispatch = useDispatch();
@@ -22,7 +23,14 @@ const BasicDetails = () => {
     name: "",
     description: "",
     cost: null,
-    currency: "INR",
+    visaCost: null,
+    flightCost: null,
+    accomodationCost: null,
+    transportCost: null,
+    bookingCost: null,
+    bookingCostType: "",
+    miscellanousCost: null,
+    currency: "",
     durationDays: "",
     durationNights: "",
     fromDate: "",
@@ -36,6 +44,14 @@ const BasicDetails = () => {
   const [validationErrors, setValidationErrors] = useState({
     name: "",
     cost: "",
+    visaCost: "",
+    flightCost: "",
+    accomodationCost: "",
+    transportCost: "",
+    bookingCost: "",
+    bookingCostType: "",
+    miscellanousCost: "",
+    currency: "",
     durationDays: "",
     durationNights: "",
     fromDate: "",
@@ -51,6 +67,14 @@ const BasicDetails = () => {
     setValidationErrors({
       name: "",
       cost: "",
+      visaCost: "",
+      flightCost: "",
+      accomodationCost: "",
+      transportCost: "",
+      bookingCost: "",
+      bookingCostType: "",
+      miscellanousCost: "",
+      currency: "",
       durationDays: "",
       durationNights: "",
       fromDate: "",
@@ -76,6 +100,62 @@ const BasicDetails = () => {
       setValidationErrors((prevState) => ({
         ...prevState,
         cost: "Please enter a valid positive cost value.",
+      }));
+      isValid = false;
+    }
+    if (isNaN(basicDetails.visaCost) || basicDetails.visaCost <= 0) {
+      setValidationErrors((prevState) => ({
+        ...prevState,
+        visaCost: "Please enter visaCost value.",
+      }));
+      isValid = false;
+    }
+    if (isNaN(basicDetails.flightCost) || basicDetails.flightCost <= 0) {
+      setValidationErrors((prevState) => ({
+        ...prevState,
+        flightCost: "Please enter flightCost value.",
+      }));
+      isValid = false;
+    }
+    if (isNaN(basicDetails.accomodationCost) || basicDetails.accomodationCost <= 0) {
+      setValidationErrors((prevState) => ({
+        ...prevState,
+        accomodationCost: "Please enter accomodationCost value.",
+      }));
+      isValid = false;
+    }
+    if (isNaN(basicDetails.transportCost) || basicDetails.transportCost <= 0) {
+      setValidationErrors((prevState) => ({
+        ...prevState,
+        transportCost: "Please enter transportCost value.",
+      }));
+      isValid = false;
+    }
+    if (isNaN(basicDetails.bookingCost) || basicDetails.bookingCost <= 0) {
+      setValidationErrors((prevState) => ({
+        ...prevState,
+        bookingCost: "Please enter bookingCost value.",
+      }));
+      isValid = false;
+    }
+    if (basicDetails.bookingCostType.trim() === "") {
+      setValidationErrors((prevState) => ({
+        ...prevState,
+        bookingCostType: "Please enter booking cost type",
+      }));
+      isValid = false;
+    }
+    if (isNaN(basicDetails.miscellanousCost) || basicDetails.miscellanousCost <= 0) {
+      setValidationErrors((prevState) => ({
+        ...prevState,
+        miscellanousCost: "Please enter miscellanousCost value.",
+      }));
+      isValid = false;
+    }
+    if (basicDetails.currency.trim() === "") {
+      setValidationErrors((prevState) => ({
+        ...prevState,
+        currency: "Please enter currency type",
       }));
       isValid = false;
     }
@@ -192,7 +272,12 @@ const BasicDetails = () => {
     (data) => fetcher.post(`/v1/package/basic-details`, data, "raw"),
     {
       onSuccess: (res) => {
-        alert("Basic Detail Updated");
+        Swal.fire({
+          icon: "success",
+          title: "Basic Details Saved",
+          showConfirmButton: false,
+          timer: 1500
+        });
         console.log(res.data, "res.data")
         dispatch(setBasic_Details({ basic_Detail: res.data }));
         router.push(`/admin/create-package/gallery`, undefined, {
@@ -209,13 +294,15 @@ const BasicDetails = () => {
   const { userData } = useSelector((state) => state.user);
 
   const handleSubmit = () => {
+    
     // Validate the form before submitting
     if (!isFormValid()) {
       return;
     }
-    console.log(basicDetails, "BASIC")
     createPackage(basicDetails);
   };
+
+  console.log(basicDetails, "BASIC")
 
   return (
     <div className="p-5">
@@ -324,7 +411,172 @@ const BasicDetails = () => {
               </div>
             </div>
           </div>
+          <div class="grid gap-6 mb-6 grid-cols-4">
+            <div>
+              <label for="last_name">Visa Cost</label>
+              <input
+                type="number"
+                id="visaCost"
+                name="visaCost"
+                value={basicDetails.visaCost}
+                placeholder="Visa Cost"
+                required
+                onChange={handleChange}
+                onFocus={() => handleFieldFocus("visaCost")}
+                className={`border ${validationErrors.visaCost ? "border-red-500" : "border-gray-300"
+                  } bg-neutral-200`}
+              />
+              {validationErrors.visaCost && (
+                <span className="text-red-500 mt-2">
+                  {validationErrors.visaCost}
+                </span>
+              )}
+            </div>
+            <div>
+              <label for="last_name">Flight Cost</label>
+              <input
+                type="number"
+                id="flightCost"
+                name="flightCost"
+                value={basicDetails.flightCost}
+                placeholder="Flight Cost"
+                required
+                onChange={handleChange}
+                onFocus={() => handleFieldFocus("flightCost")}
+                className={`border ${validationErrors.flightCost ? "border-red-500" : "border-gray-300"
+                  } bg-neutral-200`}
+              />
+              {validationErrors.flightCost && (
+                <span className="text-red-500 mt-2">
+                  {validationErrors.flightCost}
+                </span>
+              )}
+            </div>
+            <div>
+              <label for="last_name">Accommodation Cost</label>
+              <input
+                type="number"
+                id="accomodationCost"
+                name="accomodationCost"
+                value={basicDetails.accomodationCost}
+                placeholder="Accommodation Cost"
+                required
+                onChange={handleChange}
+                onFocus={() => handleFieldFocus("accomodationCost")}
+                className={`border ${validationErrors.accomodationCost ? "border-red-500" : "border-gray-300"
+                  } bg-neutral-200`}
+              />
+              {validationErrors.accomodationCost && (
+                <span className="text-red-500 mt-2">
+                  {validationErrors.accomodationCost}
+                </span>
+              )}
+            </div>
+            <div>
+              <label for="last_name">Transport Cost</label>
+              <input
+                type="number"
+                id="transportCost"
+                name="transportCost"
+                value={basicDetails.transportCost}
+                placeholder="Transport Cost"
+                required
+                onChange={handleChange}
+                onFocus={() => handleFieldFocus("transportCost")}
+                className={`border ${validationErrors.transportCost ? "border-red-500" : "border-gray-300"
+                  } bg-neutral-200`}
+              />
+              {validationErrors.transportCost && (
+                <span className="text-red-500 mt-2">
+                  {validationErrors.transportCost}
+                </span>
+              )}
+            </div>
+          </div>
+          <div class="grid gap-6 mb-6 grid-cols-4">
+            <div>
+              <label for="last_name">Booking Cost</label>
+              <input
+                type="number"
+                id="bookingCost"
+                name="bookingCost"
+                value={basicDetails.bookingCost}
+                placeholder="Booking Cost"
+                required
+                onChange={handleChange}
+                onFocus={() => handleFieldFocus("bookingCost")}
+                className={`border ${validationErrors.bookingCost ? "border-red-500" : "border-gray-300"
+                  } bg-neutral-200`}
+              />
+              {validationErrors.bookingCost && (
+                <span className="text-red-500 mt-2">
+                  {validationErrors.bookingCost}
+                </span>
+              )}
+            </div>
+            <div>
+              <label for="last_name">Booking Cost Type</label>
+              <input
+                type="text"
+                id="bookingCostType"
+                name="bookingCostType"
+                value={basicDetails.bookingCostType}
+                placeholder="Booking Cost Type"
+                required
+                onChange={handleChange}
+                onFocus={() => handleFieldFocus("bookingCostType")}
+                className={`border ${validationErrors.bookingCostType ? "border-red-500" : "border-gray-300"
+                  } bg-neutral-200`}
+              />
+              {validationErrors.bookingCostType && (
+                <span className="text-red-500 mt-2">
+                  {validationErrors.bookingCostType}
+                </span>
+              )}
+            </div>
+            <div>
+              <label for="last_name">Miscellaneous Cost</label>
+              <input
+                type="number"
+                id="miscellanousCost"
+                name="miscellanousCost"
+                value={basicDetails.miscellanousCost}
+                placeholder="Miscellaneous Cost"
+                required
+                onChange={handleChange}
+                onFocus={() => handleFieldFocus("miscellanousCost")}
+                className={`border ${validationErrors.miscellanousCost ? "border-red-500" : "border-gray-300"
+                  } bg-neutral-200`}
+              />
+              {validationErrors.miscellanousCost && (
+                <span className="text-red-500 mt-2">
+                  {validationErrors.miscellanousCost}
+                </span>
+              )}
+            </div>
+            <div>
+              <label for="last_name">Currency</label>
+              <input
+                type="text"
+                id="currency"
+                name="currency"
+                value={basicDetails.currency}
+                placeholder="Currency"
+                required
+                onChange={handleChange}
+                onFocus={() => handleFieldFocus("currency")}
+                className={`border ${validationErrors.cost ? "border-red-500" : "border-gray-300"
+                  } bg-neutral-200`}
+              />
+              {validationErrors.currency && (
+                <span className="text-red-500 mt-2">
+                  {validationErrors.cost}
+                </span>
+              )}
+            </div>
+          </div>
           <div class="grid gap-6 mb-6 grid-cols-2">
+
             <div>
               <label for="from">Trip Start</label>
               <select
