@@ -35,7 +35,7 @@ const Login = () => {
     (data) => fetcher.post(`/auth/login`, data, "raw"),
     {
       onSuccess: (res) => {
-        router.push(`/admin/create-package/gallery`, undefined, {
+        router.push(`/admin`, undefined, {
           shallow: true,
         });
         login(res?.data?.access_token);

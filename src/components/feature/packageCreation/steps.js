@@ -5,6 +5,7 @@ import { MdFlight } from "react-icons/md";
 import { HiOutlineHomeModern } from "react-icons/hi2";
 import { MdOutlineDirectionsBus } from "react-icons/md";
 import { MdOutlineTravelExplore } from "react-icons/md";
+import { Steps, Icon } from 'antd';
 
 import React from "react";
 
@@ -48,7 +49,9 @@ const stepData = [
   },
 ];
 
-const Steps = ({ activeStep, children }) => {
+const Stepper = ({ activeStep, children }) => {
+
+  const Step = Steps.Step;
   return (
     <div>
       <ul className="tab-ui p-4 rounded-xl max-lg:hidden">
@@ -63,9 +66,17 @@ const Steps = ({ activeStep, children }) => {
           </li>
         ))}
       </ul>
+      {/* <Steps>
+        <Step status="finish" title="Login" icon={<Icon type="user" />} />
+        <Step status="finish" title="Verification" icon={<Icon type="solution" />} />
+        <Step status="process" title="Pay" icon={<Icon type="credit-card" />} />
+        <Step status="wait" title="Done" icon={<Icon type="smile-o" />} />
+      </Steps> */}
+
       <div>{children}</div>
+      
     </div>
   );
 };
 
-export default Steps;
+export default Stepper;

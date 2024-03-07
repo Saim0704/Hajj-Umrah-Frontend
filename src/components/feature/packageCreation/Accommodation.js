@@ -14,7 +14,8 @@ import Swal from "sweetalert2";
 const Accommodation = () => {
 
   const [masterData, setMasterData] = useState({})
-  const [uploadedImages, setUploadedImages] = useState({})
+  const [previewMakkahImages, setPreviewMakkahImages] = useState([])
+  const [previewMadinahImages, setPreviewMadinahImages] = useState([])
   const router = useRouter();
   const SaveId = useSelector(state => state?.user?.basic_Details?.basic_Detail?._id);
   const dispatch = useDispatch();
@@ -235,8 +236,6 @@ const Accommodation = () => {
   }, [])
 
   const handleMakkahCloudImages = (event, index, name = event.target.name) => {
-    console.log("MAKKAHHIT")
-    // formik.setFieldValue(name, Array.from(event.currentTarget.files));
     const formData = new FormData();
     Array.from(event.currentTarget.files).map((item) => {
       formData.append('files', item);
@@ -252,16 +251,13 @@ const Accommodation = () => {
       .then(response => {
         console.log("OKAY")
         formik.setFieldValue(`makkah[${index}].[${name}]`, [response.data.data])
-        // setUploadedImages({ ...uploadedImages, [name]: response.data.data });
       })
       .catch(error => {
-        console.error('Error:', error); // Handle errors
+        console.error('Error:', error);
       });
   }
 
   const handleMadeenaCloudImages = (event, index, name = event.target.name) => {
-    console.log("HITHIT")
-    // formik.setFieldValue(name, Array.from(event.currentTarget.files));
     const formData = new FormData();
     Array.from(event.currentTarget.files).map((item) => {
       formData.append('files', item);
@@ -277,15 +273,14 @@ const Accommodation = () => {
       .then(response => {
         console.log("OKAY")
         formik.setFieldValue(`madeena[${index}].[${name}]`, [response.data.data])
-        // setUploadedImages({ ...uploadedImages, [name]: response.data.data });
       })
       .catch(error => {
-        console.error('Error:', error); // Handle errors
+        console.error('Error:', error);
       });
   }
 
-  console.log(formik.values,"VALUES")
-  console.log(formik.errors,"ERROR")
+  console.log(previewMakkahImages,"previewMakkahImages")
+  console.log(previewMadinahImages,"previewMadinahImages")
 
   return (
     <>
@@ -1125,7 +1120,7 @@ const Accommodation = () => {
                 <button
                   type="button"
                   class="btn-green"
-                  onClick={() => router.push("/admin/create-package/gallery")}
+                  onClick={() => router.push("/admin/create-package/local-transport")}
                 >
                   Next
                 </button>

@@ -1,12 +1,12 @@
 import React from "react";
 import TourItinerary from "src/components/feature/packageCreation/TourItinerary";
-import Steps from "src/components/feature/packageCreation/steps";
+import Stepper from "src/components/feature/packageCreation/steps";
 
 const Index = () => {
   return (
-    <Steps activeStep="Tour Itinerary">
+    <Stepper activeStep="Tour Itinerary">
       <TourItinerary />
-    </Steps>
+    </Stepper>
   );
 };
 
