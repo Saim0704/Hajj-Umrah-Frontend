@@ -206,7 +206,7 @@ const LocalTransport = () => {
                 <button
                   type="button"
                   class="btn-green"
-                  onClick={() => router.push("/admin/create-package/gallery")}>
+                  onClick={() => router.push("/admin/create-package/tour-itinerary")}>
                   Next
                 </button>
               </div>

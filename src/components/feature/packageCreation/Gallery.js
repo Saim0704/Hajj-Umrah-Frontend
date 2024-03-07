@@ -123,17 +123,12 @@ export const Gallery = () => {
     console.log(formData.getAll("files"),"FORMDATA")
     axios.post(`${process.env.NEXT_PUBLIC_CLOUD_URL}/upload/multiple`, formData, config)
       .then(response => {
-        setUploadedImages({ ...uploadedImages, [name]: response.data.data }); // Handle response data
+        setUploadedImages({ ...uploadedImages, [name]: response.data.data });
       })
       .catch(error => {
-        console.error('Error:', error); // Handle errors
+        console.error('Error:', error);
       });
   }
-
-  console.log(formik.values,"VALUES")
-  console.log(formik.errors,"ERROR")
-  console.log(uploadedImages,"uploadedImages")
-
 
   return (
     <div>
@@ -175,9 +170,6 @@ export const Gallery = () => {
                     </div>
                     <input id="thumbImages" type="file" class="invisible" multiple
                       onChange={(event) => handleCloudImages(event)}
-                      // onChange={(event) => {
-                      //   formik.setFieldValue("thumbImages", Array.from(event.currentTarget.files));
-                      // }}
                       name="thumbImages"
                     />
                   </label>
@@ -234,9 +226,6 @@ export const Gallery = () => {
                       </span>}
                     </div>
                     <input id="headerImages" type="file" class="invisible" multiple
-                      // onChange={(event) => {
-                      //   formik.setFieldValue("headerImages", Array.from(event.currentTarget.files));
-                      // }}
                       onChange={(event) => handleCloudImages(event)}
                       name="headerImages"
                     />
@@ -272,7 +261,6 @@ export const Gallery = () => {
                     src={URL.createObjectURL(image)}
                     alt={`Image ${index}`}
                     className="w-32 h-32 "
-                  // style={{ width: '50px', height: 'auto', marginRight: '5px', flex: 'wrap', flexDirection: 'row' }}
                   />
                 ))}
                 <label
@@ -296,15 +284,10 @@ export const Gallery = () => {
                   )
                 }
                 <input id="galleryImages" type="file" class="invisible" multiple
-                  // onChange={(event) => {
-                  //   formik.setFieldValue("galleryImages", Array.from(event.currentTarget.files));
-                  // }}
                   onChange={(event) => handleCloudImages(event)}
                   name="galleryImages"
                 />
-
               </div>
-
             </div>
           </div>
           <div className="w-full flex pt-4">
@@ -323,7 +306,7 @@ export const Gallery = () => {
               <button
                 type="button"
                 class="btn-green"
-                onClick={() => router.push("/admin/create-package/gallery")}>
+                onClick={() => router.push("/admin/create-package/flight-details")}>
                 Next
               </button>
             </div>
