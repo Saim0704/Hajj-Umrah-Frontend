@@ -37,7 +37,7 @@ const Header = () => {
           <div className="flex lg:flex-1">
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">Company</span>
-              <img className="h-8 w-auto" src="icons/package/Adil Travels.png" alt="" />
+              <img className="h-8 w-auto" src="/icons/package/Adil Travels.png" alt="" />
             </a>
           </div>
           <div className="flex lg:hidden" onClick={()=>setMenuOpen(!isMenueOpen)}>
@@ -77,7 +77,7 @@ const Header = () => {
             <div className="flex items-center justify-between">
               <a href="#" className="-m-1.5 p-1.5">
                 <span className="sr-only">Your Company</span>
-                <img className="h-8 w-auto" src="icons/package/Adil Travels.png" alt="" />
+                <img className="h-8 w-auto" src="/icons/package/Adil Travels.png" alt="" />
               </a>
               <button type="button" className="-m-2.5 rounded-md p-2.5 text-gray-700" onClick={()=>setMenuOpen(!isMenueOpen)}>
                 <span className="sr-only">Close menu</span>
