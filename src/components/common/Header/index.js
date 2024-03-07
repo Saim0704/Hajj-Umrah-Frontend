@@ -1,121 +1,126 @@
 import React, { useState } from "react";
+import cookie from "js-cookie";
+import { useRouter } from "next/router";
 
 const Header = () => {
-  const [isMenueOpen,setMenuOpen] = useState(false)
+  const [isMenueOpen, setMenuOpen] = useState(false)
+  const authToken = localStorage.getItem("accessToken")
+  const router = useRouter();
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    cookie.remove("accessToken");
+    localStorage.clear();
+    router.push(`/login`, undefined, {
+      shallow: true,
+    })
+  }
+
+
   return (
-  //  <header>
-  //   <div className="grid gap-4 md:grid-cols-4 sm:grid-cols-1 py-5 bg-white">
-  //     <div className="main-logo pt-2 grid justify-items-center" style={{textalign: '-webkit-center'}}><img src="icons/package/Adil Travels.png" style={{width: '50%'}} className="cursor-pointer"/></div>
+    <header className="bg-white">
+      <nav className="mx-auto flex  items-center justify-between p-6" aria-label="Global">
+        <div className="flex lg:flex-1">
+          <a href="#" className="-m-1.5 p-1.5">
+            <span className="sr-only">Company</span>
+            <img className="h-8 w-auto" src="/icons/package/Adil Travels.png" alt="" />
+          </a>
+        </div>
+        <div className="flex lg:hidden" onClick={() => setMenuOpen(!isMenueOpen)}>
+          <button type="button" className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+            <span className="sr-only">Open main menu</span>
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          </button>
+        </div>
+        <div className="hidden lg:flex lg:gap-x-12">
 
-  //     <div className="main-nav col-span-2 grid items-center	">
-  //       <nav>
-  //         <ul className="flex justify-around items-center">
-  //           <li className="cursor-pointer	text-lg">Home</li>
-  //           <li className="cursor-pointer	text-lg">Umrah & Ziyarah </li>
-  //           <li className="cursor-pointer	text-lg">Makkah</li>
-  //           <li className="cursor-pointer	text-lg">Madinah</li>
-  //           <li className="cursor-pointer	text-lg">Hotels</li>
-  //           <li className="cursor-pointer	text-lg">Blog</li>
-  //         </ul>
-  //       </nav>
-  //     </div>
-
-  //     <div className="main-login flex justify-center">
-  //       <button className="text-lg font-bold px-5 py-3 rounded-xl	text-[#00A852]" style={{ border: '1px solid #00a852'}}>Plan Your Custom Trip</button>
-  //       <select id="" name="" class="border-0" style={{width:'25%'}}>
-  //                 <option value="">Eng</option>
-  //                 <option value="">Premium Economy </option>
-  //                 <option value="">Business </option>
-  //                 <option value=""> First Class </option>
-  //               </select>
-  //     </div>
-  //   </div>
-  //  </header>
-
-<header className="bg-white">
-        <nav className="mx-auto flex  items-center justify-between p-6" aria-label="Global">
-          <div className="flex lg:flex-1">
+          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Home</a>
+          <a href="#" className="text-sm font-semibold leading-6 text-gray-900"> Umrah & Ziyarah </a>
+          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Makkah</a>
+          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Madinah</a>
+          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Hotels</a>
+          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Blog</a>
+        </div>
+        <div className="hidden lg:flex lg:flex-1 lg:justify-around">
+        {authToken ? 
+          <>
+            <button 
+            onClick={(e) => {handleLogout(e)}}
+            class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+            <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+            <a href="/login" className="text-sm font-semibold leading-6 text-gray-900">Logout</a>
+            </span>
+          </button>
+          </>
+          :
+          <>
+          <button class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+            <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+            <a href="/login" className="text-sm font-semibold leading-6 text-gray-900">Login/SignUp</a>
+            </span>
+          </button>
+          </>
+          }
+          {/* <div className="main-login flex justify-end">
+            <button className="text-lg font-bold px-5 py-3 rounded-xl	text-[#00A852]" style={{ border: '1px solid #00a852' }}>Plan Your Custom Trip</button>
+            <select id="" name="" class="border-0" style={{ width: '25%' }}>
+              <option value="">Eng</option>
+              <option value="">Premium Economy </option>
+              <option value="">Business </option>
+              <option value=""> First Class </option>
+            </select>
+          </div> */}
+        </div>
+      </nav>
+      {/* Mobile menu, show/hide based on menu open state. */}
+      <div className={`lg:hidden ${!isMenueOpen ? 'hidden' : ''}`} role="dialog" aria-modal="true">
+        {/* Background backdrop, show/hide based on slide-over state. */}
+        <div className="fixed inset-0 z-10" />
+        <div className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+          <div className="flex items-center justify-between">
             <a href="#" className="-m-1.5 p-1.5">
-              <span className="sr-only">Company</span>
+              <span className="sr-only">Your Company</span>
               <img className="h-8 w-auto" src="/icons/package/Adil Travels.png" alt="" />
             </a>
-          </div>
-          <div className="flex lg:hidden" onClick={()=>setMenuOpen(!isMenueOpen)}>
-            <button type="button" className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
-              <span className="sr-only">Open main menu</span>
+            <button type="button" className="-m-2.5 rounded-md p-2.5 text-gray-700" onClick={() => setMenuOpen(!isMenueOpen)}>
+              <span className="sr-only">Close menu</span>
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
-          <div className="hidden lg:flex lg:gap-x-12">
-            
-            <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Home</a>
-            <a href="#" className="text-sm font-semibold leading-6 text-gray-900"> Umrah & Ziyarah </a>
-            <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Makkah</a>
-            <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Madinah</a>
-            <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Hotels</a>
-            <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Blog</a>
-          </div>
-          <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <div className="main-login flex justify-end">
-         <button className="text-lg font-bold px-5 py-3 rounded-xl	text-[#00A852]" style={{ border: '1px solid #00a852'}}>Plan Your Custom Trip</button>
-         <select id="" name="" class="border-0" style={{width:'25%'}}>
-                   <option value="">Eng</option>
-                   <option value="">Premium Economy </option>
-                   <option value="">Business </option>
-                   <option value=""> First Class </option>
-                 </select>
-       </div>
-          </div>
-        </nav>
-        {/* Mobile menu, show/hide based on menu open state. */}
-        <div className={`lg:hidden ${!isMenueOpen ? 'hidden' : ''}`} role="dialog" aria-modal="true">
-          {/* Background backdrop, show/hide based on slide-over state. */}
-          <div className="fixed inset-0 z-10" />
-          <div className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-            <div className="flex items-center justify-between">
-              <a href="#" className="-m-1.5 p-1.5">
-                <span className="sr-only">Your Company</span>
-                <img className="h-8 w-auto" src="/icons/package/Adil Travels.png" alt="" />
-              </a>
-              <button type="button" className="-m-2.5 rounded-md p-2.5 text-gray-700" onClick={()=>setMenuOpen(!isMenueOpen)}>
-                <span className="sr-only">Close menu</span>
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            <div className="mt-6 flow-root">
-              <div className="-my-6 divide-y divide-gray-500/10">
-                <div className="space-y-2 py-6">
-                  <div className="-mx-3">
-                    
-                    
-                  </div>
-                  <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Home</a>
-                  <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Umrah & Ziyarah</a>
-                  <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Makkah</a>
-                  <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Madinah</a>
-                  <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Hotels</a>
-                  <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Blog</a>
+          <div className="mt-6 flow-root">
+            <div className="-my-6 divide-y divide-gray-500/10">
+              <div className="space-y-2 py-6">
+                <div className="-mx-3">
+
+
                 </div>
-                <div className="py-6">
+                <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Home</a>
+                <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Umrah & Ziyarah</a>
+                <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Makkah</a>
+                <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Madinah</a>
+                <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Hotels</a>
+                <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Blog</a>
+              </div>
+              <div className="py-6">
                 <div className="main-login flex justify-start">
-         <button className="text-lg font-bold px-5 py-3 rounded-xl	text-[#00A852]" style={{ border: '1px solid #00a852'}}>Plan Your Custom Trip</button>
-         <select id="" name="" class="border-0" style={{width:'25%'}}>
-                   <option value="">Eng</option>
-                   <option value="">Premium Economy </option>
-                   <option value="">Business </option>
-                   <option value=""> First Class </option>
-                 </select>
-       </div>
+                  <button className="text-lg font-bold px-5 py-3 rounded-xl	text-[#00A852]" style={{ border: '1px solid #00a852' }}>Plan Your Custom Trip</button>
+                  <select id="" name="" class="border-0" style={{ width: '25%' }}>
+                    <option value="">Eng</option>
+                    <option value="">Premium Economy </option>
+                    <option value="">Business </option>
+                    <option value=""> First Class </option>
+                  </select>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </header>
+      </div>
+    </header>
   );
 };
 
