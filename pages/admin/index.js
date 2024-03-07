@@ -1,8 +1,11 @@
 import React from 'react'
+import Dashboard from './dashboard';
 
 const Package = () => {
   return (
-    <div>jjjß</div>
+    <div>
+      <Dashboard />
+    </div>
   )
 }
 

@@ -1,12 +1,12 @@
 import React from "react";
 import FlightDetails from "src/components/feature/packageCreation/FlightDetails";
-import Steps from "src/components/feature/packageCreation/steps";
+import Stepper from "src/components/feature/packageCreation/steps";
 
 const Index = () => {
   return (
-    <Steps activeStep="Flight Details">
+    <Stepper activeStep="Flight Details">
       <FlightDetails />
-    </Steps>
+    </Stepper>
   );
 };
 

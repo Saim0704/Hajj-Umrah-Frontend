@@ -336,12 +336,12 @@ const TourItinerary = () => {
                 <button type="submit" class="btn-light">
                   Save
                 </button>
-                <button
+                {/* <button
                   type="button"
                   class="btn-green"
                   onClick={() => router.push("/admin/create-package/gallery")}>
                   Next
-                </button>
+                </button> */}
               </div>
             </div>
           </form>

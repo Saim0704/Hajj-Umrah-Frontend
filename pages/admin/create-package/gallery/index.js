@@ -1,12 +1,12 @@
 import React from "react";
 import { Gallery } from "src/components/feature/packageCreation/Gallery";
-import Steps from "src/components/feature/packageCreation/steps";
+import Stepper from "src/components/feature/packageCreation/steps";
 
 const Index = () => {
   return (
-    <Steps activeStep="Gallery">
+    <Stepper activeStep="Gallery">
       <Gallery />
-    </Steps>
+    </Stepper>
   );
 };
 
