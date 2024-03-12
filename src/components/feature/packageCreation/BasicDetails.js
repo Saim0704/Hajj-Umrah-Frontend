@@ -9,6 +9,8 @@ import { Router, useRouter } from "next/router";
 import { Select } from 'antd';
 import moment from "moment";
 import Swal from "sweetalert2";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const BasicDetails = () => {
   const dispatch = useDispatch();
@@ -19,61 +21,18 @@ const BasicDetails = () => {
     dispatch(setUserData(data));
   }, []);
 
-  const [basicDetails, setBasicDetails] = useState({
-    name: "",
-    description: "",
-    cost: null,
-    visaCost: null,
-    flightCost: null,
-    accomodationCost: null,
-    transportCost: null,
-    bookingCost: null,
-    bookingCostType: "",
-    miscellanousCost: null,
-    currency: "",
-    durationDays: "",
-    durationNights: "",
-    fromDate: "",
-    toDate: "",
-    fromCity: "",
-    toCity: "",
-    arrivalCity: "",
-    returnCity: ""
-  });
-
-  const [validationErrors, setValidationErrors] = useState({
-    name: "",
-    cost: "",
-    visaCost: "",
-    flightCost: "",
-    accomodationCost: "",
-    transportCost: "",
-    bookingCost: "",
-    bookingCostType: "",
-    miscellanousCost: "",
-    currency: "",
-    durationDays: "",
-    durationNights: "",
-    fromDate: "",
-    toDate: "",
-    fromCity: "",
-    toCity: "",
-    arrivalCity: "",
-    returnCity: ""
-  });
-
-  const isFormValid = () => {
-    // Reset validation errors
-    setValidationErrors({
+  const formik = useFormik({
+    initialValues: {
       name: "",
-      cost: "",
-      visaCost: "",
-      flightCost: "",
-      accomodationCost: "",
-      transportCost: "",
-      bookingCost: "",
+      description: "",
+      cost: null,
+      visaCost: null,
+      flightCost: null,
+      accomodationCost: null,
+      transportCost: null,
+      bookingCost: null,
       bookingCostType: "",
-      miscellanousCost: "",
+      miscellanousCost: null,
       currency: "",
       durationDays: "",
       durationNights: "",
@@ -83,190 +42,34 @@ const BasicDetails = () => {
       toCity: "",
       arrivalCity: "",
       returnCity: ""
-    });
+    },
+    validationSchema: Yup.object().shape({
+      name: Yup.string().required("Name is required"),
+      description: Yup.string(),
+      cost: Yup.number().required("Cost is required").positive("Cost must be a positive number"),
+      visaCost: Yup.number().required("Visa cost is required").positive("Visa cost must be a positive number"),
+      flightCost: Yup.number().required("Flight cost is required").positive("Flight cost must be a positive number"),
+      accomodationCost: Yup.number().required("Accommodation cost is required").positive("Accommodation cost must be a positive number"),
+      transportCost: Yup.number().required("Transport cost is required").positive("Transport cost must be a positive number"),
+      bookingCost: Yup.number().required("Booking cost is required").positive("Booking cost must be a positive number"),
+      bookingCostType: Yup.string().required("Booking cost type is required"),
+      miscellanousCost: Yup.number().required("Miscellaneous cost is required").positive("Miscellaneous cost must be a positive number"),
+      currency: Yup.string().required("Currency is required"),
+      durationDays: Yup.number().required("Duration days are required").positive("Duration days must be a positive number"),
+      durationNights: Yup.number().required("Duration nights are required").positive("Duration nights must be a positive number"),
+      fromDate: Yup.date().required("From date is required"),
+      toDate: Yup.date().required("To date is required"),
+      fromCity: Yup.string().required("From city is required"),
+      toCity: Yup.string().required("To city is required"),
+      arrivalCity: Yup.string().required("Arrival city is required"),
+      returnCity: Yup.string().required("Return city is required"),
+    }),
 
-    let isValid = true;
-
-    // Validate each field individually and update the error messages
-    if (basicDetails.name.trim() === "") {
-      setValidationErrors((prevState) => ({
-        ...prevState,
-        name: "Please enter a package name.",
-      }));
-      isValid = false;
+    onSubmit: (values, { setSubmitting }) => {
+      createPackage(values);
+      setSubmitting(false);
     }
-
-    if (isNaN(basicDetails.cost) || basicDetails.cost <= 0) {
-      setValidationErrors((prevState) => ({
-        ...prevState,
-        cost: "Please enter a valid positive cost value.",
-      }));
-      isValid = false;
-    }
-    if (isNaN(basicDetails.visaCost) || basicDetails.visaCost <= 0) {
-      setValidationErrors((prevState) => ({
-        ...prevState,
-        visaCost: "Please enter visaCost value.",
-      }));
-      isValid = false;
-    }
-    if (isNaN(basicDetails.flightCost) || basicDetails.flightCost <= 0) {
-      setValidationErrors((prevState) => ({
-        ...prevState,
-        flightCost: "Please enter flightCost value.",
-      }));
-      isValid = false;
-    }
-    if (isNaN(basicDetails.accomodationCost) || basicDetails.accomodationCost <= 0) {
-      setValidationErrors((prevState) => ({
-        ...prevState,
-        accomodationCost: "Please enter accomodationCost value.",
-      }));
-      isValid = false;
-    }
-    if (isNaN(basicDetails.transportCost) || basicDetails.transportCost <= 0) {
-      setValidationErrors((prevState) => ({
-        ...prevState,
-        transportCost: "Please enter transportCost value.",
-      }));
-      isValid = false;
-    }
-    if (isNaN(basicDetails.bookingCost) || basicDetails.bookingCost <= 0) {
-      setValidationErrors((prevState) => ({
-        ...prevState,
-        bookingCost: "Please enter bookingCost value.",
-      }));
-      isValid = false;
-    }
-    if (basicDetails.bookingCostType.trim() === "") {
-      setValidationErrors((prevState) => ({
-        ...prevState,
-        bookingCostType: "Please enter booking cost type",
-      }));
-      isValid = false;
-    }
-    if (isNaN(basicDetails.miscellanousCost) || basicDetails.miscellanousCost <= 0) {
-      setValidationErrors((prevState) => ({
-        ...prevState,
-        miscellanousCost: "Please enter miscellanousCost value.",
-      }));
-      isValid = false;
-    }
-    if (basicDetails.currency.trim() === "") {
-      setValidationErrors((prevState) => ({
-        ...prevState,
-        currency: "Please enter currency type",
-      }));
-      isValid = false;
-    }
-    if (basicDetails.durationDays === "") {
-      setValidationErrors((prevState) => ({
-        ...prevState,
-        durationDays: "Please select number of days.",
-      }));
-      isValid = false;
-    }
-    if (basicDetails.durationNights === "") {
-      setValidationErrors((prevState) => ({
-        ...prevState,
-        durationNights: "Please select number of nights.",
-      }));
-      isValid = false;
-    }
-    if (basicDetails.fromCity === "") {
-      setValidationErrors((prevState) => ({
-        ...prevState,
-        fromCity: "Please select from city.",
-      }));
-      isValid = false;
-    }
-    if (basicDetails.toCity === "") {
-      setValidationErrors((prevState) => ({
-        ...prevState,
-        toCity: "Please select to city.",
-      }));
-      isValid = false;
-    }
-    if (basicDetails.arrivalCity === "") {
-      setValidationErrors((prevState) => ({
-        ...prevState,
-        arrivalCity: "Please select arrival city.",
-      }));
-      isValid = false;
-    }
-    if (basicDetails.returnCity === "") {
-      setValidationErrors((prevState) => ({
-        ...prevState,
-        returnCity: "Please select return city.",
-      }));
-      isValid = false;
-    }
-    if (basicDetails.fromDate === "") {
-      setValidationErrors((prevState) => ({
-        ...prevState,
-        fromDate: "Please enter departure date.",
-      }));
-      isValid = false;
-    }
-    if (basicDetails.toDate === "") {
-      setValidationErrors((prevState) => ({
-        ...prevState,
-        toDate: "Please enter return date.",
-      }));
-      isValid = false;
-    }
-
-
-    // Similar checks for other fields
-    // ...
-
-    return isValid;
-  };
-
-  const handleChange = (e) => {
-    const nextFormState = {
-      ...basicDetails,
-      [e.target.name]:
-        e.target.type === "number" ||
-          e.target.name == "durationDays" ||
-          e.target.name == "durationNights"
-          ? parseInt(e.target.value)
-          : e.target.value,
-    };
-    setBasicDetails(nextFormState);
-  };
-
-  const handleAdditionalDestinationChange = (e) => {
-    setBasicDetails({ ...basicDetails });
-    const temp = e.target.value;
-    let additionalArr = [];
-    temp.split(",").map((item) => {
-      let obj = { name: item.trim() };
-      additionalArr.push(obj);
-    });
-    setBasicDetails({ ...basicDetails });
-  };
-
-  const handleFieldFocus = (fieldName) => {
-    // Clear the validation error for the specified field
-    setValidationErrors((prevState) => ({
-      ...prevState,
-      [fieldName]: "",
-    }));
-  };
-
-  // useQuery(
-  //   `/v1/user/64aeffd503ff08dc23a83ca1`,
-  //   () => fetcher.get(`/v1/user/64aeffd503ff08dc23a83ca1`, "raw"),
-  //   {
-  //     onSuccess: ({ data }) => {
-  //       console.log(
-  //         "🚀 ~ file: BasicDetails.js:23 ~ BasicDetails ~ data:",
-  //         data
-  //       );
-  //     },
-  //   }
-  // );
+  })
 
   const { mutate: createPackage } = useMutation(
     (data) => fetcher.post(`/v1/package/basic-details`, data, "raw"),
@@ -278,7 +81,6 @@ const BasicDetails = () => {
           showConfirmButton: false,
           timer: 1500
         });
-        console.log(res.data, "res.data")
         dispatch(setBasic_Details({ basic_Detail: res.data }));
         router.push(`/admin/create-package/gallery`, undefined, {
           shallow: true,
@@ -291,41 +93,38 @@ const BasicDetails = () => {
     }
   );
 
-  const { userData } = useSelector((state) => state.user);
+  const handleChange = (e) => {
+    const value = e.target.type === "number" ||
+      e.target.name === "durationDays" ||
+      e.target.name === "durationNights"
+      ? parseInt(e.target.value)
+      : e.target.value;
 
-  const handleSubmit = () => {
-    
-    // Validate the form before submitting
-    if (!isFormValid()) {
-      return;
-    }
-    createPackage(basicDetails);
+    formik.setFieldValue(e.target.name, value);
   };
 
-  console.log(basicDetails, "BASIC")
+  const { userData } = useSelector((state) => state.user);
 
   return (
     <div className="p-5">
       <div className="bg-white p-8 rounded-xl shadow-md">
-        <form className="form-ui">
+        <form className="form-ui" onSubmit={formik.handleSubmit}>
           <div class="grid gap-6 mb-6 grid-cols-1">
             <div>
               <label for="first_name">Package Name</label>
               <input
                 type="text"
                 id="first_name"
-                value={basicDetails.name}
+                value={formik.values.name}
                 name="name"
                 placeholder="Name your package"
-                required
-                onChange={handleChange}
-                onFocus={() => handleFieldFocus("name")}
-                className={`border ${validationErrors.name ? "border-red-500" : "border-gray-300"
+                onChange={(e) => handleChange(e)}
+                className={`border ${formik.errors.name ? "border-red-500" : "border-gray-300"
                   } bg-neutral-200`}
               />
-              {validationErrors.name && (
+              {formik.errors.name && (
                 <span className="text-red-500 mt-2">
-                  {validationErrors.name}
+                  {formik.errors.name}
                 </span>
               )}
             </div>
@@ -337,17 +136,15 @@ const BasicDetails = () => {
                 type="number"
                 id="cost"
                 name="cost"
-                value={basicDetails.cost}
+                value={formik.values.cost}
                 placeholder="In INR"
-                required
                 onChange={handleChange}
-                onFocus={() => handleFieldFocus("cost")}
-                className={`border ${validationErrors.cost ? "border-red-500" : "border-gray-300"
+                className={`border ${formik.errors.cost ? "border-red-500" : "border-gray-300"
                   } bg-neutral-200`}
               />
-              {validationErrors.cost && (
+              {formik.errors.cost && (
                 <span className="text-red-500 mt-2">
-                  {validationErrors.cost}
+                  {formik.errors.cost}
                 </span>
               )}
             </div>
@@ -358,12 +155,11 @@ const BasicDetails = () => {
                   <select
                     id=""
                     name="durationDays"
-                    value={basicDetails.durationDays}
-                    className={`border ${validationErrors.durationDays
+                    value={formik.values.durationDays}
+                    className={`border ${formik.errors.durationDays
                       ? "border-red-500"
                       : "border-gray-300"
                       } bg-neutral-200`}
-                    onFocus={() => handleFieldFocus("durationDays")}
                     onChange={handleChange}
                   >
                     <option value="">No. of Days </option>
@@ -375,9 +171,9 @@ const BasicDetails = () => {
                       );
                     })}
                   </select>
-                  {validationErrors.durationDays && (
+                  {formik.errors.durationDays && (
                     <span className="text-red-500 mt-2">
-                      {validationErrors.durationDays}
+                      {formik.errors.durationDays}
                     </span>
                   )}
                 </div>
@@ -385,12 +181,11 @@ const BasicDetails = () => {
                   <select
                     id=""
                     name="durationNights"
-                    value={basicDetails.durationNights}
-                    className={`border ${validationErrors.durationNights
+                    value={formik.values.durationNights}
+                    className={`border ${formik.errors.durationNights
                       ? "border-red-500"
                       : "border-gray-300"
                       } bg-neutral-200`}
-                    onFocus={() => handleFieldFocus("durationNights")}
                     onChange={handleChange}
                   >
                     <option value="">No. of Nights </option>
@@ -402,9 +197,9 @@ const BasicDetails = () => {
                       );
                     })}
                   </select>
-                  {validationErrors.durationNights && (
+                  {formik.errors.durationNights && (
                     <span className="text-red-500 mt-2">
-                      {validationErrors.durationNights}
+                      {formik.errors.durationNights}
                     </span>
                   )}
                 </div>
@@ -418,17 +213,15 @@ const BasicDetails = () => {
                 type="number"
                 id="visaCost"
                 name="visaCost"
-                value={basicDetails.visaCost}
+                value={formik.values.visaCost}
                 placeholder="Visa Cost"
-                required
                 onChange={handleChange}
-                onFocus={() => handleFieldFocus("visaCost")}
-                className={`border ${validationErrors.visaCost ? "border-red-500" : "border-gray-300"
+                className={`border ${formik.errors.visaCost ? "border-red-500" : "border-gray-300"
                   } bg-neutral-200`}
               />
-              {validationErrors.visaCost && (
+              {formik.errors.visaCost && (
                 <span className="text-red-500 mt-2">
-                  {validationErrors.visaCost}
+                  {formik.errors.visaCost}
                 </span>
               )}
             </div>
@@ -438,17 +231,15 @@ const BasicDetails = () => {
                 type="number"
                 id="flightCost"
                 name="flightCost"
-                value={basicDetails.flightCost}
+                value={formik.values.flightCost}
                 placeholder="Flight Cost"
-                required
                 onChange={handleChange}
-                onFocus={() => handleFieldFocus("flightCost")}
-                className={`border ${validationErrors.flightCost ? "border-red-500" : "border-gray-300"
+                className={`border ${formik.errors.flightCost ? "border-red-500" : "border-gray-300"
                   } bg-neutral-200`}
               />
-              {validationErrors.flightCost && (
+              {formik.errors.flightCost && (
                 <span className="text-red-500 mt-2">
-                  {validationErrors.flightCost}
+                  {formik.errors.flightCost}
                 </span>
               )}
             </div>
@@ -458,17 +249,15 @@ const BasicDetails = () => {
                 type="number"
                 id="accomodationCost"
                 name="accomodationCost"
-                value={basicDetails.accomodationCost}
+                value={formik.values.accomodationCost}
                 placeholder="Accommodation Cost"
-                required
                 onChange={handleChange}
-                onFocus={() => handleFieldFocus("accomodationCost")}
-                className={`border ${validationErrors.accomodationCost ? "border-red-500" : "border-gray-300"
+                className={`border ${formik.errors.accomodationCost ? "border-red-500" : "border-gray-300"
                   } bg-neutral-200`}
               />
-              {validationErrors.accomodationCost && (
+              {formik.errors.accomodationCost && (
                 <span className="text-red-500 mt-2">
-                  {validationErrors.accomodationCost}
+                  {formik.errors.accomodationCost}
                 </span>
               )}
             </div>
@@ -478,17 +267,15 @@ const BasicDetails = () => {
                 type="number"
                 id="transportCost"
                 name="transportCost"
-                value={basicDetails.transportCost}
+                value={formik.values.transportCost}
                 placeholder="Transport Cost"
-                required
                 onChange={handleChange}
-                onFocus={() => handleFieldFocus("transportCost")}
-                className={`border ${validationErrors.transportCost ? "border-red-500" : "border-gray-300"
+                className={`border ${formik.errors.transportCost ? "border-red-500" : "border-gray-300"
                   } bg-neutral-200`}
               />
-              {validationErrors.transportCost && (
+              {formik.errors.transportCost && (
                 <span className="text-red-500 mt-2">
-                  {validationErrors.transportCost}
+                  {formik.errors.transportCost}
                 </span>
               )}
             </div>
@@ -500,39 +287,41 @@ const BasicDetails = () => {
                 type="number"
                 id="bookingCost"
                 name="bookingCost"
-                value={basicDetails.bookingCost}
+                value={formik.values.bookingCost}
                 placeholder="Booking Cost"
-                required
                 onChange={handleChange}
-                onFocus={() => handleFieldFocus("bookingCost")}
-                className={`border ${validationErrors.bookingCost ? "border-red-500" : "border-gray-300"
+                className={`border ${formik.errors.bookingCost ? "border-red-500" : "border-gray-300"
                   } bg-neutral-200`}
               />
-              {validationErrors.bookingCost && (
+              {formik.errors.bookingCost && (
                 <span className="text-red-500 mt-2">
-                  {validationErrors.bookingCost}
+                  {formik.errors.bookingCost}
                 </span>
               )}
             </div>
             <div>
               <label for="last_name">Booking Cost Type</label>
-              <input
-                type="text"
-                id="bookingCostType"
-                name="bookingCostType"
-                value={basicDetails.bookingCostType}
-                placeholder="Booking Cost Type"
-                required
-                onChange={handleChange}
-                onFocus={() => handleFieldFocus("bookingCostType")}
-                className={`border ${validationErrors.bookingCostType ? "border-red-500" : "border-gray-300"
-                  } bg-neutral-200`}
-              />
-              {validationErrors.bookingCostType && (
-                <span className="text-red-500 mt-2">
-                  {validationErrors.bookingCostType}
-                </span>
-              )}
+              <div>
+                <select
+                  id="bookingCostType"
+                  name="bookingCostType"
+                  value={formik.values.bookingCostType}
+                  className={`border ${formik.errors.durationDays
+                    ? "border-red-500"
+                    : "border-gray-300"
+                    } bg-neutral-200`}
+                  onChange={handleChange}
+                >
+                  <option value="">Booking Cost Type</option>
+                  <option value="Percent">Percent</option>
+                  <option value="Absolute">Absolute</option>
+                </select>
+                {formik.errors.bookingCostType && (
+                  <span className="text-red-500 mt-2">
+                    {formik.errors.bookingCostType}
+                  </span>
+                )}
+              </div>
             </div>
             <div>
               <label for="last_name">Miscellaneous Cost</label>
@@ -540,39 +329,41 @@ const BasicDetails = () => {
                 type="number"
                 id="miscellanousCost"
                 name="miscellanousCost"
-                value={basicDetails.miscellanousCost}
+                value={formik.values.miscellanousCost}
                 placeholder="Miscellaneous Cost"
-                required
                 onChange={handleChange}
-                onFocus={() => handleFieldFocus("miscellanousCost")}
-                className={`border ${validationErrors.miscellanousCost ? "border-red-500" : "border-gray-300"
+                className={`border ${formik.errors.miscellanousCost ? "border-red-500" : "border-gray-300"
                   } bg-neutral-200`}
               />
-              {validationErrors.miscellanousCost && (
+              {formik.errors.miscellanousCost && (
                 <span className="text-red-500 mt-2">
-                  {validationErrors.miscellanousCost}
+                  {formik.errors.miscellanousCost}
                 </span>
               )}
             </div>
             <div>
               <label for="last_name">Currency</label>
-              <input
-                type="text"
-                id="currency"
-                name="currency"
-                value={basicDetails.currency}
-                placeholder="Currency"
-                required
-                onChange={handleChange}
-                onFocus={() => handleFieldFocus("currency")}
-                className={`border ${validationErrors.cost ? "border-red-500" : "border-gray-300"
-                  } bg-neutral-200`}
-              />
-              {validationErrors.currency && (
-                <span className="text-red-500 mt-2">
-                  {validationErrors.cost}
-                </span>
-              )}
+              <div>
+                <select
+                  id="currency"
+                  name="currency"
+                  value={formik.values.currency}
+                  className={`border ${formik.errors.durationDays
+                    ? "border-red-500"
+                    : "border-gray-300"
+                    } bg-neutral-200`}
+                  onChange={handleChange}
+                >
+                  <option value="">Currency</option>
+                  <option value="INR">INR</option>
+                  <option value="DOLLAR">DOLLAR</option>
+                </select>
+                {formik.errors.currency && (
+                  <span className="text-red-500 mt-2">
+                    {formik.errors.cost}
+                  </span>
+                )}
+              </div>
             </div>
           </div>
           <div class="grid gap-6 mb-6 grid-cols-2">
@@ -582,9 +373,8 @@ const BasicDetails = () => {
               <select
                 id=""
                 name="fromCity"
-                value={basicDetails.fromCity}
-                onFocus={() => handleFieldFocus("fromCity")}
-                className={`border ${validationErrors.fromCity
+                value={formik.values.fromCity}
+                className={`border ${formik.errors.fromCity
                   ? "border-red-500"
                   : "border-gray-300"
                   } bg-neutral-200`}
@@ -599,9 +389,9 @@ const BasicDetails = () => {
                   );
                 })}
               </select>
-              {validationErrors.fromCity && (
+              {formik.errors.fromCity && (
                 <span className="text-red-500 mt-2">
-                  {validationErrors.fromCity}
+                  {formik.errors.fromCity}
                 </span>
               )}
             </div>
@@ -609,10 +399,9 @@ const BasicDetails = () => {
               <label for="to">Trip To</label>
               <select
                 id=""
-                value={basicDetails.toCity}
+                value={formik.values.toCity}
                 name="toCity"
-                onFocus={() => handleFieldFocus("toCity")}
-                className={`border ${validationErrors.toCity ? "border-red-500" : "border-gray-300"
+                className={`border ${formik.errors.toCity ? "border-red-500" : "border-gray-300"
                   } bg-neutral-200`}
                 onChange={handleChange}
               >
@@ -625,9 +414,9 @@ const BasicDetails = () => {
                   );
                 })}
               </select>
-              {validationErrors.toCity && (
+              {formik.errors.toCity && (
                 <span className="text-red-500 mt-2">
-                  {validationErrors.toCity}
+                  {formik.errors.toCity}
                 </span>
               )}
             </div>
@@ -636,9 +425,8 @@ const BasicDetails = () => {
               <select
                 id=""
                 name="arrivalCity"
-                value={basicDetails.arrivalCity}
-                onFocus={() => handleFieldFocus("arrivalCity")}
-                className={`border ${validationErrors.arrivalCity
+                value={formik.values.arrivalCity}
+                className={`border ${formik.errors.arrivalCity
                   ? "border-red-500"
                   : "border-gray-300"
                   } bg-neutral-200`}
@@ -653,9 +441,9 @@ const BasicDetails = () => {
                   );
                 })}
               </select>
-              {validationErrors.arrivalCity && (
+              {formik.errors.arrivalCity && (
                 <span className="text-red-500 mt-2">
-                  {validationErrors.arrivalCity}
+                  {formik.errors.arrivalCity}
                 </span>
               )}
             </div>
@@ -663,10 +451,9 @@ const BasicDetails = () => {
               <label for="to">Return To</label>
               <select
                 id=""
-                value={basicDetails.returnCity}
+                value={formik.values.returnCity}
                 name="returnCity"
-                onFocus={() => handleFieldFocus("returnCity")}
-                className={`border ${validationErrors.returnCity ? "border-red-500" : "border-gray-300"
+                className={`border ${formik.errors.returnCity ? "border-red-500" : "border-gray-300"
                   } bg-neutral-200`}
                 onChange={handleChange}
               >
@@ -679,9 +466,9 @@ const BasicDetails = () => {
                   );
                 })}
               </select>
-              {validationErrors.returnCity && (
+              {formik.errors.returnCity && (
                 <span className="text-red-500 mt-2">
-                  {validationErrors.returnCity}
+                  {formik.errors.returnCity}
                 </span>
               )}
             </div>
@@ -693,20 +480,18 @@ const BasicDetails = () => {
               <label for="departure">From</label>
               <input
                 type="date"
-                required
                 name="fromDate"
                 min={moment(new Date()).format("YYYY-MM-DD")}
-                value={basicDetails.fromDate}
-                className={`border ${validationErrors.fromDate
+                value={formik.values.fromDate}
+                className={`border ${formik.errors.fromDate
                   ? "border-red-500"
                   : "border-gray-300"
                   } bg-neutral-200`}
-                onFocus={() => handleFieldFocus("fromDate")}
                 onChange={handleChange}
               />
-              {validationErrors.fromDate && (
+              {formik.errors.fromDate && (
                 <span className="text-red-500 mt-2">
-                  {validationErrors.fromDate}
+                  {formik.errors.fromDate}
                 </span>
               )}
             </div>
@@ -714,18 +499,16 @@ const BasicDetails = () => {
               <label for="return">To</label>
               <input
                 type="date"
-                required
-                min={basicDetails.fromDate}
-                value={basicDetails.toDate}
-                className={`border ${validationErrors.toDate ? "border-red-500" : "border-gray-300"
+                min={formik.values.fromDate}
+                value={formik.values.toDate}
+                className={`border ${formik.errors.toDate ? "border-red-500" : "border-gray-300"
                   } bg-neutral-200`}
                 name="toDate"
-                onFocus={() => handleFieldFocus("toDate")}
                 onChange={handleChange}
               />
-              {validationErrors.toDate && (
+              {formik.errors.toDate && (
                 <span className="text-red-500 mt-2">
-                  {validationErrors.toDate}
+                  {formik.errors.toDate}
                 </span>
               )}
             </div>
@@ -733,7 +516,7 @@ const BasicDetails = () => {
           <div className="w-full">
             <label for="last_name">Package Details</label>
             <textarea
-              value={basicDetails.description}
+              value={formik.values.description}
               id="message"
               rows="4"
               name="description"
@@ -745,7 +528,7 @@ const BasicDetails = () => {
 
           <div className="w-full flex pt-4">
             <div className="w-full text-right">
-              <button type="button" class="btn-light" onClick={handleSubmit}>
+              <button type="submit" class="btn-light">
                 Save
               </button>
               <button
