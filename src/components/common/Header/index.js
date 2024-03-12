@@ -37,9 +37,9 @@ const Header = () => {
         <div className="hidden lg:flex lg:gap-x-12">
 
           <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Home</a>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900"> Umrah & Ziyarah </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Makkah</a>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Madinah</a>
+          <a href="/header-pages/umrah&ziyarah" className="text-sm font-semibold leading-6 text-gray-900"> Umrah & Ziyarah </a>
+          <a href="/header-pages/makkah" className="text-sm font-semibold leading-6 text-gray-900">Makkah</a>
+          <a href="/header-pages/madinah" className="text-sm font-semibold leading-6 text-gray-900">Madinah</a>
           <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Hotels</a>
           <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Blog</a>
         </div>
