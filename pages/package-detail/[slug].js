@@ -14,7 +14,7 @@ import { useRouter } from 'next/router';
 import QRCode from 'qrcode.react';
 import { useMutation } from 'react-query';
 import fetcher from 'src/dataProvider';
-import { Alert, Spin } from 'antd';
+import { Alert, Rate, Spin } from 'antd';
 import axios from 'axios';
 
 const index = () => {
@@ -106,7 +106,7 @@ const index = () => {
           {
             packageDetails?.gallery?.headerImages
               ?
-              <img src={packageDetails?.gallery?.headerImages[0].secure_url} /> 
+              <img src={packageDetails?.gallery?.headerImages[0].secure_url} style={{ width: '100%', maxHeight: '630px' }} />
               :
               <img src='/detailpage.png' />
           }
@@ -164,8 +164,14 @@ const index = () => {
                   <div className='col-span-4 p-3' style={{ borderBottom: '1px solid #f2f2f2' }}>Yes</div>
                 </div>
                 <div className='grid lg:grid-cols-5 sm:grid-cols-1'>
-                  <div className='bg-[#F2F2F2] p-3' style={{ borderBottom: '1px solid #fff' }}><b>Air Ticket </b></div>
-                  <div className='col-span-4 p-3' style={{ borderBottom: '1px solid #f2f2f2' }}><b>AirIndia:</b>  (Direct) <b>Luggage:</b> (30KG)</div>
+                  <div className='bg-[#F2F2F2] p-3' style={{ borderBottom: '1px solid #fff' }}><b>Air Tickets</b></div>
+                  {
+                    packageDetails?.flight?.flightItinerary?.map((res, index) => {
+                      return (
+                        <div className='col-span-2 p-3' style={{ borderBottom: '1px solid #f2f2f2' }}><b>{res?.airlineCarrier?.name}:</b>  ({res.isDirect ? ' Direct ' : ' InDirect '}) <b>Luggage:</b> ({res?.luggageWeight}KG)</div>
+                      )
+                    })
+                  }
                 </div>
                 <div className='grid lg:grid-cols-5 sm:grid-cols-1'>
                   <div className='bg-[#F2F2F2] p-3' style={{ borderBottom: '1px solid #fff' }}><b className='text-xl'>Transport </b> <br /> <b>Jeddah to Makkah </b></div>
@@ -181,31 +187,35 @@ const index = () => {
                     <div className='grid lg:grid-cols-2 md:grid-cols-1 gap-5'>
                       <div>
                         <p className='text-xl'><b>Makkah</b></p>
-                        <div className='rounded border-2 border-gray-300	p-3'>
-                          <p><b>Fatah Hotel (3 Days)</b></p>
-                          <p className='flex'>
-                            <FaStar className='mx-1' />
-                            <FaStar className='mx-1' />
-                            <FaStar className='mx-1' />
-                          </p>
-                          <p className='text-sm py-2'>Distance from Center - 500 M</p>
-                          <p className='text-sm py-2'><b>No of Beds: 2</b></p>
-                          <p className='flex items-center	'><IoFastFood /><b>Food: 3 Time Buffet</b></p>
-                        </div>
+                        {
+                          packageDetails?.accomodation?.makkah.map((item, index) => {
+                            return (<div className='rounded border-2 border-gray-300	p-3'>
+                              <p><b>{item?.hotelName}</b></p>
+                              <p className='flex'>
+                                <Rate allowHalf count={item?.hotelStar} defaultValue={item?.hotelStar} />
+                              </p>
+                              <p className='text-sm py-2'>Distance from Center - {item?.distanceKaaba} KM</p>
+                              <p className='text-sm py-2'><b>No of Beds: {item?.bedCount}</b></p>
+                              <p className='flex items-center	'><IoFastFood /><b>Food: {(item.food.breakfast) ? 'BreakFast' : ''} {(item.food.lunch) ? 'Lunch' : ''} {(item.food.dinner) ? 'Dinner' : ''} {(item.food.buffet) ? 'Buffet' : ''} {(item.food.alaCarte) ? 'alaCarte' : ''}</b></p>
+                            </div>)
+                          })
+                        }
                       </div>
                       <div>
                         <p className='text-xl'><b>Madinah</b></p>
-                        <div className='rounded border-2 border-gray-300	p-3'>
-                          <p><b>Fatah Hotel (3 Days)</b></p>
-                          <p className='flex'>
-                            <FaStar className='mx-1' />
-                            <FaStar className='mx-1' />
-                            <FaStar className='mx-1' />
-                          </p>
-                          <p className='text-sm py-2'>Distance from Center - 500 M</p>
-                          <p className='text-sm py-2'><b>No of Beds: 2</b></p>
-                          <p className='flex items-center	'><IoFastFood /><b>Food: 3 Time Buffet</b></p>
-                        </div>
+                        {
+                          packageDetails?.accomodation?.madeena.map((item, index) => {
+                            return (<div className='rounded border-2 border-gray-300	p-3'>
+                              <p><b>{item?.hotelName}</b></p>
+                              <p className='flex'>
+                                <Rate allowHalf count={item?.hotelStar} defaultValue={item?.hotelStar} />
+                              </p>
+                              <p className='text-sm py-2'>Distance from Center - {item?.distanceProphetTomb} KM</p>
+                              <p className='text-sm py-2'><b>No of Beds: {item?.bedCount}</b></p>
+                              <p className='flex items-center	'><IoFastFood /><b>Food: {(item.food.breakfast) ? 'BreakFast' : ''} {(item.food.lunch) ? 'Lunch' : ''} {(item.food.dinner) ? 'Dinner' : ''} {(item.food.buffet) ? 'Buffet' : ''} {(item.food.alaCarte) ? 'alaCarte' : ''}</b></p>
+                            </div>)
+                          })
+                        }
                       </div>
                     </div>
                   </div>
@@ -214,7 +224,12 @@ const index = () => {
                   <div className='bg-[#F2F2F2] p-3' style={{ borderBottom: '1px solid #fff' }}><b className=''>Sightseeing </b></div>
                   <div className='col-span-4 p-3' style={{ borderBottom: '1px solid #f2f2f2' }}>
                     <div className='grid lg:grid-cols-2 md:grid-cols-1 gap-5'>
-                      <div>
+                      {
+                        packageDetails?.additionalItems?.nearbySightseeing.map((item, index) => {
+                          return (<p className='flex items-center' id={index}><IoIosArrowForward /><b>{item?.name}</b></p>)
+                        })
+                      }
+                      {/* <div>
                         <p className='text-xl'><b>Makkah</b></p>
                         <div className='rounded border-2 border-gray-300	p-3'>
                           <p className='flex items-center'><IoIosArrowForward /><b> Location 1</b></p>
@@ -234,54 +249,60 @@ const index = () => {
                           <p className='flex items-center'><IoIosArrowForward /><b> Location 1</b></p>
                           <p className='flex items-center'><IoIosArrowForward /><b> Location 1</b></p>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
               </div>
 
               <h1 className='text-2xl'><b>Itinerary</b></h1>
-              <div className='grid lg:grid-cols-2 md:grid-cols-1 gap-5 bg-[#efefef] p-4 my-3'>
+              {/* <div className='grid lg:grid-cols-2 md:grid-cols-1 gap-5 bg-[#efefef] p-4 my-3'>
                 <div>Day 1 - Arrival in Delhi</div>
                 <div>INCLUDED: 1 Flight &nbsp;  1 Hotel  &nbsp; 1 Transfer  &nbsp;  2 Activities</div>
               </div>
-              <p className='p-3'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+              <p className='p-3'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> */}
+              {
+                packageDetails?.flight?.flightItinerary?.map((res, index) => {
+                  return (
+                    <div id={index}>
+                      <div className='p-3'>
+                        <p className='flex items-center'><MdFlight className='mr-2' />Flight from {res?.fromCity} to {res?.toCity}</p>
+                        <div className='flex items-center p-2 mx-2' style={{ borderLeft: '1px solid black', borderStyle: 'dashed' }}>
+                          <div><img src={res?.airlineCarrier?.logo} style={{height: '75px', width:'75px'}}/><p className='text-center'>{res?.airlineCarrier?.code}</p></div>
+                          <div className='px-2'>
+                            <p><b>08:35</b></p>
+                            <p>Thu,25 Apr</p>
+                            <p>{res?.fromCity}</p>
+                          </div>
+                          <img src='/fly-travel.png' style={{ maxWidth: '150px' }} className='mx-2' />
+                          <div className='px-2 text-end'>
+                            <p><b>08:35</b></p>
+                            <p>Thu,25 Apr</p>
+                            <p>{res?.toCity}</p>
+                          </div>
+                          <div className='px-2  mx-3'>
+                            <p><b>Baggage</b></p>
+                            <p><b>Cabin:</b> 7 Kgs(1 piece only)</p>
+                            <p><b>Check-in:</b>{res?.luggageWeight} Kgs (1 piece only)</p>
+                          </div>
+                        </div>
+                        {/* <p className='flex items-center'><MdFlight className='mr-2' />Airport to hotel in Jeddah</p>
+                        <div className='flex items-center my-3'>
+                          <FaCar className='text-6xl mx-5' />
+                          <div className='px-2  mx-5'>
+                            <p><b>Private Transfer</b></p>
+                            <p>Swift, Etios or Similar</p>
+                            <p><b>Facilities:</b>3 seater | AC | 2 luggage bags| First Aid.</p>
+                          </div>
+                        </div> */}
+                      </div>
 
-              <div className='p-3'>
-                <p className='flex items-center'><MdFlight className='mr-2' />Flight from New Delhi to Jeddah 01h 30m</p>
-                <div className='flex items-center p-2 mx-2' style={{ borderLeft: '1px solid black', borderStyle: 'dashed' }}>
-                  <div><img src='/fly-img.png' /><p className='text-center'>6E-6554</p></div>
-                  <div className='px-2'>
-                    <p><b>08:35</b></p>
-                    <p>Thu,25 Apr</p>
-                    <p>New Delhi</p>
-                  </div>
-                  <img src='/fly-travel.png' style={{ maxWidth: '150px' }} className='mx-2' />
-                  <div className='px-2 text-end'>
-                    <p><b>08:35</b></p>
-                    <p>Thu,25 Apr</p>
-                    <p>New Delhi</p>
-                  </div>
-                  <div className='px-2  mx-3'>
-                    <p><b>Baggage</b></p>
-                    <p><b>Cabin:</b> 7 Kgs(1 piece only)</p>
-                    <p><b>Check-in:</b>15 Kgs (1 piece only)</p>
-                  </div>
-                </div>
-                <p className='flex items-center'><MdFlight className='mr-2' />Airport to hotel in Jeddah</p>
-                <div className='flex items-center my-3'>
-                  <FaCar className='text-6xl mx-5' />
-                  <div className='px-2  mx-5'>
-                    <p><b>Private Transfer</b></p>
-                    <p>Swift, Etios or Similar</p>
-                    <p><b>Facilities:</b>3 seater | AC | 2 luggage bags| First Aid.</p>
-                  </div>
-                </div>
-              </div>
-
-              <hr class="h-px bg-gray-200 border-0 w-full dark:bg-gray-700 mt-3" />
-
-              <div className='p-3'>
+                      <hr class="h-px bg-gray-200 border-0 w-full dark:bg-gray-700 mt-3" />
+                    </div>
+                  )
+                })
+              }
+              {/* <div className='p-3'>
                 <p><b>Check-in to Hotel in Jeddah @ 1 PM</b></p>
                 <div className='grid lg:grid-cols-2 md:grid-cols-1 gap-10 mt-3'>
                   <div>
@@ -297,7 +318,10 @@ const index = () => {
                 </div>
               </div>
 
-              <div className='grid lg:grid-cols-2 md:grid-cols-1 gap-5 bg-[#efefef] p-4 my-3'>
+              <hr class="h-px bg-gray-200 border-0 w-full dark:bg-gray-700 mt-6" /> */}
+
+
+              {/* <div className='grid lg:grid-cols-2 md:grid-cols-1 gap-5 bg-[#efefef] p-4 my-3'>
                 <div>Day 2 - Checkout from Hotel in Jeddah</div>
                 <div>INCLUDED: 1 Hotel &nbsp;  1 Transfer  &nbsp; 1 Transfer  &nbsp;  1 Activities</div>
               </div>
@@ -309,9 +333,9 @@ const index = () => {
                   <p>Swift, Etios or Similar</p>
                   <p><b>Facilities:</b>3 seater | AC | 2 luggage bags| First Aid.</p>
                 </div>
-              </div>
+              </div> */}
 
-              <hr class="h-px bg-gray-200 border-0 w-full dark:bg-gray-700 mt-6" />
+              {/* <hr class="h-px bg-gray-200 border-0 w-full dark:bg-gray-700 mt-6" />
 
               <div className='grid lg:grid-cols-2 md:grid-cols-1 gap-5 bg-[#efefef] p-4 my-3 mt-5'>
                 <div>Day 3 - Visit Jeddah</div>
@@ -327,8 +351,8 @@ const index = () => {
                 <div>Day 4 - Departure in Jeddah</div>
                 <div>INCLUDED: 1 Hotel &nbsp;  1 Transfer  &nbsp; 1 Transfer  &nbsp;  1 Activities</div>
               </div>
-              <p className='p-3'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-              <div className='p-3'>
+              <p className='p-3'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> */}
+              {/* <div className='p-3'>
                 <p className='flex items-center'><MdFlight className='mr-2' />Flight from New Delhi to Jeddah 01h 30m</p>
                 <div className='flex items-center p-2 mx-2' style={{ borderLeft: '1px solid black', borderStyle: 'dashed' }}>
                   <div><img src='/fly-img.png' /><p className='text-center'>6E-6554</p></div>
@@ -360,14 +384,14 @@ const index = () => {
                 </div>
               </div>
 
-              <hr class="h-px bg-gray-200 border-0 w-full dark:bg-gray-700 mt-6" />
+              <hr class="h-px bg-gray-200 border-0 w-full dark:bg-gray-700 mt-6" /> */}
 
               <div>
                 <h1 className='text-2xl'><b>Gallery</b></h1>
                 <div className='flex items-center mt-5'>
 
                   <p><IoIosArrowBack className='p-1 m-1 rounded-full bg-[#00A852] text-white text-2xl' /></p>
-                  <img src='/cta-bg.jpg' />
+                  <img src={packageDetails?.gallery?.galleryImages[0].secure_url} />
                   <p><IoIosArrowForward className='p-1 m-1 rounded-full bg-[#00A852] text-white text-2xl' /></p>
                 </div>
               </div>
