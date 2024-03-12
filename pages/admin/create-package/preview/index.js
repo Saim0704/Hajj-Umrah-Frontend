@@ -9,7 +9,7 @@ import { useMutation } from "react-query";
 import fetcher from "src/dataProvider";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import { Rate } from 'antd';
+import { Rate, Spin } from 'antd';
 import axios from "axios";
 import Swal from "sweetalert2";
 
@@ -17,10 +17,10 @@ import Swal from "sweetalert2";
 
 const Index = () => {
     const [previewData, setPreviewData] = useState({})
-
     const router = useRouter();
     const dispatch = useDispatch();
     const SaveId = useSelector(state => state?.user?.basic_Details?.basic_Detail?._id);
+    const [spinner, setSpinner] = useState(false)
 
 
     const getCloudImages = async (url) => {
@@ -75,6 +75,7 @@ const Index = () => {
                         }
                     }
                     setPreviewData(allFetchedData);
+                    setSpinner(false)
                 } catch (error) {
                     console.error('Error:', error);
                 }
@@ -124,13 +125,14 @@ const Index = () => {
     }
 
     useEffect(() => {
+        setSpinner(true)
         getDetailsToPreview();
     }, [])
     console.log("pv2--->", previewData)
 
     return (
         <div className="container bg-white w-full ">
-            {previewData ?
+            <Spin tip="Loading..." spinning={spinner}>
                 <div className="row">
                     <h1 style={{ background: '#06603C', color: 'white', padding: '15px', fontSize: '23px', fontWeight: '600', textAlign: 'center', borderTop: '1px solid white' }}>Preview of  Umrah Package</h1>
                     <div className="p-5">
@@ -539,7 +541,6 @@ const Index = () => {
                         <h2 className="text-xl "><b>Local Site Visits/Ziyarat</b></h2>
                         <div className="grid gap-4 md:grid-cols-3 sm:grid-cols-1 mt-5">
                             <div>
-
                                 <div>
                                     <div>
                                         <p>Sightseeing Place</p>
@@ -602,9 +603,6 @@ const Index = () => {
                         </div>
                     </div>
                 </div>
-                :
-                <h1>Loading...</h1>
-            }
             <div className="w-full flex pt-4 px-8 pb-4">
                 <div className="w-1/2">
                 </div>
@@ -617,6 +615,7 @@ const Index = () => {
                     </button>
                 </div>
             </div>
+            </Spin>
         </div>
     );
 };
