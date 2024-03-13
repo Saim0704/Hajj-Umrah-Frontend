@@ -11,15 +11,26 @@ import { useDispatch, useSelector } from "react-redux";
 import { Router, useRouter } from "next/router";
 import { setUserData, setBasic_Details, setFlight_Details  } from "src/redux/slices/user";
 import Swal from "sweetalert2";
-
+import {ErrorToast} from '../../common/Toater/index'
 const FlightDetails = () => {
 
   const [airportOptions, setAirportOptions] = useState([]);
   const [airlinesOptions, setAirlinesOptions] = useState([]);
   const SaveId = useSelector(state => state?.user?.basic_Details?.basic_Detail?._id);
+  const SaveGalleryId = useSelector(state => state?.user?.gallery?.gallery?._id);
+  const FlightId = useSelector(state => state?.user?.flight_Details?.flight_Details?._id);
   const router = useRouter();
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (!SaveGalleryId) {
+      Swal.fire({
+        title : "Please Fill Gallery Details!",
+        icon:"warning"
+      });
+      router.push('/admin/create-package/gallery');
+    }
+  }, [SaveId, router]);
   const formik = useFormik({
     initialValues: {
       flightItinerary: [
@@ -93,7 +104,7 @@ const FlightDetails = () => {
           showConfirmButton: false,
           timer: 1500
         });
-        dispatch(setFlight_Details({ flight_Detail: res.data }));
+        dispatch(setFlight_Details({ flight_Details: res.data }));
         router.push(`/admin/create-package/accommodation`, undefined, {
           shallow: true,
         });
@@ -518,8 +529,11 @@ const FlightDetails = () => {
                 </button>
                 <button
                   type="button"
-                  class="btn-green"
-                  onClick={() => router.push("/admin/create-package/accommodation")}
+                  className="btn-green"
+                  onClick={FlightId ? () => router.push("/admin/create-package/accommodation") : () => ErrorToast.fire({
+                    title: "Please Fill Flight Details Form then go to next page",
+                    icon:"warning"
+                  })}
                 >
                   Next
                 </button>

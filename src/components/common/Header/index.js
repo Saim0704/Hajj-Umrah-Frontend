@@ -40,8 +40,8 @@ const Header = () => {
           <a href="/header-pages/umrah&ziyarah" className="text-sm font-semibold leading-6 text-gray-900"> Umrah & Ziyarah </a>
           <a href="/header-pages/makkah" className="text-sm font-semibold leading-6 text-gray-900">Makkah</a>
           <a href="/header-pages/madinah" className="text-sm font-semibold leading-6 text-gray-900">Madinah</a>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Hotels</a>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Blog</a>
+          {/* <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Hotels</a> */}
+          <a href="/header-pages/blog" className="text-sm font-semibold leading-6 text-gray-900">Blog</a>
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-around">
         {authToken ? 
