@@ -477,6 +477,15 @@ const Accommodation = () => {
                             formik.setFieldValue(`makkah[${index}].toDate`, e.target.value);
                           }}
                         />
+                         {/* <input
+                          type="date"
+                          className="bg-[#EDEDED] h-12 rounded-lg border-hidden"
+                          min={formik.values.makkah[index].fromDate || new Date().toISOString().split('T')[0]}
+                          value={formik.values.makkah[index].toDate}
+                          onChange={(e) => {
+                            formik.setFieldValue(`makkah[${index}].toDate`, e.target.value);
+                          }}
+                        /> */}
                       </div>
                       {(formik?.errors?.makkah && formik?.errors?.makkah[index]) ? (
                         <p className="text-red-500">

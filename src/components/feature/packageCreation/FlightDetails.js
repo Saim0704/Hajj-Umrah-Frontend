@@ -9,9 +9,11 @@ import 'antd/dist/reset.css';
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { Router, useRouter } from "next/router";
-import { setUserData, setBasic_Details, setFlight_Details  } from "src/redux/slices/user";
+import { setUserData, setBasic_Details, setFlight_Details } from "src/redux/slices/user";
 import Swal from "sweetalert2";
-import {ErrorToast} from '../../common/Toater/index'
+import moment from "moment";
+
+import { ErrorToast } from '../../common/Toater/index'
 const FlightDetails = () => {
 
   const [airportOptions, setAirportOptions] = useState([]);
@@ -25,8 +27,8 @@ const FlightDetails = () => {
   useEffect(() => {
     if (!SaveGalleryId) {
       Swal.fire({
-        title : "Please Fill Gallery Details!",
-        icon:"warning"
+        title: "Please Fill Gallery Details!",
+        icon: "warning"
       });
       router.push('/admin/create-package/gallery');
     }
@@ -157,8 +159,8 @@ const FlightDetails = () => {
     formik.setFieldValue(`flightItinerary[1].airlineCarrier`, selectedOption);
   };
 
-  console.log(formik.values,"VALUES")
-  console.log(formik.errors,"ERROR")
+  console.log(formik.values, "VALUES")
+  console.log(formik.errors, "ERROR")
 
   return (
     <>
@@ -250,11 +252,30 @@ const FlightDetails = () => {
               <div>
                 <label htmlFor="last_name">Date of Flight</label>
                 <div class="relative max-w-sm">
-                  <DatePicker
+                  {/* <DatePicker
                     style={{ width: '100%', height: '42px' }}
                     onChange={(date, dateString) => { formik.setFieldValue(`flightItinerary[0].date`, dateString) }}
+                    format="YYYY-MM-DD" min={moment(new Date()).format("YYYY-MM-DD")}
+                  /> */}
+
+                  {/* <DatePicker
+                    style={{ width: '100%', height: '42px' }}
+                    onChange={(date, dateString) => {
+                      formik.setFieldValue(`flightItinerary[0].date`, dateString)
+                    }}
                     format="YYYY-MM-DD"
+                    disabledDate={(current) => current && current < moment().startOf('day')}
+                  /> */}
+                  <input
+                   className="bg-[#EDEDED] h-12 rounded-lg border-hidden"
+                    type="date"
+                    style={{ width: '100%', height: '42px' }}
+                    onChange={(e) => {
+                      formik.setFieldValue(`flightItinerary[0].date`, e.target.value);
+                    }}
+                    min={moment().startOf('day').format("YYYY-MM-DD")}
                   />
+
                   {(formik?.errors?.flightItinerary && formik?.errors?.flightItinerary[0]) ? (
                     <span className="text-red-500 mt-2">
                       {formik?.errors?.flightItinerary[0].date}
@@ -423,11 +444,21 @@ const FlightDetails = () => {
               </div>
               <div>
                 <label htmlFor="last_name">Date of Flight</label>
-                <DatePicker
+                {/* <DatePicker
                   style={{ width: '100%', height: '42px' }}
                   format="YYYY-MM-DD"
                   onChange={(date, dateString) => { formik.setFieldValue(`flightItinerary[1].date`, dateString) }}
+                /> */}
+                <input
+                  type="date"
+                  className="bg-[#EDEDED] h-12 rounded-lg border-hidden"
+                  min={formik.values.flightItinerary[1].fromDate || new Date().toISOString().split('T')[0]}
+                  value={formik.values.flightItinerary[1].date}
+                  onChange={(e) => {
+                    formik.setFieldValue(`flightItinerary[1].date`, e.target.value);
+                  }}
                 />
+
                 {(formik?.errors?.flightItinerary && formik?.errors?.flightItinerary[1]) ? (
                   <span className="text-red-500 mt-2">
                     {formik?.errors?.flightItinerary[1].date}
@@ -532,7 +563,7 @@ const FlightDetails = () => {
                   className="btn-green"
                   onClick={FlightId ? () => router.push("/admin/create-package/accommodation") : () => ErrorToast.fire({
                     title: "Please Fill Flight Details Form then go to next page",
-                    icon:"warning"
+                    icon: "warning"
                   })}
                 >
                   Next
