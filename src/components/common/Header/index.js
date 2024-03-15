@@ -21,7 +21,7 @@ const Header = () => {
     <header className="bg-white">
       <nav className="mx-auto flex  items-center justify-between p-6" aria-label="Global">
         <div className="flex lg:flex-1">
-          <a href="#" className="-m-1.5 p-1.5">
+          <a href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Company</span>
             <img className="h-8 w-auto" src="/icons/package/Adil Travels.png" alt="" />
           </a>
@@ -36,7 +36,7 @@ const Header = () => {
         </div>
         <div className="hidden lg:flex lg:gap-x-12">
 
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Home</a>
+          <a href="/" className="text-sm font-semibold leading-6 text-gray-900">Home</a>
           <a href="/header-pages/umrah&ziyarah" className="text-sm font-semibold leading-6 text-gray-900"> Umrah & Ziyarah </a>
           <a href="/header-pages/makkah" className="text-sm font-semibold leading-6 text-gray-900">Makkah</a>
           <a href="/header-pages/madinah" className="text-sm font-semibold leading-6 text-gray-900">Madinah</a>
