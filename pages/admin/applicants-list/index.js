@@ -30,7 +30,7 @@ const index = () => {
               <div>
                 <input
                   type="text"
-                  placeholder="Agent Full Name"
+                  placeholder="Applicant Name"
                   className="border-gray-300 bg-gray-200 rounded-lg w-full mt-2"
                 />
               </div>
@@ -38,7 +38,7 @@ const index = () => {
               <div>
                 <input
                   type="text"
-                  placeholder="Agent Number"
+                  placeholder="Passport Number"
                   className="border-gray-300 bg-gray-200 rounded-lg w-full mt-2"
                 />
               </div>
@@ -74,39 +74,50 @@ const index = () => {
                           scope="col"
                           className="py-3.5 pl-4 pr-3 text-center text-[12px] text-white" style={{borderRight: '1px solid #00A852'}}
                         >
-                          Agent No.
+                          Applicant Id
                         </th>
                         <th
                           scope="col"
                           className="px-3 py-3.5 text-center text-[12px] text-white" style={{borderRight: '1px solid #00A852'}}
                         >
-                         Agent Full Name
+                          Applicant Full Name
                         </th>
                         <th
                           scope="col"
                           className="px-3 py-3.5 text-center text-[12px] text-white" style={{borderRight: '1px solid #00A852'}}
                         >
-                          Agency Name
+                          Phone No.
                         </th>
                         <th
                           scope="col"
                           className="px-3 py-3.5 text-center text-[12px] text-white" style={{borderRight: '1px solid #00A852'}}
                         >
-                          Active Packages
+                          Email Id
                         </th>
                         <th
                           scope="col"
                           className="px-3 py-3.5 text-center text-[12px] text-white" style={{borderRight: '1px solid #00A852'}}
                         >
-                          Expired Packages
+                          Date
                         </th>
                         <th
                           scope="col"
                           className="px-3 py-3.5 text-center text-[12px] text-white" style={{borderRight: '1px solid #00A852'}}
                         >
-                          Verificatipn Status
+                          Passport No.
                         </th>
-                        
+                        <th
+                          scope="col"
+                          className="px-3 py-3.5 text-center text-[12px] text-white" style={{borderRight: '1px solid #00A852'}}
+                        >
+                          Visa Validity
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-3 py-3.5 text-center text-[12px] text-white" style={{borderRight: '1px solid #00A852'}}
+                        >
+                          Visa status
+                        </th>
                         <th
                           scope="col"
                           className="px-3 py-3.5 text-center text-[12px] text-white" style={{borderRight: '1px solid #00A852'}}
@@ -142,7 +153,12 @@ const index = () => {
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500">
                             {person.PassportNo}
                           </td>
-                          
+                          <td className="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500">
+                            {person.VisaValidity}
+                          </td>
+                          <td className="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500">
+                            {person.Visastatus}
+                          </td>
                           
                           <td className="relative whitespace-nowrap py-4 pl-3 text-center pr-4 text-sm font-medium sm:pr-0">
                             <div className="flex justify-evenly	">
