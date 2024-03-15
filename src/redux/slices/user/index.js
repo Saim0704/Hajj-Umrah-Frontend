@@ -41,8 +41,10 @@ const user = createSlice({
     setLocalTransport: (state, action) => {
       state.localTransport = action.payload
     },
-    setTourItinerary: (state, action) => {
-      state.localTransport = action.payload
+    setTourItinerary: (state, action) => { 
+      // state.localTransport = action.payload
+      state.tourItinerary = action.payload
+
     }
   },
 });

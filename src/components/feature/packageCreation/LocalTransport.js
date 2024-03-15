@@ -15,6 +15,8 @@ const LocalTransport = () => {
   const [masterData, setMasterData] = useState({})
 
   const SaveId = useSelector(state => state?.user?.basic_Details?.basic_Detail?._id);
+  const LocalTransportId = useSelector(state => state?.user?.localTransport?.localTransport?._id);
+ 
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -77,6 +79,17 @@ const LocalTransport = () => {
   useEffect(() => {
     getMasterData();
   }, [])
+
+  
+  useEffect(() => {
+    if (!SaveId) {
+      Swal.fire({
+        title : "Please Fill accommodation Details!",
+        icon:"warning"
+      });
+      router.push('/admin/create-package/accommodation');
+    }
+  }, [SaveId, router]);
 
   return (
     <>
@@ -206,7 +219,14 @@ const LocalTransport = () => {
                 <button
                   type="button"
                   class="btn-green"
-                  onClick={() => router.push("/admin/create-package/tour-itinerary")}>
+                  onClick={LocalTransportId ? () => router.push("/admin/create-package/tour-itinerary") : () =>         Swal.fire({
+                    icon: "warning",
+                    title: "Please fill local-transport details",
+                    showConfirmButton: true,
+                    timer: 3000
+                  })}
+                  // onClick={() => router.push("/admin/create-package/tour-itinerary")}
+                  >
                   Next
                 </button>
               </div>

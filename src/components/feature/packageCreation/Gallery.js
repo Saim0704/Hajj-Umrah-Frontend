@@ -16,6 +16,7 @@ export const Gallery = () => {
   const { userData } = useSelector((state) => state.user);
   const [uploadedImages, setUploadedImages] = useState({})
   const SaveId = useSelector(state => state?.user?.basic_Details?.basic_Detail?._id);
+  const SavedGalleryId = useSelector(state => state?.user?.gallery?.gallery?._id);
   const dispatch = useDispatch();
 
   const formik = useFormik({
@@ -129,6 +130,16 @@ export const Gallery = () => {
         console.error('Error:', error);
       });
   }
+
+  useEffect(() => {
+    if (!SaveId) {
+      Swal.fire({
+        title : "Please Fill Basic Details!",
+        icon:"warning"
+      });
+      router.push('/admin/create-package/basic-details');
+    }
+  }, [SaveId, router]);
 
   return (
     <div>
@@ -306,7 +317,14 @@ export const Gallery = () => {
               <button
                 type="button"
                 class="btn-green"
-                onClick={() => router.push("/admin/create-package/flight-details")}>
+                onClick={SavedGalleryId ? () => router.push("/admin/create-package/flight-details") : () =>         Swal.fire({
+                  icon: "warning",
+                  title: "Please Upload Gallery Images",
+                  showConfirmButton: true,
+                  timer: 3000
+                })}
+                // onClick={() => router.push("/admin/create-package/flight-details")}
+              >
                 Next
               </button>
             </div>

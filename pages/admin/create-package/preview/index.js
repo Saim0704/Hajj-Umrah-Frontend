@@ -12,6 +12,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Rate, Spin } from 'antd';
 import axios from "axios";
 import Swal from "sweetalert2";
+import { setBasic_Details } from "src/redux/actions";
+import { setFlight_Details } from "src/redux/actions";
+import { setGallery } from "src/redux/actions";
+import { setAccommodation } from "src/redux/actions";
+import { setLocalTransport } from "src/redux/actions";
+import { setTourItinerary    } from "src/redux/actions";
+
 
 
 
@@ -96,7 +103,13 @@ const Index = () => {
                     text: "Deatils has been Submitted.",
                     icon: "success"
                   });
-                // dispatch(setTourItinerary({ tourItinerary: res.data }));
+                dispatch(setBasic_Details({ basic_Details:null }));
+                dispatch(setFlight_Details({ flight_Details: null }));
+                dispatch(setGallery({ gallery: null }));
+                dispatch(setAccommodation({ accommodation: null }));
+                dispatch(setLocalTransport({ localTransport: null }));
+                dispatch(setTourItinerary({ tourItinerary: null }));
+
                 router.push(`/`, undefined, {
                   shallow: true,
                 });
