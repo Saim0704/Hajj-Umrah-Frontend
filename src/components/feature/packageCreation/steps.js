@@ -57,6 +57,7 @@ const Stepper = ({ children }) => {
   }, [router.pathname]);
 
   const onChange = (value) => {
+   
     setCurrent(value);
     router.push(stepData[value].link);
   };

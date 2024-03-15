@@ -15,6 +15,8 @@ const TourItinerary = () => {
 
   const [masterData, setMasterData] = useState({})
   const SaveId = useSelector(state => state?.user?.basic_Details?.basic_Detail?._id);
+  const TourItineraryId = useSelector(state => state?.user?.tourItinerary?.tourItinerary?._id);
+ 
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -111,6 +113,15 @@ const TourItinerary = () => {
   console.log(formik.errors, "Errors")
   console.log(formik.values, "Values")
 
+  useEffect(() => {
+    if (!SaveId) {
+      Swal.fire({
+        title : "Please Fill accommodation Details!",
+        icon:"warning"
+      });
+      router.push('/admin/create-package/local-transport');
+    }
+  }, [SaveId, router]);
   return (
     <>
       <div className="p-5">
@@ -333,7 +344,8 @@ const TourItinerary = () => {
                 </button>
               </div>
               <div className="w-1/2 text-right">
-                <button type="submit" class="btn-light">
+                <button type="submit" class="btn-light"
+                >
                   Save
                 </button>
                 {/* <button

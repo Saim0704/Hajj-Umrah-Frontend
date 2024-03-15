@@ -16,7 +16,7 @@ const BasicDetails = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const data = { name: "shubhams ", email: "dmdshubham@gmail.com", age: 34 };
-
+  const BasicDetailId = useSelector(state => state?.user?.basic_Details?.basic_Detail?._id);
   useEffect(() => {
     dispatch(setUserData(data));
   }, []);
@@ -534,11 +534,17 @@ const BasicDetails = () => {
               <button
                 type="button"
                 class="btn-green"
-                onClick={() =>
-                  router.push(`/admin/create-package/gallery`, undefined, {
-                    shallow: true,
-                  })
-                }
+                // onClick={() =>
+                //   router.push(`/admin/create-package/gallery`, undefined, {
+                //     shallow: true,
+                //   })
+                // }
+                onClick={BasicDetailId ? () => router.push("/admin/create-package/gallery") : () =>         Swal.fire({
+                  icon: "warning",
+                  title: "Please Fill Basic Details Then go to next page",
+                  showConfirmButton: true,
+                  timer: 3000
+                })}
               >
                 Next
               </button>

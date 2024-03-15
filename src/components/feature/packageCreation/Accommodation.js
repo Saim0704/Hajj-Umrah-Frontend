@@ -18,6 +18,9 @@ const Accommodation = () => {
   const [previewMadinahImages, setPreviewMadinahImages] = useState([])
   const router = useRouter();
   const SaveId = useSelector(state => state?.user?.basic_Details?.basic_Detail?._id);
+  const FlightId = useSelector(state => state?.user?.flight_Details?.flight_Details?._id);
+
+   const AccommodationId = useSelector(state => state?.user?.accommodation?.accommodation?._id);
   const dispatch = useDispatch();
 
   const formik = useFormik({
@@ -282,6 +285,15 @@ const Accommodation = () => {
   console.log(previewMakkahImages,"previewMakkahImages")
   console.log(previewMadinahImages,"previewMadinahImages")
 
+  useEffect(() => {
+    if (!FlightId) {
+      Swal.fire({
+        title : "Please Fill Basic Details!",
+        icon:"warning"
+      });
+      router.push('/admin/create-package/flight-details');
+    }
+  }, [SaveId, router]);
   return (
     <>
       <div className="p-5">
@@ -465,6 +477,15 @@ const Accommodation = () => {
                             formik.setFieldValue(`makkah[${index}].toDate`, e.target.value);
                           }}
                         />
+                         {/* <input
+                          type="date"
+                          className="bg-[#EDEDED] h-12 rounded-lg border-hidden"
+                          min={formik.values.makkah[index].fromDate || new Date().toISOString().split('T')[0]}
+                          value={formik.values.makkah[index].toDate}
+                          onChange={(e) => {
+                            formik.setFieldValue(`makkah[${index}].toDate`, e.target.value);
+                          }}
+                        /> */}
                       </div>
                       {(formik?.errors?.makkah && formik?.errors?.makkah[index]) ? (
                         <p className="text-red-500">
@@ -1120,7 +1141,13 @@ const Accommodation = () => {
                 <button
                   type="button"
                   class="btn-green"
-                  onClick={() => router.push("/admin/create-package/local-transport")}
+                  onClick={AccommodationId ? () => router.push("/admin/create-package/local-transport") : () =>         Swal.fire({
+                    icon: "warning",
+                    title: "Please fill accomondation details",
+                    showConfirmButton: true,
+                    timer: 3000
+                  })}
+                  // onClick={() => router.push("/admin/create-package/local-transport")}
                 >
                   Next
                 </button>
