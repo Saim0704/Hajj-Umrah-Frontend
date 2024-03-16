@@ -17,61 +17,114 @@ const Accommodation = () => {
   const [previewMakkahImages, setPreviewMakkahImages] = useState([])
   const [previewMadinahImages, setPreviewMadinahImages] = useState([])
   const router = useRouter();
-  const SaveId = useSelector(state => state?.user?.basic_Details?.basic_Detail?._id);
-  const FlightId = useSelector(state => state?.user?.flight_Details?.flight_Details?._id);
-
-   const AccommodationId = useSelector(state => state?.user?.accommodation?.accommodation?._id);
   const dispatch = useDispatch();
 
+  const SaveId = useSelector(state => state?.user?.basic_Details?.basic_Detail?._id);
+  const FlightId = useSelector(state => state?.user?.flight_Details?.flight_Details?._id);
+  const AccommodationId = useSelector(state => state?.user?.accommodation?.accommodation?._id);
+  const accommodation = useSelector(state => state?.user?.accommodation?.accommodation);
+
+  const [formInitialValue, setFormInitialValues] = useState({
+    makkah: [
+      {
+        hotelName: "",
+        hotelAddress: "",
+        hotelStar: 0,
+        distanceKaaba: "",
+        distanceBoundry: "",
+        roomType: "",
+        bedCount: 0,
+        fromDate: "",
+        toDate: "",
+        amenities: [],
+        food: {
+          breakfast: false,
+          lunch: false,
+          dinner: false,
+          buffet: false,
+          alaCarte: false
+        },
+        hotelGallery: [],
+        roomGallery: []
+      }
+    ],
+    madeena: [
+      {
+        hotelName: "",
+        hotelAddress: "",
+        hotelStar: 0,
+        distanceProphetTomb: "",
+        distanceBoundry: "",
+        roomType: "",
+        bedCount: 0,
+        fromDate: "",
+        toDate: "",
+        amenities: [],
+        food: {
+          breakfast: false,
+          lunch: false,
+          dinner: false,
+          buffet: false,
+          alaCarte: false
+        },
+        hotelGallery: [],
+        roomGallery: []
+      }
+    ]
+  });
+
+  const initialValuesStatic = {
+    makkah: [
+      {
+        hotelName: "",
+        hotelAddress: "",
+        hotelStar: 0,
+        distanceKaaba: "",
+        distanceBoundry: "",
+        roomType: "",
+        bedCount: 0,
+        fromDate: "",
+        toDate: "",
+        amenities: [],
+        food: {
+          breakfast: false,
+          lunch: false,
+          dinner: false,
+          buffet: false,
+          alaCarte: false
+        },
+        hotelGallery: [],
+        roomGallery: []
+      }
+    ],
+    madeena: [
+      {
+        hotelName: "",
+        hotelAddress: "",
+        hotelStar: 0,
+        distanceProphetTomb: "",
+        distanceBoundry: "",
+        roomType: "",
+        bedCount: 0,
+        fromDate: "",
+        toDate: "",
+        amenities: [],
+        food: {
+          breakfast: false,
+          lunch: false,
+          dinner: false,
+          buffet: false,
+          alaCarte: false
+        },
+        hotelGallery: [],
+        roomGallery: []
+      }
+    ]
+  };
+
   const formik = useFormik({
-    initialValues: {
-      makkah: [
-        {
-          hotelName: "",
-          hotelAddress: "",
-          hotelStar: 0,
-          distanceKaaba: "",
-          distanceBoundry: "",
-          roomType: "",
-          bedCount: 0,
-          fromDate: "",
-          toDate: "",
-          amenities: [],
-          food: {
-            breakfast: false,
-            lunch: false,
-            dinner: false,
-            buffet: false,
-            alaCarte: false
-          },
-          hotelGallery: [],
-          roomGallery: []
-        }
-      ],
-      madeena: [
-        {
-          hotelName: "",
-          hotelAddress: "",
-          hotelStar: 0,
-          distanceProphetTomb: "",
-          distanceBoundry: "",
-          roomType: "",
-          bedCount: 0,
-          fromDate: "",
-          toDate: "",
-          amenities: [],
-          food: {
-            breakfast: false,
-            lunch: false,
-            dinner: false,
-            buffet: false,
-            alaCarte: false
-          },
-          hotelGallery: [],
-          roomGallery: []
-        }
-      ]
-    },
+    initialValues:  formInitialValue || initialValuesStatic,
+    enableReinitialize:true,
     validationSchema: Yup.object().shape({
       makkah: Yup.array().of(
         Yup.object().shape({
@@ -86,7 +139,7 @@ const Accommodation = () => {
           toDate: Yup.string().required('Date is required'),
           amenities: Yup.array().of(
             Yup.string()
-          ).min(1,'At least one amenity must be selected'),
+          ).min(1, 'At least one amenity must be selected'),
           food: Yup.object().shape({
             breakfast: Yup.boolean(),
             lunch: Yup.boolean(),
@@ -282,18 +335,67 @@ const Accommodation = () => {
       });
   }
 
-  console.log(previewMakkahImages,"previewMakkahImages")
-  console.log(previewMadinahImages,"previewMadinahImages")
+  // console.log(previewMakkahImages, "previewMakkahImages")
+  // console.log(previewMadinahImages, "previewMadinahImages")
 
   useEffect(() => {
     if (!FlightId) {
       Swal.fire({
-        title : "Please Fill Basic Details!",
-        icon:"warning"
+        title: "Please Fill Basic Details!",
+        icon: "warning"
       });
       router.push('/admin/create-package/flight-details');
     }
   }, [SaveId, router]);
+
+  useEffect(() => {
+    if (accommodation) {
+      console.log('Makkah Data--->:', accommodation);
+      console.log('Madeena Data:', accommodation.madeena);
+      let makkahItems = [];
+      let madeenaItems = [];
+      if (accommodation?.makkah.length > 0) {
+        accommodation.makkah.map((makkah, makkahIndex) => {
+          makkahItems.push({
+            hotelName: makkah.hotelName,
+            hotelAddress: makkah.hotelAddress,
+            hotelStar: makkah.hotelStar,
+            distanceKaaba: makkah.distanceKaaba,
+            distanceBoundry: makkah.distanceBoundry,
+            roomType: makkah.roomType,
+            bedCount: makkah.bedCount,
+            fromDate: makkah.fromDate ? moment(makkah.fromDate).format("YYYY-MM-DD") : "",
+            toDate: makkah.toDate ? moment(makkah.toDate).format("YYYY-MM-DD") : "",
+            amenities: makkah.amenities,
+            food: makkah.food,
+            hotelGallery: makkah.hotelGallery,
+            roomGallery: makkah.roomGallery
+          })
+        });
+      }
+      if (accommodation?.madeena.length > 0) {
+        accommodation.madeena.map((madeena, madeenaIndex) => {
+          madeenaItems.push({
+            hotelName: madeena.hotelName,
+            hotelAddress: madeena.hotelAddress,
+            hotelStar: madeena.hotelStar,
+            distanceProphetTomb: madeena.distanceProphetTomb,
+            distanceBoundry: madeena.distanceBoundry,
+            roomType: madeena.roomType,
+            bedCount: madeena.bedCount,
+            fromDate: madeena.fromDate ? moment(madeena.fromDate).format("YYYY-MM-DD") : "",
+            toDate: madeena.toDate ? moment(madeena.toDate).format("YYYY-MM-DD") : "",
+            amenities: madeena.amenities,
+            food: madeena.food,
+            hotelGallery: madeena.hotelGallery,
+            roomGallery: madeena.roomGallery
+          })
+        });
+        setFormInitialValues({makkah:makkahItems,madeena:madeenaItems})
+      }
+    }
+  }, [accommodation]);
+  
   return (
     <>
       <div className="p-5">
@@ -312,6 +414,7 @@ const Accommodation = () => {
                         class="bg-[#EDEDED] h-12 rounded-lg border-hidden"
                         type="text"
                         name=""
+                        value={formik?.values.makkah[index]?.hotelName}
                         onChange={(e) => { formik.setFieldValue(`makkah[${index}].hotelName`, e.target.value) }}
                       />
                       {(formik?.errors?.makkah && formik?.errors?.makkah[index]) ? (
@@ -327,10 +430,11 @@ const Accommodation = () => {
                       <label for="last_name">Acc Class</label>
                       <select
                         id=""
+                        value={formik?.values.makkah[index]?.hotelStar}
                         name=""
                         className="bg-[#EDEDED] h-12 rounded-lg border-hidden"
                         placeholder="Select Star"
-                        value={formik?.values?.makkah[index]?.hotelStar}
+                        // value={formik?.values?.makkah[index]?.hotelStar}
                         onChange={(e) => {
                           formik.setFieldValue(`makkah[${index}].hotelStar`, parseInt(e.target.value));
                         }}
@@ -361,6 +465,8 @@ const Accommodation = () => {
                         className="bg-[#EDEDED] h-12 rounded-lg border-hidden"
                         type="text"
                         name=""
+                        value={formik?.values.makkah[index]?.hotelAddress}
+
                         onChange={(e) => { formik.setFieldValue(`makkah[${index}].hotelAddress`, e.target.value) }}
                       />
                       {(formik?.errors?.makkah && formik?.errors?.makkah[index]) ? (
@@ -375,6 +481,8 @@ const Accommodation = () => {
                     <div className="md:col-span-3">
                       <label for="last_name">Distance from Kaaba</label>
                       <select id="" name="" className="bg-[#EDEDED] h-12 rounded-lg border-hidden"
+                        value={formik?.values.makkah[index]?.distanceKaaba}
+
                         onChange={(e) => {
                           formik.setFieldValue(`makkah[${index}].distanceKaaba`, e.target.value);
                         }}
@@ -401,6 +509,8 @@ const Accommodation = () => {
                         onChange={(e) => {
                           formik.setFieldValue(`makkah[${index}].distanceBoundry`, e.target.value);
                         }}
+                        value={formik?.values.makkah[index]?.distanceBoundry}
+
                       >
                         <option value="">Select Distance</option>
                         <option value={1}>1</option>
@@ -424,6 +534,8 @@ const Accommodation = () => {
                       <label for="last_name">Hotel Photos</label>
                       <div class="flex items-center justify-left flex-wrap gap-2">
                         <label
+                        value={formik?.values.makkah[index]?.hotelGallery}
+
                           htmlFor="hotelGallery"
                           className="flex flex-col items-center justify-center w-36 h-20 border-2 border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                           <div className="flex flex-col items-center justify-center pt-5 pb-6 w-full h-full">
@@ -445,6 +557,7 @@ const Accommodation = () => {
                         <input id="hotelGallery" type="file" class="invisible" multiple
                           onChange={(event) => handleMakkahCloudImages(event, index)}
                           name="hotelGallery"
+                          
                         />
                       </div>
                     </div>
@@ -477,7 +590,7 @@ const Accommodation = () => {
                             formik.setFieldValue(`makkah[${index}].toDate`, e.target.value);
                           }}
                         />
-                         {/* <input
+                        {/* <input
                           type="date"
                           className="bg-[#EDEDED] h-12 rounded-lg border-hidden"
                           min={formik.values.makkah[index].fromDate || new Date().toISOString().split('T')[0]}
@@ -508,6 +621,7 @@ const Accommodation = () => {
                         onChange={(e) => {
                           formik.setFieldValue(`makkah[${index}].roomType`, e.target.value);
                         }}
+                        value={formik?.values.makkah[index]?.roomType}
                       >
                         <option value="">Select Room Type</option>
                         {masterData?.ROOM_TYPE?.map((type, index) => {
@@ -532,6 +646,7 @@ const Accommodation = () => {
                         onChange={(e) => {
                           formik.setFieldValue(`makkah[${index}].bedCount`, parseInt(e.target.value));
                         }}
+                        value={formik?.values.makkah[index]?.bedCount}
                       >
                         <option value={0}>Select Bed Count</option>
                         <option value={1}>1</option>
@@ -558,6 +673,7 @@ const Accommodation = () => {
                                 <input
                                   type="checkbox"
                                   name={`makkah[${index}].amenities[${index2}]`}
+                                  checked={formik?.values.makkah[index]?.amenities.some(amenity => amenity === item._id)}
                                   className="bg-[#EDEDED]"
                                   value={item._id}
                                   onClick={(e) => {
@@ -634,6 +750,7 @@ const Accommodation = () => {
                             onChange={(e) => {
                               formik.setFieldValue(`makkah[${index}].food.breakfast`, e.target.checked);
                             }}
+                            checked={formik?.values.makkah[index]?.food.breakfast === true}
                           />
                           <label className="mb0 pl-2" style={{ fontSize: '14px' }}>
                             Breakfast
@@ -646,6 +763,7 @@ const Accommodation = () => {
                             onChange={(e) => {
                               formik.setFieldValue(`makkah[${index}].food.lunch`, e.target.checked);
                             }}
+                            checked={formik?.values.makkah[index]?.food.lunch === true}
                           />
                           <label className="mb0 pl-2" style={{ fontSize: '14px' }}>
                             Lunch
@@ -658,6 +776,7 @@ const Accommodation = () => {
                             onChange={(e) => {
                               formik.setFieldValue(`makkah[${index}].food.dinner`, e.target.checked);
                             }}
+                            checked={formik?.values.makkah[index]?.food.dinner === true}
                           />
                           <label className="mb0 pl-2" style={{ fontSize: '14px' }}>
                             Dinner
@@ -670,6 +789,7 @@ const Accommodation = () => {
                             onChange={(e) => {
                               formik.setFieldValue(`makkah[${index}].food.buffet`, e.target.checked);
                             }}
+                            checked={formik?.values.makkah[index]?.food.breakfast === true}
                           />
                           <label className="mb0 pl-2" style={{ fontSize: '14px' }}>
                             Buffet
@@ -682,6 +802,7 @@ const Accommodation = () => {
                             onChange={(e) => {
                               formik.setFieldValue(`makkah[${index}].food.alaCarte`, e.target.checked);
                             }}
+                            checked={formik?.values.makkah[index]?.food.alaCarte === true}
                           />
                           <label className="mb0 pl-2" style={{ fontSize: '14px' }}>
                             Ala carte
@@ -725,6 +846,7 @@ const Accommodation = () => {
                     <div class="md:col-span-9">
                       <label for="last_name"> Hotel Name</label>
                       <input
+                      value={formik?.values.madeena[index]?.hotelName}
                         class="bg-[#EDEDED] h-12 rounded-lg border-hidden"
                         type="text"
                         name=""
@@ -774,6 +896,8 @@ const Accommodation = () => {
                     <div className="md:col-span-6" >
                       <label for="last_name">Address</label>
                       <input
+                        value={formik?.values?.madeena[index]?.hotelAddress}
+
                         className="bg-[#EDEDED] h-12 rounded-lg border-hidden"
                         type="text"
                         name=""
@@ -789,8 +913,11 @@ const Accommodation = () => {
                       }
                     </div>
                     <div className="md:col-span-3">
-                      <label for="last_name">Distance from Kaaba</label>
+                      <label for="last_name">Distance Prophet Tomb</label>
                       <select id="" name="" className="bg-[#EDEDED] h-12 rounded-lg border-hidden"
+                        value={formik?.values?.madeena[index]?.distanceProphetTomb}
+                        // value={formik?.values.makkah[index]?.distanceKaaba}
+
                         onChange={(e) => {
                           formik.setFieldValue(`madeena[${index}].distanceProphetTomb`, e.target.value);
                         }}
@@ -816,7 +943,10 @@ const Accommodation = () => {
                       <select className="bg-[#EDEDED] h-12 rounded-lg border-hidden"
                         onChange={(e) => {
                           formik.setFieldValue(`madeena[${index}].distanceBoundry`, e.target.value);
+                          
                         }}
+                        value={formik?.values?.madeena[index]?.distanceBoundry}
+
                       >
                         <option value="">Select Distance</option>
                         <option value={1}>1</option>
@@ -859,7 +989,7 @@ const Accommodation = () => {
                         ) : <></>
                         }
                         <input id="MadeenaHotelGallery" type="file" class="invisible" multiple
-                          onChange={(event) => {handleMadeenaCloudImages(event, index)}}
+                          onChange={(event) => { handleMadeenaCloudImages(event, index) }}
                           name="hotelGallery"
                         />
                       </div>
@@ -915,6 +1045,8 @@ const Accommodation = () => {
                         onChange={(e) => {
                           formik.setFieldValue(`madeena[${index}].roomType`, e.target.value);
                         }}
+                        value={formik?.values?.madeena[index]?.roomType}
+
                       >
                         <option value="">Select Room Type</option>
                         {masterData?.ROOM_TYPE?.map((type, index) => {
@@ -939,6 +1071,8 @@ const Accommodation = () => {
                         onChange={(e) => {
                           formik.setFieldValue(`madeena[${index}].bedCount`, parseInt(e.target.value));
                         }}
+                        value={formik?.values?.madeena[index]?.bedCount}
+
                       >
                         <option value={0}>Select Bed Count</option>
                         <option value={1}>1</option>
@@ -965,6 +1099,7 @@ const Accommodation = () => {
                                 <input
                                   type="checkbox"
                                   name={`madeena[${index}].amenities[${index2}]`}
+                                  checked={formik?.values.madeena[index]?.amenities.some(amenity => amenity === item._id)}
                                   className="bg-[#EDEDED]"
                                   value={item._id}
                                   onClick={(e) => {
@@ -1023,7 +1158,7 @@ const Accommodation = () => {
                         ) : <></>
                         }
                         <input id="MadeenaRoomGallery" type="file" class="invisible" multiple
-                          onChange={(event) => handleMadeenaCloudImages(event,index)}
+                          onChange={(event) => handleMadeenaCloudImages(event, index)}
                           name="roomGallery"
                         />
                       </div>
@@ -1041,6 +1176,7 @@ const Accommodation = () => {
                             onChange={(e) => {
                               formik.setFieldValue(`madeena[${index}].food.breakfast`, e.target.checked);
                             }}
+                            checked={formik?.values.madeena[index]?.food.breakfast === true}
                           />
                           <label className="mb0 pl-2" style={{ fontSize: '14px' }}>
                             Breakfast
@@ -1053,6 +1189,8 @@ const Accommodation = () => {
                             onChange={(e) => {
                               formik.setFieldValue(`madeena[${index}].food.lunch`, e.target.checked);
                             }}
+                            checked={formik?.values.madeena[index]?.food.lunch === true}
+
                           />
                           <label className="mb0 pl-2" style={{ fontSize: '14px' }}>
                             Lunch
@@ -1065,6 +1203,7 @@ const Accommodation = () => {
                             onChange={(e) => {
                               formik.setFieldValue(`madeena[${index}].food.dinner`, e.target.checked);
                             }}
+                            checked={formik?.values.madeena[index]?.food.dinner === true}
                           />
                           <label className="mb0 pl-2" style={{ fontSize: '14px' }}>
                             Dinner
@@ -1077,6 +1216,7 @@ const Accommodation = () => {
                             onChange={(e) => {
                               formik.setFieldValue(`madeena[${index}].food.buffet`, e.target.checked);
                             }}
+                            checked={formik?.values.madeena[index]?.food.buffet === true}
                           />
                           <label className="mb0 pl-2" style={{ fontSize: '14px' }}>
                             Buffet
@@ -1089,6 +1229,7 @@ const Accommodation = () => {
                             onChange={(e) => {
                               formik.setFieldValue(`madeena[${index}].food.alaCarte`, e.target.checked);
                             }}
+                            checked={formik?.values.madeena[index]?.food.alaCarte === true}
                           />
                           <label className="mb0 pl-2" style={{ fontSize: '14px' }}>
                             Ala carte
@@ -1141,13 +1282,13 @@ const Accommodation = () => {
                 <button
                   type="button"
                   class="btn-green"
-                  onClick={AccommodationId ? () => router.push("/admin/create-package/local-transport") : () =>         Swal.fire({
+                  onClick={AccommodationId ? () => router.push("/admin/create-package/local-transport") : () => Swal.fire({
                     icon: "warning",
                     title: "Please fill accomondation details",
                     showConfirmButton: true,
                     timer: 3000
                   })}
-                  // onClick={() => router.push("/admin/create-package/local-transport")}
+                // onClick={() => router.push("/admin/create-package/local-transport")}
                 >
                   Next
                 </button>
