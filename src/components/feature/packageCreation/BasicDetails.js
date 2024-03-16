@@ -17,32 +17,57 @@ const BasicDetails = () => {
   const router = useRouter();
   const data = { name: "shubhams ", email: "dmdshubham@gmail.com", age: 34 };
   const BasicDetailId = useSelector(state => state?.user?.basic_Details?.basic_Detail?._id);
+  const basicDetails = useSelector(state => state?.user?.basic_Details?.basic_Detail);
+  const [formInitialValue,setFormInitialValues] = useState({
+    name: "",
+    description: "",
+    cost: null,
+    visaCost: null,
+    flightCost: null,
+    accomodationCost: null,
+    transportCost: null,
+    bookingCost: null,
+    bookingCostType: "",
+    miscellanousCost: null,
+    currency: "",
+    durationDays: "",
+    durationNights: "",
+    fromDate: "",
+    toDate: "",
+    fromCity: "",
+    toCity: "",
+    arrivalCity: "",
+    returnCity: ""
+  });
+  const initialValuesStatic = {
+    name: "",
+    description: "",
+    cost: null,
+    visaCost: null,
+    flightCost: null,
+    accomodationCost: null,
+    transportCost: null,
+    bookingCost: null,
+    bookingCostType: "",
+    miscellanousCost: null,
+    currency: "",
+    durationDays: "",
+    durationNights: "",
+    fromDate: "",
+    toDate: "",
+    fromCity: "",
+    toCity: "",
+    arrivalCity: "",
+    returnCity: ""
+  };
   useEffect(() => {
     dispatch(setUserData(data));
   }, []);
 
+
   const formik = useFormik({
-    initialValues: {
-      name: "",
-      description: "",
-      cost: null,
-      visaCost: null,
-      flightCost: null,
-      accomodationCost: null,
-      transportCost: null,
-      bookingCost: null,
-      bookingCostType: "",
-      miscellanousCost: null,
-      currency: "",
-      durationDays: "",
-      durationNights: "",
-      fromDate: "",
-      toDate: "",
-      fromCity: "",
-      toCity: "",
-      arrivalCity: "",
-      returnCity: ""
-    },
+    initialValues: formInitialValue || initialValuesStatic,
+    enableReinitialize:true,
     validationSchema: Yup.object().shape({
       name: Yup.string().required("Name is required"),
       description: Yup.string(),
@@ -105,6 +130,36 @@ const BasicDetails = () => {
 
   const { userData } = useSelector((state) => state.user);
 
+  // useEffect(()=>{
+  //   setFormInitialValues(basicDetails)
+  //   console.log("---->",basicDetails)
+  // },[basicDetails])
+  useEffect(() => {
+    if (basicDetails) {
+      setFormInitialValues({
+        name: basicDetails.name || "",
+        description: basicDetails.description || "",
+        cost: basicDetails.cost || null,
+        visaCost: basicDetails.visaCost || null,
+        flightCost: basicDetails.flightCost || null,
+        accomodationCost: basicDetails.accomodationCost || null,
+        transportCost: basicDetails.transportCost || null,
+        bookingCost: basicDetails.bookingCost || null,
+        bookingCostType: basicDetails.bookingCostType || "",
+        miscellanousCost: basicDetails.miscellanousCost || null,
+        currency: basicDetails.currency || "",
+        durationDays: basicDetails.durationDays || "",
+        durationNights: basicDetails.durationNights || "",
+        fromDate: basicDetails.fromDate ? moment(basicDetails.fromDate).format("YYYY-MM-DD") : "",
+        toDate: basicDetails.toDate ? moment(basicDetails.toDate).format("YYYY-MM-DD") : "",
+        fromCity: basicDetails.fromCity || "",
+        toCity: basicDetails.toCity || "",
+        arrivalCity: basicDetails.arrivalCity || "",
+        returnCity: basicDetails.returnCity || ""
+      });
+    }
+  }, [basicDetails]);
+  
   return (
     <div className="p-5">
       <div className="bg-white p-8 rounded-xl shadow-md">
