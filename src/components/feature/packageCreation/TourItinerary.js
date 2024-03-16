@@ -16,23 +16,39 @@ const TourItinerary = () => {
   const [masterData, setMasterData] = useState({})
   const SaveId = useSelector(state => state?.user?.basic_Details?.basic_Detail?._id);
   const TourItineraryId = useSelector(state => state?.user?.tourItinerary?.tourItinerary?._id);
- 
+  const Tour = useSelector(state => state?.user?.tourItinerary?.tourItinerary);
   const router = useRouter();
   const dispatch = useDispatch();
 
+  const [formInitialValue, setFormInitialValues] = useState({
+    additionalItem: [],
+    nearbySightseeing: [
+      {
+        destination: "",
+        date: "",
+        localTransport: "",
+        photos: [],
+        description: ""
+      }
+    ]
+  });
+  const initialValuesStatic = {
+    additionalItem: [],
+    nearbySightseeing: [
+      {
+        destination: "",
+        date: "",
+        localTransport: "",
+        photos: [],
+        description: ""
+      }
+    ]
+  };
+
   const formik = useFormik({
-    initialValues: {
-      additionalItem: [],
-      nearbySightseeing: [
-        {
-          destination: "",
-          date: "",
-          localTransport: "",
-          photos: [],
-          description: ""
-        }
-      ]
-    },
+    initialValues: formInitialValue || initialValuesStatic,
+    enableReinitialize: true,
+
     validationSchema: Yup.object().shape({
       additionalItem: Yup.array().of(
         Yup.string()
@@ -109,19 +125,29 @@ const TourItinerary = () => {
   }, [])
 
 
-  console.log(masterData, "MASTER")
-  console.log(formik.errors, "Errors")
-  console.log(formik.values, "Values")
+  // console.log(masterData, "MASTER")
+  // console.log(formik.errors, "Errors")
+  // console.log(formik.values, "Values")
 
   useEffect(() => {
     if (!SaveId) {
       Swal.fire({
-        title : "Please Fill accommodation Details!",
-        icon:"warning"
+        title: "Please Fill accommodation Details!",
+        icon: "warning"
       });
       router.push('/admin/create-package/local-transport');
     }
   }, [SaveId, router]);
+
+
+  useEffect(() => {
+    if (Tour) {
+      console.log('--->>', Tour)
+      setFormInitialValues({ additionalItem: Tour.additionalItems, nearbySightseeing: Tour.nearbySightseeing })
+    }
+  }, [Tour]);
+
+
   return (
     <>
       <div className="p-5">
@@ -130,32 +156,61 @@ const TourItinerary = () => {
             <div className="container">
               <h2 className="text-2xl pb-4"><b>Additional Items</b></h2>
               <div className="grid gap-2 md:grid-cols-7">
-                {masterData?.ADDITIONAL_ITEM?.map((item, index) => {
+                {/* {masterData?.ADDITIONAL_ITEM?.map((item, index) => {
                   return (
                     <div className="flex items-center mr-8" key={index}>
                       <input
                         type="checkbox"
                         className="bg-[#EDEDED]"
                         value={item._id}
-                        onClick={(e) => {
+                        checked={formik?.values.additionalItem.some(amenity => amenity === item._id)}
+                        onChange={(e) => {
                           const { value, checked } = e.target;
                           const currentAdditionalItems = formik.values.additionalItem;
                           let updatedAdditionalItems;
                           if (checked) {
                             updatedAdditionalItems = [...currentAdditionalItems, value];
                           } else {
-                            updatedAdditionalItems = currentAdditionalItems.filter(item => item !== value);
+                            updatedAdditionalItems = currentAdditionalItems.filter(itemId => itemId !== value);
                           }
-                          formik.setFieldValue(`additionalItem`, updatedAdditionalItems);
-                          // formik.setFieldValue(`additionalItem`, [...formik.values.additionalItem, e.target.value]);
+                          formik.setFieldValue('additionalItem', updatedAdditionalItems);
                         }}
                       />
+
+
                       <label className="mb0 pl-2" style={{ fontSize: '18px' }}>
                         {item.name}
                       </label>
                     </div>
                   )
-                })}
+                })} */}
+                {masterData?.ADDITIONAL_ITEM?.map((item, index) => {
+    return (
+        <div className="flex items-center mr-8" key={index}>
+            <input
+                type="checkbox"
+                className="bg-[#EDEDED]"
+                value={item._id}
+                checked={formik?.values.additionalItem.some(amenity => amenity === item._id)}
+                onChange={(e) => {
+                    const { value, checked } = e.target;
+                    const currentAdditionalItems = formik.values.additionalItem;
+                    let updatedAdditionalItems;
+                    if (checked) {
+                        updatedAdditionalItems = [...currentAdditionalItems, value];
+                    } else {
+                        updatedAdditionalItems = currentAdditionalItems.filter(itemId => itemId !== value);
+                    }
+                    formik.setFieldValue('additionalItem', updatedAdditionalItems);
+                }}
+            />
+            <label className="mb0 pl-2" style={{ fontSize: '14px' }}>
+                {item.name}
+            </label>
+        </div>
+    );
+})}
+
               </div>
               {formik?.errors?.additionalItem &&
                 <p className="text-red-500">
@@ -179,6 +234,7 @@ const TourItinerary = () => {
                         onChange={(e) => {
                           formik.setFieldValue(`nearbySightseeing[${index}].destination`, e.target.value);
                         }}
+                        value={formik?.values.nearbySightseeing[index]?.destination}
                       >
                         <option value="">Select Destination</option>
                         {masterData?.SIGHTSEEING?.map((place, index) => {
@@ -201,12 +257,25 @@ const TourItinerary = () => {
                       <label for="last_name">Select Date</label>
                       <div class="relative max-w-sm">
                         {/* <input type="date" placeholder="Select date" className="bg-gray-200" /> */}
-                        <input type="date" className="bg-gray-200" min={moment(new Date()).format("YYYY-MM-DD")}
+                        <input
+                          type="date"
+                          className="bg-gray-200"
+                          min={moment(new Date()).format("YYYY-MM-DD")}
                           onChange={(e) => {
                             formik.setFieldValue(`nearbySightseeing[${index}].date`, e.target.value);
                           }}
-                          value={formik.values.nearbySightseeing[index].date}
+                          value={formik.values.nearbySightseeing[index].date ? formik.values.nearbySightseeing[index].date.split('T')[0] : ''}
                         />
+
+                        {/* <input type="date" className="bg-[#EDEDED] h-12 rounded-lg border-hidden"
+                          min={formik.values.nearbySightseeing[index].date}
+                          onChange={(e) => {
+                            formik.setFieldValue(`nearbySightseeing[${index}].date`, e.target.value);
+                          }}
+                        // value={formik?.values.nearbySightseeing[index]?.destination}
+                        value={formik.values.nearbySightseeing[index].date}
+
+                        /> */}
                       </div>
                       {(formik?.errors?.nearbySightseeing && formik?.errors?.nearbySightseeing[index]) ? (
                         <p className="text-red-500">
@@ -223,9 +292,21 @@ const TourItinerary = () => {
                         {masterData?.TRAVEL_BY?.map((mode, index2) => {
                           return (
                             <div className="flex items-center mr-8" key={index2}>
+                              {/* <input
+                                id="inline-radio"
+                                type="radio"
+                                checked={formik?.values.nearbySightseeing[0]?.travelBy === mode._id}
+                                value={mode._id}
+                                name={`travelBy[${index}]`}
+                                className="bg-[#EDEDED]"
+                                onClick={(e) => {
+                                  formik.setFieldValue(`nearbySightseeing[${index}].localTransport`, e.target.value);
+                                }}
+                              /> */}
                               <input
                                 id="inline-radio"
                                 type="radio"
+                                checked={formik?.values.nearbySightseeing[index]?.localTransport === mode._id}
                                 value={mode._id}
                                 name={`travelBy[${index}]`}
                                 className="bg-[#EDEDED]"
@@ -233,6 +314,7 @@ const TourItinerary = () => {
                                   formik.setFieldValue(`nearbySightseeing[${index}].localTransport`, e.target.value);
                                 }}
                               />
+
                               <label className="mb0 pl-2" style={{ fontSize: '18px' }}>
                                 {mode.name}
                               </label>

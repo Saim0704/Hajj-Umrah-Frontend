@@ -21,6 +21,71 @@ const FlightDetails = () => {
   const SaveId = useSelector(state => state?.user?.basic_Details?.basic_Detail?._id);
   const SaveGalleryId = useSelector(state => state?.user?.gallery?.gallery?._id);
   const FlightId = useSelector(state => state?.user?.flight_Details?.flight_Details?._id);
+  const Flight = useSelector(state => state?.user?.flight_Details?.flight_Details);
+  
+  const [formInitialValue, setFormInitialValues] = useState({
+    flightItinerary: [
+      {
+        airlineCarrier: {
+          name: "",
+          code: "",
+          logo: ""
+        },
+        ticketClass: "",
+        fromCity: "",
+        toCity: "",
+        date: "",
+        luggageWeight: 0,
+        isDirect: null
+      },
+      {
+        airlineCarrier: {
+          name: "",
+          code: "",
+          logo: ""
+        },
+        ticketClass: "",
+        fromCity: "",
+        toCity: "",
+        date: "",
+        luggageWeight: 0,
+        isDirect: null
+      }
+    ]
+  });
+
+  const initialValuesStatic = {
+    flightItinerary: [
+      {
+        airlineCarrier: {
+          name: "",
+          code: "",
+          logo: ""
+        },
+        ticketClass: "",
+        fromCity: "",
+        toCity: "",
+        date: "",
+        luggageWeight: 0,
+        isDirect: null
+      },
+      {
+        airlineCarrier: {
+          name: "",
+          code: "",
+          logo: ""
+        },
+        ticketClass: "",
+        fromCity: "",
+        toCity: "",
+        date: "",
+        luggageWeight: 0,
+        isDirect: null
+      }
+    ]
+  };
+
+
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -33,37 +98,11 @@ const FlightDetails = () => {
       router.push('/admin/create-package/gallery');
     }
   }, [SaveId, router]);
+
+
   const formik = useFormik({
-    initialValues: {
-      flightItinerary: [
-        {
-          airlineCarrier: {
-            name: "",
-            code: "",
-            logo: ""
-          },
-          ticketClass: "",
-          fromCity: "",
-          toCity: "",
-          date: "",
-          luggageWeight: 0,
-          isDirect: null
-        },
-        {
-          airlineCarrier: {
-            name: "",
-            code: "",
-            logo: ""
-          },
-          ticketClass: "",
-          fromCity: "",
-          toCity: "",
-          date: "",
-          luggageWeight: 0,
-          isDirect: null
-        }
-      ]
-    },
+    initialValues: formInitialValue || initialValuesStatic,
+    enableReinitialize: true,
     validationSchema: Yup.object().shape({
       flightItinerary: Yup.array().of(
         Yup.object().shape({
@@ -161,6 +200,14 @@ const FlightDetails = () => {
 
   console.log(formik.values, "VALUES")
   console.log(formik.errors, "ERROR")
+  console.log(formInitialValue, '======')
+
+  useEffect(() => {
+    if (Flight) {
+      console.log('--->>', Flight.flightItinerary)
+      setFormInitialValues({ flightItinerary: Flight.flightItinerary })
+    }
+  }, [Flight]);
 
   return (
     <>
@@ -175,12 +222,14 @@ const FlightDetails = () => {
               <div>
                 <label htmlFor="last_name">Airline</label>
                 <Select
-                  placeholder="Select Airline"
+                  // placeholder="Select Airline"
                   onChange={(e) => {
                     handleDepartureAirline(e)
                   }}
                   style={{ width: '100%', height: '42px' }}
                   showSearch
+                  placeholder={formik.values.flightItinerary[0].airlineCarrier.name ? formik.values.flightItinerary[0].airlineCarrier.name : "Select Airline"}
+                  value={formik.values.flightItinerary[0].airlineCarrier.name ? JSON.stringify({ name: formik.values.flightItinerary[0].airlineCarrier.name, code: formik.values.flightItinerary[0].airlineCarrier.code, logo: formik.values.flightItinerary[0].airlineCarrier.logo }) : undefined}
                 >
                   {airlinesOptions.map((item, index) => (
                     <Select.Option key={index} value={JSON.stringify({ name: item.name, code: item.code, logo: item.logo })} >
@@ -207,9 +256,12 @@ const FlightDetails = () => {
               </div>
               <div>
                 <label htmlFor="last_name">Class</label>
-                <Select id="" name="flightItinerary.ticketClass" style={{ width: '100%', height: '42px' }} placeholder="Select Class" onChange={(e) => {
+                <Select id="" name="flightItinerary.ticketClass" style={{ width: '100%', height: '42px' }} onChange={(e) => {
                   formik.setFieldValue(`flightItinerary[0].ticketClass`, e);
-                }}>
+                }}
+                  placeholder={formik.values.flightItinerary[0].ticketClass ? formik.values.flightItinerary[0].ticketClass : "Select Class"}
+                  value={formik.values.flightItinerary[0].ticketClass ? formik.values.flightItinerary[0].ticketClass : undefined}
+                >
                   <option value="ECONOMY">ECONOMY</option>
                   <option value="PREMIUM_ECONOMY">PREMIUM_ECONOMY</option>
                   <option value="BUSINESS">BUSINESS</option>
@@ -225,13 +277,14 @@ const FlightDetails = () => {
               <div>
                 <label htmlFor="last_name">From</label>
                 <Select
-                  placeholder="Select Airport"
+                  placeholder={formik.values.flightItinerary[0].fromCity ? formik.values.flightItinerary[0].fromCity : "Select Class"}
                   onChange={(e) => {
-                    formik.setFieldValue(`flightItinerary[0].fromCity`, e);
+                    formik.setFieldValue(`flightItinerary[0].ticketClass`, e);
                   }}
                   style={{ width: '100%', height: '42px' }}
-                  showSearch
+                  value={formik.values.flightItinerary[0].fromCity ? formik.values.flightItinerary[0].fromCity : undefined}
                 >
+
                   {airportOptions.map((item, index) => (
                     <Select.Option key={index} value={item.code} >
                       {
@@ -267,14 +320,16 @@ const FlightDetails = () => {
                     disabledDate={(current) => current && current < moment().startOf('day')}
                   /> */}
                   <input
-                   className="bg-[#EDEDED] h-12 rounded-lg border-hidden"
+                    className="bg-[#EDEDED] h-12 rounded-lg border-hidden"
                     type="date"
                     style={{ width: '100%', height: '42px' }}
                     onChange={(e) => {
                       formik.setFieldValue(`flightItinerary[0].date`, e.target.value);
                     }}
                     min={moment().startOf('day').format("YYYY-MM-DD")}
+                    value={formik.values.flightItinerary[0].date ? formik.values.flightItinerary[0].date : undefined}
                   />
+
 
                   {(formik?.errors?.flightItinerary && formik?.errors?.flightItinerary[0]) ? (
                     <span className="text-red-500 mt-2">
@@ -289,12 +344,13 @@ const FlightDetails = () => {
               <div>
                 <label htmlFor="last_name">To</label>
                 <Select
-                  placeholder="Select Airport"
+                  placeholder={formik.values.flightItinerary[0].toCity ? formik.values.flightItinerary[0].toCity : "Select Airport"}
                   onChange={(e) => {
                     formik.setFieldValue(`flightItinerary[0].toCity`, e);
                   }}
                   style={{ width: '100%', height: '42px' }}
                   showSearch
+                  value={formik.values.flightItinerary[0].toCity ? formik.values.flightItinerary[0].toCity : undefined}
                 >
                   {airportOptions.map((item, index) => (
                     <Select.Option key={index} value={item.code} >
@@ -315,7 +371,12 @@ const FlightDetails = () => {
               </div>
               <div>
                 <label htmlFor="last_name">Weight</label>
-                <Input placeholder="In Kgs." onChange={(e) => { formik.setFieldValue(`flightItinerary[0].luggageWeight`, e.target.value) }} />
+                {/* <Input placeholder="In Kgs." onChange={(e) => { formik.setFieldValue(`flightItinerary[0].luggageWeight`, e.target.value) }} /> */}
+                <Input
+                  placeholder={formik.values.flightItinerary[0].luggageWeight ? formik.values.flightItinerary[0].luggageWeight : "In Kgs."}
+                  onChange={(e) => { formik.setFieldValue(`flightItinerary[0].luggageWeight`, e.target.value) }}
+                />
+
                 {(formik?.errors?.flightItinerary && formik?.errors?.flightItinerary[0]) ? (
                   <span className="text-red-500 mt-2">
                     {formik?.errors?.flightItinerary[0].luggageWeight}
@@ -326,6 +387,14 @@ const FlightDetails = () => {
               <div>
                 <div className="flex">
                   <div class="flex items-center mr-5 pt-7">
+                    {/* <input
+                      id="isDirect"
+                      type="radio"
+                      value="true"
+                      name="isDirect"
+                      className="bg-gray-300"
+                      onChange={(e) => { formik.setFieldValue(`flightItinerary[0].isDirect`, e.target.value === 'true') }}
+                    /> */}
                     <input
                       id="isDirect"
                       type="radio"
@@ -333,12 +402,22 @@ const FlightDetails = () => {
                       name="isDirect"
                       className="bg-gray-300"
                       onChange={(e) => { formik.setFieldValue(`flightItinerary[0].isDirect`, e.target.value === 'true') }}
+                      checked={formik.values.flightItinerary[0].isDirect === true}
                     />
+
                     <label htmlFor="inline-radio" class="mb0 pl-2">
                       Direct
                     </label>
                   </div>
                   <div class="flex items-center mr-5 pt-7">
+                    {/* <input
+                      id="isDirect"
+                      type="radio"
+                      value="false"
+                      name="isDirect"
+                      className="bg-gray-300"
+                      onChange={(e) => { formik.setFieldValue(`flightItinerary[0].isDirect`, e.target.value !== 'false') }}
+                    /> */}
                     <input
                       id="isDirect"
                       type="radio"
@@ -346,7 +425,9 @@ const FlightDetails = () => {
                       name="isDirect"
                       className="bg-gray-300"
                       onChange={(e) => { formik.setFieldValue(`flightItinerary[0].isDirect`, e.target.value !== 'false') }}
+                      checked={formik.values.flightItinerary[0].isDirect === false}
                     />
+
                     <label htmlFor="inline-radio" class="mb0 pl-2">
                       Indirect
                     </label>
@@ -367,12 +448,14 @@ const FlightDetails = () => {
               <div>
                 <label htmlFor="last_name">Airline</label>
                 <Select
-                  placeholder="Select Airline"
+                  // placeholder="Select Airline"
                   onChange={(e) => {
-                    handleArrivalAirline(e)
+                    handleDepartureAirline(e)
                   }}
                   style={{ width: '100%', height: '42px' }}
                   showSearch
+                  placeholder={formik.values.flightItinerary[1].airlineCarrier.name ? formik.values.flightItinerary[1].airlineCarrier.name : "Select Airline"}
+                  value={formik.values.flightItinerary[1].airlineCarrier.name ? JSON.stringify({ name: formik.values.flightItinerary[1].airlineCarrier.name, code: formik.values.flightItinerary[1].airlineCarrier.code, logo: formik.values.flightItinerary[1].airlineCarrier.logo }) : undefined}
                 >
                   {airlinesOptions.map((item, index) => (
                     <Select.Option key={index} value={JSON.stringify({ name: item.name, code: item.code, logo: item.logo })} >
@@ -399,9 +482,12 @@ const FlightDetails = () => {
               </div>
               <div>
                 <label htmlFor="last_name">Class</label>
-                <Select id="" name="flightItinerary.ticketClass" style={{ width: '100%', height: '42px' }} placeholder="Select Class" onChange={(e) => {
-                  formik.setFieldValue(`flightItinerary[1].ticketClass`, e);
-                }}>
+                <Select id="" name="flightItinerary.ticketClass" style={{ width: '100%', height: '42px' }} onChange={(e) => {
+                  formik.setFieldValue(`flightItinerary[0].ticketClass`, e);
+                }}
+                  placeholder={formik.values.flightItinerary[0].ticketClass ? formik.values.flightItinerary[1].ticketClass : "Select Class"}
+                  value={formik.values.flightItinerary[1].ticketClass ? formik.values.flightItinerary[1].ticketClass : undefined}
+                >
                   <option value="ECONOMY">ECONOMY</option>
                   <option value="PREMIUM_ECONOMY">PREMIUM_ECONOMY</option>
                   <option value="BUSINESS">BUSINESS</option>
@@ -417,13 +503,12 @@ const FlightDetails = () => {
               <div>
                 <label htmlFor="last_name">From</label>
                 <Select
-                  placeholder="Select Airport"
-                  // value={selectedItems}
+                  placeholder={formik.values.flightItinerary[1].fromCity ? formik.values.flightItinerary[1].fromCity : "Select Class"}
                   onChange={(e) => {
-                    formik.setFieldValue(`flightItinerary[1].fromCity`, e);
+                    formik.setFieldValue(`flightItinerary[0].ticketClass`, e);
                   }}
                   style={{ width: '100%', height: '42px' }}
-                  showSearch
+                  value={formik.values.flightItinerary[1].fromCity ? formik.values.flightItinerary[1].fromCity : undefined}
                 >
                   {airportOptions.map((item, index) => (
                     <Select.Option key={index} value={item.code} >
@@ -444,20 +529,25 @@ const FlightDetails = () => {
               </div>
               <div>
                 <label htmlFor="last_name">Date of Flight</label>
-                {/* <DatePicker
-                  style={{ width: '100%', height: '42px' }}
-                  format="YYYY-MM-DD"
-                  onChange={(date, dateString) => { formik.setFieldValue(`flightItinerary[1].date`, dateString) }}
-                /> */}
                 <input
+                  className="bg-[#EDEDED] h-12 rounded-lg border-hidden"
+                  type="date"
+                  style={{ width: '100%', height: '42px' }}
+                  onChange={(e) => {
+                    formik.setFieldValue(`flightItinerary[0].date`, e.target.value);
+                  }}
+                  min={moment().startOf('day').format("YYYY-MM-DD")}
+                  value={formik.values.flightItinerary[1].date ? formik.values.flightItinerary[1].date : undefined}
+                />
+                {/* <input
                   type="date"
                   className="bg-[#EDEDED] h-12 rounded-lg border-hidden"
-                  min={formik.values.flightItinerary[1].fromDate || new Date().toISOString().split('T')[0]}
+                  min={formik.values.flightItinerary[1].date || new Date().toISOString().split('T')[0]}
                   value={formik.values.flightItinerary[1].date}
                   onChange={(e) => {
                     formik.setFieldValue(`flightItinerary[1].date`, e.target.value);
                   }}
-                />
+                /> */}
 
                 {(formik?.errors?.flightItinerary && formik?.errors?.flightItinerary[1]) ? (
                   <span className="text-red-500 mt-2">
@@ -471,13 +561,13 @@ const FlightDetails = () => {
               <div>
                 <label htmlFor="last_name">To</label>
                 <Select
-                  placeholder="Select Airport"
-                  // value={selectedItems}
+                  placeholder={formik.values.flightItinerary[0].toCity ? formik.values.flightItinerary[0].toCity : "Select Airport"}
                   onChange={(e) => {
-                    formik.setFieldValue(`flightItinerary[1].toCity`, e);
+                    formik.setFieldValue(`flightItinerary[0].toCity`, e);
                   }}
                   style={{ width: '100%', height: '42px' }}
                   showSearch
+                  value={formik.values.flightItinerary[1].toCity ? formik.values.flightItinerary[1].toCity : undefined}
                 >
                   {airportOptions.map((item, index) => (
                     <Select.Option key={index} value={item.code} >
@@ -498,7 +588,10 @@ const FlightDetails = () => {
               </div>
               <div>
                 <label htmlFor="last_name">Weight</label>
-                <Input placeholder="In Kgs." onChange={(e) => { formik.setFieldValue(`flightItinerary[1].luggageWeight`, e.target.value) }} />
+                <Input
+                  placeholder={formik.values.flightItinerary[1].luggageWeight ? formik.values.flightItinerary[1].luggageWeight : "In Kgs."}
+                  onChange={(e) => { formik.setFieldValue(`flightItinerary[0].luggageWeight`, e.target.value) }}
+                />
                 {(formik?.errors?.flightItinerary && formik?.errors?.flightItinerary[1]) ? (
                   <span className="text-red-500 mt-2">
                     {formik?.errors?.flightItinerary[1].luggageWeight}
@@ -510,26 +603,28 @@ const FlightDetails = () => {
 
                 <div className="flex">
                   <div class="flex items-center mr-5 pt-7">
-                    <input
+                  <input
                       id="isDirect"
                       type="radio"
                       value="true"
                       name="isDirect"
                       className="bg-gray-300"
-                      onChange={(e) => { formik.setFieldValue(`flightItinerary[1].isDirect`, e.target.value === 'true') }}
+                      onChange={(e) => { formik.setFieldValue(`flightItinerary[0].isDirect`, e.target.value === 'true') }}
+                      checked={formik.values.flightItinerary[1].isDirect === true}
                     />
                     <label htmlFor="inline-radio" class="mb0 pl-2">
                       Direct
                     </label>
                   </div>
                   <div class="flex items-center mr-5 pt-7">
-                    <input
+                  <input
                       id="isDirect"
                       type="radio"
                       value="false"
                       name="isDirect"
                       className="bg-gray-300"
-                      onChange={(e) => { formik.setFieldValue(`flightItinerary[1].isDirect`, e.target.value !== 'false') }}
+                      onChange={(e) => { formik.setFieldValue(`flightItinerary[0].isDirect`, e.target.value !== 'false') }}
+                      checked={formik.values.flightItinerary[1].isDirect === false}
                     />
                     <label htmlhtmlFor="inline-radio" class="mb0 pl-2">
                       Indirect

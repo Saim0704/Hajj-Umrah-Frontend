@@ -16,12 +16,31 @@ const LocalTransport = () => {
 
   const SaveId = useSelector(state => state?.user?.basic_Details?.basic_Detail?._id);
   const LocalTransportId = useSelector(state => state?.user?.localTransport?.localTransport?._id);
- 
+  const Local = useSelector(state => state?.user?.localTransport?.localTransport);
   const router = useRouter();
   const dispatch = useDispatch();
 
+  const [formInitialValue, setFormInitialValues] = useState({
+    localItinerary: [{
+      fromLocation: '',
+      toLocation: '',
+      travelBy: ''
+    }]
+  });
+
+  const initialValuesStatic = {
+    localItinerary: [{
+      fromLocation: '',
+      toLocation: '',
+      travelBy: ''
+    }]
+  };
+
+
   const formik = useFormik({
-    initialValues: { localItinerary: [{ fromLocation: '', toLocation: '', travelBy: '' }] },
+    initialValues: formInitialValue || initialValuesStatic,
+    enableReinitialize: true,
+
     validationSchema: Yup.object().shape({
       localItinerary: Yup.array().of(
         Yup.object().shape({
@@ -32,7 +51,7 @@ const LocalTransport = () => {
       )
     }),
     onSubmit: (values, { setSubmitting }) => {
-      console.log(values, "KKKKKK")
+      // console.log(values, "KKKKKK")
       createPackage(values);
       setSubmitting(false);
     }
@@ -80,17 +99,31 @@ const LocalTransport = () => {
     getMasterData();
   }, [])
 
-  
+
   useEffect(() => {
     if (!SaveId) {
       Swal.fire({
-        title : "Please Fill accommodation Details!",
-        icon:"warning"
+        title: "Please Fill accommodation Details!",
+        icon: "warning"
       });
       router.push('/admin/create-package/accommodation');
     }
   }, [SaveId, router]);
 
+  useEffect(() => {
+    if (Local) {
+      console.log('Local Data--->:', Local);
+      let allLocalItenriray = []
+      if (Local.localItinerary.length > 0) {
+        Local.localItinerary.map((locIt) => {
+          allLocalItenriray.push({ fromLocation: locIt.fromLocation, toLocation: locIt.toLocation, travelBy: locIt.travelBy })
+        })
+      } else {
+        console.log('-----errorororororoor')
+      }
+      setFormInitialValues({ localItinerary: allLocalItenriray })
+    }
+  }, [Local]);
   return (
     <>
       <div className="p-5">
@@ -106,10 +139,14 @@ const LocalTransport = () => {
                         <Select id=""
                           name="fromLocation"
                           className="w-52 h-11"
-                          placeholder="Select Origin"
+                          placeholder={formik.values.localItinerary[index].fromLocation ? formik.values.localItinerary[0].fromLocation : "Select Origin"}
+
                           onChange={(e) => {
                             formik.setFieldValue(`localItinerary[${index}].fromLocation`, e);
-                          }}>
+                          }}
+                          value={formik?.values.localItinerary[index]?.fromLocation}
+                          >
+                            
                           {masterData?.PLACE?.map((place, index) => {
                             return (
                               <option value={place._id} key={index}>{place.name}</option>
@@ -127,19 +164,23 @@ const LocalTransport = () => {
                       </div>
                       <VscArrowBoth className="text-8xl px-2	" />
                       <div>
-                        <Select id=""
+                        <Select
+                          id=""
                           name="toLocation"
-                          placeholder="Select Destination"
+                          placeholder={formik.values.localItinerary[index].toLocation ? formik.values.localItinerary[index].toLocation : "Select Destination"}
                           className="w-52 h-11"
                           onChange={(e) => {
                             formik.setFieldValue(`localItinerary[${index}].toLocation`, e);
-                          }}>
+                          }}
+                          value={formik?.values.localItinerary[index]?.toLocation}
+                        >
                           {masterData?.PLACE?.map((place, index) => {
                             return (
                               <option value={place._id} key={index}>{place.name}</option>
-                            )
+                            );
                           })}
                         </Select>
+
                         {(formik?.errors?.localItinerary && formik?.errors?.localItinerary[index]) ? (
                           <p className="text-red-500">
                             {
@@ -159,11 +200,12 @@ const LocalTransport = () => {
                               <input
                                 id="inline-radio"
                                 type="radio"
+                                checked={formik?.values.localItinerary[index]?.travelBy === mode._id}
                                 value={mode._id}
                                 name={`travelBy[${index}]`}
                                 className="bg-[#EDEDED]"
                                 onClick={(e) => {
-                                  formik.setFieldValue(`localItinerary[${index}].travelBy`, e.target.value);
+                                  formik.setFieldValue(`localItinerary[0].travelBy`, e.target.value);
                                 }}
                               />
                               <label className="mb0 pl-2" style={{ fontSize: '20px' }}>
@@ -219,14 +261,14 @@ const LocalTransport = () => {
                 <button
                   type="button"
                   class="btn-green"
-                  onClick={LocalTransportId ? () => router.push("/admin/create-package/tour-itinerary") : () =>         Swal.fire({
+                  onClick={LocalTransportId ? () => router.push("/admin/create-package/tour-itinerary") : () => Swal.fire({
                     icon: "warning",
                     title: "Please fill local-transport details",
                     showConfirmButton: true,
                     timer: 3000
                   })}
-                  // onClick={() => router.push("/admin/create-package/tour-itinerary")}
-                  >
+                // onClick={() => router.push("/admin/create-package/tour-itinerary")}
+                >
                   Next
                 </button>
               </div>
