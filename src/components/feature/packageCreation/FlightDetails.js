@@ -95,7 +95,7 @@ const FlightDetails = () => {
         title: "Please Fill Gallery Details!",
         icon: "warning"
       });
-      router.push('/admin/create-package/gallery');
+      router.push('/admin-panel/create-package/gallery');
     }
   }, [SaveId, router]);
 
@@ -146,7 +146,7 @@ const FlightDetails = () => {
           timer: 1500
         });
         dispatch(setFlight_Details({ flight_Details: res.data }));
-        router.push(`/admin/create-package/accommodation`, undefined, {
+        router.push(`/admin-panel/create-package/accommodation`, undefined, {
           shallow: true,
         });
       },
@@ -656,7 +656,7 @@ const FlightDetails = () => {
                 <button
                   type="button"
                   className="btn-green"
-                  onClick={FlightId ? () => router.push("/admin/create-package/accommodation") : () => ErrorToast.fire({
+                  onClick={FlightId ? () => router.push("/admin-panel/create-package/accommodation") : () => ErrorToast.fire({
                     title: "Please Fill Flight Details Form then go to next page",
                     icon: "warning"
                   })}

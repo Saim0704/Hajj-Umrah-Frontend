@@ -83,7 +83,7 @@ const Index = () => {
 					title: `${response.data.message || "Unable To Fetch Local Transport Place Detail"}`,
 					icon: "error",
 				});
-				router.push("/admin/master-data/local-transport", undefined, {
+				router.push("/admin-panel/master-data/local-transport", undefined, {
 					shallow: true,
 				});
 			},

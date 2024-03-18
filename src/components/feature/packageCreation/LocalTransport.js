@@ -68,7 +68,7 @@ const LocalTransport = () => {
           timer: 1500
         });
         dispatch(setLocalTransport({ localTransport: res.data }));
-        router.push(`/admin/create-package/tour-itinerary`, undefined, {
+        router.push(`/admin-panel/create-package/tour-itinerary`, undefined, {
           shallow: true,
         });
       },
@@ -106,7 +106,7 @@ const LocalTransport = () => {
         title: "Please Fill accommodation Details!",
         icon: "warning"
       });
-      router.push('/admin/create-package/accommodation');
+      router.push('/admin-panel/create-package/accommodation');
     }
   }, [SaveId, router]);
 
@@ -261,13 +261,13 @@ const LocalTransport = () => {
                 <button
                   type="button"
                   class="btn-green"
-                  onClick={LocalTransportId ? () => router.push("/admin/create-package/tour-itinerary") : () => Swal.fire({
+                  onClick={LocalTransportId ? () => router.push("/admin-panel/create-package/tour-itinerary") : () => Swal.fire({
                     icon: "warning",
                     title: "Please fill local-transport details",
                     showConfirmButton: true,
                     timer: 3000
                   })}
-                // onClick={() => router.push("/admin/create-package/tour-itinerary")}
+                // onClick={() => router.push("/admin-panel/create-package/tour-itinerary")}
                 >
                   Next
                 </button>

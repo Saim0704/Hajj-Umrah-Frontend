@@ -5,7 +5,7 @@ export function middleware (request) {
     const authToken = request.cookies.get("accessToken")?.value
    
     const role = getRole(authToken);//getting role from token
-    const adminProtectedRoutes = ["/admin"]
+    const adminProtectedRoutes = ["/admin-panel"]
 
     console.log(authToken,"authToken")
     console.log(request.nextUrl.pathname,"request.nextUrl.pathname")
@@ -22,7 +22,7 @@ export function middleware (request) {
 
     if(loggedInNotAccessPaths) {
         if(authToken){
-            return NextResponse.redirect(new URL("/admin", request.url));
+            return NextResponse.redirect(new URL("/admin-panel", request.url));
         }
     } else {
         if(!authToken){
@@ -33,7 +33,7 @@ export function middleware (request) {
 
     // if (typeof window !== "undefined") {
     //     const token = localStorage.getItem("accessToken");
-    //     if (!token && request.url.startsWith("/admin")) {
+    //     if (!token && request.url.startsWith("/admin-panel")) {
     //         return NextResponse.redirect("/login");
     //     }
     // }
@@ -45,7 +45,7 @@ export const config = {
         "/",
         "/login",
         "/signUp",
-        "/admin",
-        "/admin/:path*"
+        "/admin-panel",
+        "/admin-panel/:path*"
     ]
 }

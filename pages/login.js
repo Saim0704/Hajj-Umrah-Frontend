@@ -35,7 +35,7 @@ const Login = () => {
     (data) => fetcher.post(`/auth/login`, data, "raw"),
     {
       onSuccess: (res) => {
-        router.push(`/admin`, undefined, {
+        router.push(`/admin-panel`, undefined, {
           shallow: true,
         });
         login(res?.data?.access_token);
