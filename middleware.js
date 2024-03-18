@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server"
-
+import { getRole } from './src/dataProvider/axios/index';
 export function middleware (request) {
 
     const authToken = request.cookies.get("accessToken")?.value
+   
+    const role = getRole(authToken);//getting role from token
     const adminProtectedRoutes = ["/admin"]
 
     console.log(authToken,"authToken")
