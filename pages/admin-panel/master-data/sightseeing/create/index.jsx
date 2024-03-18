@@ -43,7 +43,7 @@ const Index = () => {
                     icon: "success",
                     title: "Sightseeing Place Added Successfully!"
                 });
-                router.push('/admin/master-data/sightseeing', undefined, {
+                router.push('/admin-panel/master-data/sightseeing', undefined, {
                     shallow: true,
                 })
             },

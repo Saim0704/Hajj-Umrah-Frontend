@@ -126,7 +126,7 @@ const Index = () => {
                     title:`${response.data.message || "Unable To Fetch Sightseeing Detail"}`,
                     icon: "error"
                 })
-                router.push('/admin/master-data/sightseeing', undefined, {
+                router.push('/admin-panel/master-data/sightseeing', undefined, {
                     shallow: true,
                 })
             },
