@@ -1,5 +1,12 @@
 import React from 'react'
 import { IoIosArrowDropup } from "react-icons/io";
+import { FaBusAlt } from "react-icons/fa";
+import { IoMdStar } from "react-icons/io";
+import { FaWalking } from "react-icons/fa";
+import { ImSpoonKnife } from "react-icons/im";
+import { RxCross2 } from "react-icons/rx";
+import { TbArrowNarrowRight } from "react-icons/tb";
+import Image from 'next/image';
 
 export default function index() {
   return (
@@ -28,6 +35,7 @@ export default function index() {
                             </div>
 
                     <hr className='my-5 h-0.5 bg-[#AAAAAA]'/>
+                    
                     <div className='grid lg:grid-cols-3 md:grid-cols-1 gap-4'>
                         <div className='flex items-center'>
                             <label><b>No of travellers</b></label>
@@ -183,11 +191,182 @@ export default function index() {
                     <hr className='my-5 h-0.5 bg-[#AAAAAA]'/>
                     {/* <button className='bg-[#00A852] px-10 py-3 text-white' style={{float: 'inline-end'}}><b>Next</b></button> */}
 
+
+                 {/* 2nd sec.......start........ */}
                     <div className='flex justify-between mt-5'>
                         <h1><b>2. Package Itinerary & Inclusions</b></h1>
                         <IoIosArrowDropup  style={{color: 'green', fontSize: 'x-large'}}/>
                     </div>
 
+                    <div className='p-5'>
+                      <hr className='my-5 h-0.5 bg-[#AAAAAA]'/>
+                      <div className='flex'>
+                        <p><b>Itinerary:  2 </b>Flights</p>
+                        <p className='px-4'><b>2 </b>Hotels</p>
+                        <p className='px-4'><b>2 </b>Transfers</p>
+                        <p className='px-4'><b>5 </b>Activities</p>
+                      </div>
+                      <hr className='my-5 h-0.5 bg-[#AAAAAA]'/>
+                      <div className='flex justify-between'>
+                        <p className='text-xl'>Day 1</p>
+                        <p>Sat, 11 May</p>
+                      </div>
+                      <div className='flex'>
+                        <div className='mt-5'>
+                          <div className='bg-[#b2d2f3] w-3	h-3 rounded-full	'></div>
+                          <div style={{height: '180px', borderLeft: '1px solid black', borderStyle: 'dashed', marginLeft: '5px'}}></div>
+                          <div className='bg-[#6b6e70] w-3	h-3 rounded-full	'></div>
+                          <div style={{height: '60px', borderLeft: '1px solid black', borderStyle: 'dashed', marginLeft: '5px'}}></div>
+                          <div className='bg-[#b2d2f3] w-3	h-3 rounded-full	'></div>
+                        </div>
+
+                        <div className='p-3'>
+                          <h1 className='text-2xl'><b>Onward Flight</b></h1>
+                          <p className='text-[#989898]'>New Delhi to Pukhet | Flight Duration - 04h 35m</p>
+                          <div className='flex items-center p-2 mx-2' >
+                          <div><img src='/fly-img.png' style={{height: '55px', width:'55px'}}/>
+                          <p className='text-center'></p></div>
+                          <div className='px-2 mx-3'>
+                            <p className='text-xl'><b>IndiGo</b></p>
+                            <p className='text-sm text-[#989898]'>6E-1073</p>
+                            <p></p>
+                          </div>
+                          <div className='px-2 mx-3'>
+                            <p className='text-xl'><b>IndiGo</b></p>
+                            <p className='text-sm text-[#989898]'>6E-1073</p>
+                            <p></p>
+                          </div>
+                          <img src='/fly-travel.png' style={{ maxWidth: '150px' }} className='mx-2' />
+                          <div className='px-2 mx-3'>
+                            <p className='text-xl'><b>08:35</b></p>
+                            <p className='text-sm'>Thu,25 Apr</p>
+                            <p className='text-sm text-[#989898]'>New Delhi</p>
+                          </div>
+                          <div className='px-2  mx-3 text-[#989898]'>
+                            <p className='text-xl text-black'><b>Baggage</b></p>
+                            <p><b>Cabin:</b> 7 Kgs</p>
+                            <p><b>Check-in:</b>20 Kgs</p>
+                          </div>
+                        </div>
+                        <hr className='my-5 h-0.5 bg-[#AAAAAA]'/>
+                        <div className='flex items-center'>
+                          <h1 className='text-xl'><b>Transfer</b></h1>
+                          <FaBusAlt className='text-[#989898] mx-5'/>
+                          <p className='text-[#989898] mx-5'>Airport to hotel in Krabi  |  <b>4hrs</b></p>
+                        </div>
+                        <hr className='my-5 h-0.5 bg-[#AAAAAA]'/>
+                        <div>
+                        <h1 className='text-xl'><b>Hotel Stay</b></h1>
+                        <p className='text-[#989898]'>New Delhi to Pukhet | Flight Duration - 04h 35m</p>
+                        </div>
+                        <div className='flex items-center justify-between	mt-5'>
+                        <img src='/fly-img.png' style={{height: '55px', width:'55px'}}/>
+                        <div>
+                        <h1 className='text-xl'><b>Avesea Resort Krabi - Holidays Selections</b></h1>
+                        <div className='flex'><IoMdStar /><IoMdStar /><IoMdStar /><IoMdStar /></div>
+                        <p className='text-[#989898]'>Ao Nang</p>
+                        </div>
+                        <div >
+                          <h1 className='text-xl'>Room Type</h1>
+                          <p className='text-[#989898] text-sm'>Superior Room * 1</p>
+                          <p className='text-[#989898] text-sm'>Breakfast included</p>
+                        </div>
+                        </div>
+                        </div>
+                      </div>
+
+                      <div className='flex justify-between mt-10'>
+                        <p className='text-2xl'><b>Day 2</b></p>
+                        <p>Sun, 12 May</p>
+                      </div>
+                      <div className='flex mt-3'>
+                        <div className='mt-5'>
+                          <div className='bg-[#b2d2f3] w-3	h-3 rounded-full	'></div>
+                          <div style={{height: '55px', borderLeft: '1px solid black', borderStyle: 'dashed', marginLeft: '5px'}}></div>
+                          
+                          <div className='bg-[#b2d2f3] w-3	h-3 rounded-full	'></div>
+                        </div>
+
+                        <div className='p-3 w-full'>
+                          <div className='flex justify-between'>
+                            <h1><b>Activity</b></h1>
+                            <p className='text-[#989898] flex items-center'><FaWalking  className='mx-3'/>Duration: 6 hrs</p>
+                            <h1 className='text-lg'><b>Half-day poda island tour by long tailed</b></h1>
+                          </div>
+                          <hr className='my-5 h-0.5 bg-[#AAAAAA]'/>
+                          <div className='flex justify-between'>
+                            <h1><b>Day Meals</b></h1>
+                            <p className='text-[#989898] flex items-center'><ImSpoonKnife  className='mx-3'/><b>Breakfast:</b> Included at Avesea Resort Krabi</p>
+                            
+                          </div>
+                          </div>
+                      </div>
+
+
+                      <div className='flex justify-between mt-10'>
+                        <p className='text-2xl'><b>Day 3</b></p>
+                        <p>Mon, 13 May</p>
+                      </div>
+                      <div className='flex mt-3'>
+                        <div className='mt-5'>
+                          <div className='bg-[#b2d2f3] w-3	h-3 rounded-full	'></div>
+                          <div style={{height: '55px', borderLeft: '1px solid black', borderStyle: 'dashed', marginLeft: '5px'}}></div>
+                          
+                          <div className='bg-[#6b6e70] w-3	h-3 rounded-full	'></div>
+                          <div style={{height: '55px', borderLeft: '1px solid black', borderStyle: 'dashed', marginLeft: '5px'}}></div>
+                          
+                          <div className='bg-[#6b6e70] w-3	h-3 rounded-full	'></div>
+                          <div style={{height: '170px', borderLeft: '1px solid black', borderStyle: 'dashed', marginLeft: '5px'}}></div>
+                          <div className='bg-[#b2d2f3] w-3	h-3 rounded-full	'></div>
+                        </div>
+
+                        <div className='p-3 w-full'>
+                          <div className='flex justify-between'>
+                            <h1><b>Activity</b></h1>
+                            <p className='text-[#989898] flex items-center'><FaWalking  className='mx-3'/>Duration: 6 hrs</p>
+                            <h1 className='text-lg'><b>Half-day poda island tour by long tailed</b></h1>
+                          </div>
+                          <hr className='my-5 h-0.5 bg-[#AAAAAA]'/>
+                          <div>
+                            <p className='text-[#989898]'>Checkout from <b>Hotel in Krabi</b></p>
+                          </div>
+                          <hr className='my-5 h-0.5 bg-[#AAAAAA]'/>
+                          <div>
+                        <h1 className='text-xl'><b>Hotel Stay</b></h1>
+                        <p className='text-[#989898]'>New Delhi to Pukhet | Flight Duration - 04h 35m</p>
+                        </div>
+                        <div className='flex items-center justify-between	mt-5'>
+                        <img src='/fly-img.png' style={{height: '55px', width:'55px'}}/>
+                        <div>
+                        <h1 className='text-xl'><b>Avesea Resort Krabi - Holidays Selections</b></h1>
+                        <div className='flex'><IoMdStar /><IoMdStar /><IoMdStar /><IoMdStar /></div>
+                        <p className='text-[#989898]'>Ao Nang</p>
+                        </div>
+                        <div >
+                          <h1 className='text-xl'>Room Type</h1>
+                          <p className='text-[#989898] text-sm'>Superior Room * 1</p>
+                          <p className='text-[#989898] text-sm'>Breakfast included</p>
+                        </div>
+                        </div>
+                        <hr className='my-5 h-0.5 bg-[#AAAAAA]'/>
+                          <div className='flex justify-between'>
+                            <h1><b>Day Meals</b></h1>
+                            <p className='text-[#989898] flex items-center'><ImSpoonKnife  className='mx-3'/><b>Breakfast:</b> Included at Avesea Resort Krabi</p>
+                            
+                          </div>
+                          </div>
+                      </div>
+
+                      <div className='text-center text-blue-400'><a href='#'>View 3 more days Itinerary</a></div>
+
+                      <div>
+                        <h1><b>Package Exclusion</b></h1>
+                        <hr className='my-5 h-0.5 bg-[#AAAAAA]'/>
+                        <p className='flex items-center'><RxCross2 className='text-xl text-red-500 mr-5'/>Package price does not include gala dinner charges applicable on chiristmas New Year's Eve</p>
+                        <p className='flex items-center'><RxCross2 className='text-xl text-red-500 mr-5'/>Visa cost is not included in the package cost</p>
+                      </div>
+
+                    </div>
 
                 </div>
             </div>
@@ -209,7 +388,8 @@ export default function index() {
                     <input type='checkbox' className='m-2 p-2'/>
                     <p>By clicking on the Continue button below to proceed with the booking, I confirm that I have read , Terms of Service and of Adil Travels.</p>
                     </div>
-                    <button className='bg-[#656565] rounded-full py-3 text-white my-6 w-full'><b>Proceed to Payment</b></button>
+                    <button className='bg-[#00A852] rounded-full py-3 text-white my-6 w-full'><b>Proceed to Payment</b></button>
+                    <button className='bg-[#656565] rounded-full py-3 text-white mb-6 w-full'><b>Booking With Offline Payment</b></button>
                 </div>
             </div>
         </div>
