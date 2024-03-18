@@ -141,7 +141,7 @@ const Index = () => {
 							Sightseeing Places (Ziarah)
 						</h2>
 						<Link
-							href="/admin/master-data/sightseeing/create"
+							href="/admin-panel/master-data/sightseeing/create"
 							className="inline-flex items-center gap-x-2 rounded-md bg-[#06603C] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
 						>
 							<AiFillPlusCircle className="mr-2" />
@@ -238,7 +238,7 @@ const Index = () => {
 												className="cursor-pointer text-2xl"
 												onClick={() => {
 													router.push(
-														`/admin/master-data/sightseeing/update/${item._id}`,
+														`/admin-panel/master-data/sightseeing/update/${item._id}`,
 														undefined,
 														{
 															shallow: true,

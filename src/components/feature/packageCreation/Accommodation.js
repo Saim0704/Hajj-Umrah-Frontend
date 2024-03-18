@@ -208,7 +208,7 @@ const Accommodation = () => {
           timer: 1500
         });
         dispatch(setAccommodation({ accommodation: res.data }));
-        router.push(`/admin/create-package/local-transport`, undefined, {
+        router.push(`/admin-panel/create-package/local-transport`, undefined, {
           shallow: true,
         });
       },
@@ -344,7 +344,7 @@ const Accommodation = () => {
         title: "Please Fill Basic Details!",
         icon: "warning"
       });
-      router.push('/admin/create-package/flight-details');
+      router.push('/admin-panel/create-package/flight-details');
     }
   }, [SaveId, router]);
 
@@ -1282,13 +1282,13 @@ const Accommodation = () => {
                 <button
                   type="button"
                   class="btn-green"
-                  onClick={AccommodationId ? () => router.push("/admin/create-package/local-transport") : () => Swal.fire({
+                  onClick={AccommodationId ? () => router.push("/admin-panel/create-package/local-transport") : () => Swal.fire({
                     icon: "warning",
                     title: "Please fill accomondation details",
                     showConfirmButton: true,
                     timer: 3000
                   })}
-                // onClick={() => router.push("/admin/create-package/local-transport")}
+                // onClick={() => router.push("/admin-panel/create-package/local-transport")}
                 >
                   Next
                 </button>

@@ -107,7 +107,7 @@ const BasicDetails = () => {
           timer: 1500
         });
         dispatch(setBasic_Details({ basic_Detail: res.data }));
-        router.push(`/admin/create-package/gallery`, undefined, {
+        router.push(`/admin-panel/create-package/gallery`, undefined, {
           shallow: true,
         });
       },
@@ -590,11 +590,11 @@ const BasicDetails = () => {
                 type="button"
                 class="btn-green"
                 // onClick={() =>
-                //   router.push(`/admin/create-package/gallery`, undefined, {
+                //   router.push(`/admin-panel/create-package/gallery`, undefined, {
                 //     shallow: true,
                 //   })
                 // }
-                onClick={BasicDetailId ? () => router.push("/admin/create-package/gallery") : () =>         Swal.fire({
+                onClick={BasicDetailId ? () => router.push("/admin-panel/create-package/gallery") : () =>         Swal.fire({
                   icon: "warning",
                   title: "Please Fill Basic Details Then go to next page",
                   showConfirmButton: true,

@@ -15,7 +15,7 @@ const Index = () => {
     const [formInitialValues,setFormInitialValues] = useState({
         name: "",
         status: "ACTIVE",
-        type: "TRAVEL_BY"
+        type: "ADDITIONAL_ITEM"
     })
 	const router = useRouter();
 	const { id } = router.query;
@@ -24,34 +24,34 @@ const Index = () => {
     const initialValuesStatic = {
         name: "",
         status: "",
-        type: "TRAVEL_BY"
+        type: "ADDITIONAL_ITEM"
     }
     const formik = useFormik({
         initialValues: formInitialValues || initialValuesStatic,
         enableReinitialize:true,
         validationSchema: Yup.object().shape({
             name: Yup.string()
-                .min(3, "Travel By Vehicle name must be at least 3 characters")
-                .max(100, "Travel By Vehicle name must be at most 100 characters")
-                .required("Travel By Vehicle name is required"),
+                .min(3, "Item name must be at least 3 characters")
+                .max(100, "Item name must be at most 100 characters")
+                .required("Item name is required"),
             status: Yup.string()
                 .oneOf(["ACTIVE", "IN_ACTIVE"], "Status must be either 'ACTIVE' or 'IN ACTIVE'")
                 .required("Status is required")
         }),
         onSubmit: (values, { setSubmitting }) => {
             console.log("onsubmit", values);
-            updateTravelBy(values)
+            updateAdditionalItem(values)
             setSubmitting(false);
         },
     })
 
-    const { mutate: updateTravelBy } = useMutation(
+    const { mutate: updateAdditionalItem } = useMutation(
         (data) => fetcher.patch(`/v1/master-data/${id}`, data, "raw"),
         {
             onSuccess: (res) => {
                 SuccessToast.fire({
                     icon: "success",
-                    title: "Travel By Updated Successfully!"
+                    title: "Additional Item Updated Successfully!"
                 });
                 setViewActive(true);
             },
@@ -59,13 +59,13 @@ const Index = () => {
                 console.log(response.data);
                 ErrorToast.fire({
                     icon: "error",
-                    title: response.data.message || "Unable To Update Travel By"
+                    title: response.data.message || "Unable To Update Additional Item"
                 })
             },
         }
     );
 
-	const { mutate: fetchTravelBy } = useMutation(
+	const { mutate: fetchAdditionalItemDetail } = useMutation(
 		() => fetcher.get(`/v1/master-data/${id}`, "raw"),
 		{
 			onSuccess: async (res) => {
@@ -80,10 +80,10 @@ const Index = () => {
 			onError: ({ response }) => {
 				console.log(response.data);
 				ErrorToast.fire({
-					title: `${response.data.message || "Unable To Fetch Travel By Detail"}`,
+					title: `${response.data.message || "Unable To Fetch Additional Item Detail"}`,
 					icon: "error",
 				});
-				router.push("/admin/master-data/travel-by", undefined, {
+				router.push("/admin-panel/master-data/additional-items", undefined, {
 					shallow: true,
 				});
 			},
@@ -94,7 +94,7 @@ const Index = () => {
     useEffect(() => {
         setLoaderActive(true);
         if (id) {
-            fetchTravelBy();
+            fetchAdditionalItemDetail();
         }
     }, [id])
 	return (
@@ -120,7 +120,7 @@ const Index = () => {
 									htmlFor="name"
 									className="block text-sm font-medium leading-6 text-gray-900"
 								>
-									Travel By Vehicle Name
+									Item Name
 								</label>
 								<div className="mt-2">
 									<div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
@@ -212,7 +212,7 @@ export async function getServerSideProps() {
         props: {
             asLayout: "DefaultLayout",
             withSideBar: true,
-            pageTitle: 'Travel By Update',
+            pageTitle: 'Additional Item Update',
         },
     };
 }

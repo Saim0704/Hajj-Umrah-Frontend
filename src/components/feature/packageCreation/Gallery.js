@@ -97,7 +97,7 @@ export const Gallery = () => {
           timer: 1500
         });
         dispatch(setGallery({ gallery: res.data }));
-        router.push(`/admin/create-package/flight-details`, undefined, {
+        router.push(`/admin-panel/create-package/flight-details`, undefined, {
           shallow: true,
         });
       },
@@ -137,7 +137,7 @@ export const Gallery = () => {
         title : "Please Fill Basic Details!",
         icon:"warning"
       });
-      router.push('/admin/create-package/basic-details');
+      router.push('/admin-panel/create-package/basic-details');
     }
   }, [SaveId, router]);
 
@@ -317,13 +317,13 @@ export const Gallery = () => {
               <button
                 type="button"
                 class="btn-green"
-                onClick={SavedGalleryId ? () => router.push("/admin/create-package/flight-details") : () =>         Swal.fire({
+                onClick={SavedGalleryId ? () => router.push("/admin-panel/create-package/flight-details") : () =>         Swal.fire({
                   icon: "warning",
                   title: "Please Upload Gallery Images",
                   showConfirmButton: true,
                   timer: 3000
                 })}
-                // onClick={() => router.push("/admin/create-package/flight-details")}
+                // onClick={() => router.push("/admin-panel/create-package/flight-details")}
               >
                 Next
               </button>

@@ -81,7 +81,7 @@ const TourItinerary = () => {
           timer: 1500
         });
         dispatch(setTourItinerary({ tourItinerary: res.data }));
-        router.push(`/admin/create-package/preview`, undefined, {
+        router.push(`/admin-panel/create-package/preview`, undefined, {
           shallow: true,
         });
       },
@@ -135,7 +135,7 @@ const TourItinerary = () => {
         title: "Please Fill accommodation Details!",
         icon: "warning"
       });
-      router.push('/admin/create-package/local-transport');
+      router.push('/admin-panel/create-package/local-transport');
     }
   }, [SaveId, router]);
 
@@ -433,7 +433,7 @@ const TourItinerary = () => {
                 {/* <button
                   type="button"
                   class="btn-green"
-                  onClick={() => router.push("/admin/create-package/gallery")}>
+                  onClick={() => router.push("/admin-panel/create-package/gallery")}>
                   Next
                 </button> */}
               </div>

@@ -13,37 +13,37 @@ const stepData = [
     icon: <IoDocumentsOutline className="inline-block w-6 h-6" />,
     title: "Basic Details",
     isActive: true,
-    link: "/admin/create-package/basic-details",
+    link: "/admin-panel/create-package/basic-details",
   },
   {
     icon: <IoImageOutline className="inline-block w-6 h-6" />,
     title: "Gallery",
     isActive: false,
-    link: "/admin/create-package/gallery",
+    link: "/admin-panel/create-package/gallery",
   },
   {
     icon: <MdFlight className="inline-block w-6 h-6" />,
     title: "Flight Details",
     isActive: false,
-    link: "/admin/create-package/flight-details",
+    link: "/admin-panel/create-package/flight-details",
   },
   {
     icon: <HiOutlineHomeModern className="inline-block w-6 h-6" />,
     title: "Accommodation",
     isActive: false,
-    link: "/admin/create-package/accommodation",
+    link: "/admin-panel/create-package/accommodation",
   },
   {
     icon: <MdOutlineDirectionsBus className="inline-block w-6 h-6" />,
     title: "Local Transport",
     isActive: false,
-    link: "/admin/create-package/local-transport",
+    link: "/admin-panel/create-package/local-transport",
   },
   {
     icon: <MdOutlineTravelExplore className="inline-block w-6 h-6" />,
     title: "Tour Itinerary",
     isActive: false,
-    link: "/admin/create-package/tour-itinerary",
+    link: "/admin-panel/create-package/tour-itinerary",
   },
 ];
 

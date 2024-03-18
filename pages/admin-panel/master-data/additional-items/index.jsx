@@ -6,65 +6,65 @@ import * as Yup from "yup";
 import { ErrorToast, SuccessToast } from 'src/components/common/Toater';
 import Link from 'next/link';
 import {  AiOutlineEdit} from "react-icons/ai";
-const Index = () => {
+const AddiitionalItem = () => {
     const [showModal, setShowModal] = React.useState(false);
-    const [travelBy, setTravelBy] = useState([]);
+    const [additionItems, setAdditionItems] = useState([]);
     const formik = useFormik({
         initialValues: {
             item: ""
         },
         validationSchema: Yup.object().shape({
             item: Yup.string()
-                .min(3, "Travel By name must be at least 3 characters")
-                .max(100, "Travel By name must be at most 100 characters")
-                .required("Travel By name is required")
+                .min(3, "Item name must be at least 3 characters")
+                .max(100, "Item name must be at most 100 characters")
+                .required("Item name is required")
         }),
         onSubmit: (values, { setSubmitting }) => {
-            createTravelBy({ name: values.item, type: "TRAVEL_BY" });
+            createAdditionalItem({ name: values.item, type: "ADDITIONAL_ITEM" });
             setSubmitting(false);
         },
     })
 
-    const { mutate: fetchTravelBy } = useMutation(
-        () => fetcher.get(`/v1/master-data?type=TRAVEL_BY`, "raw"),
+    const { mutate: fetchAdditionalItems } = useMutation(
+        () => fetcher.get(`/v1/master-data?type=ADDITIONAL_ITEM`, "raw"),
         {
             onSuccess: (res) => {
-                setTravelBy(res.data.masterData)
+                setAdditionItems(res.data.masterData)
                 setShowModal(false);
             },
             onError: ({ response }) => {
                 console.log(response.data);
                 ErrorToast.fire({
                     icon: "error",
-                    title: response.data.message || "Unable Get Travel By List",
+                    title: response.data.message || "Unable Get Additional Items List",
                 })
             },
         }
     );
 
-    const { mutate: createTravelBy } = useMutation(
+    const { mutate: createAdditionalItem } = useMutation(
         (data) => fetcher.post(`/v1/master-data`, data, "raw"),
         {
             onSuccess: (res) => {
                 console.log(res.data)
                 SuccessToast.fire({
                     icon: "success",
-                    title: "Travel By Added Successfully!"
+                    title: "Additonal Item Added Successfully!"
                 });
-                fetchTravelBy();
+                fetchAdditionalItems();
             },
             onError: ({ response }) => {
                 console.log(response.data);
                 ErrorToast.fire({
                     icon: "error",
-                    title: response.data.message || "Unable To Add Travel By"
+                    title: response.data.message || "Unable To Add Additonal Item"
                 })
             },
         }
     );
 
     useEffect(() => {
-        fetchTravelBy();
+        fetchAdditionalItems();
     }, [])
     return (
         <>
@@ -76,7 +76,7 @@ const Index = () => {
                         <div className="sm:flex sm:items-center">
                             <div className="sm:flex-auto">
                                 <h1 className="text-base font-semibold leading-6 text-gray-900">
-                                    All  Travel By Vehichle Lists
+                                    All  Additional Items
                                 </h1>
                             </div>
                             {/* Modal Start */}
@@ -99,7 +99,7 @@ const Index = () => {
                                                     {/*header*/}
                                                     <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
                                                         <h3 className="text-3xl font-semibold">
-                                                            Add Travel By Vehichle
+                                                            Add Item
                                                         </h3>
                                                         <button
                                                             className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
@@ -119,7 +119,7 @@ const Index = () => {
                                                                         htmlFor="itemname"
                                                                         className="block text-sm font-medium leading-6 text-gray-900"
                                                                     >
-                                                                        Name
+                                                                        Item Name
                                                                     </label>
                                                                     <div className="mt-2">
                                                                         <input
@@ -185,7 +185,7 @@ const Index = () => {
                                                     scope="col"
                                                     className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
                                                 >
-                                                    Name
+                                                    Item Name
                                                 </th>
                                                 <th
                                                     scope="col"
@@ -199,8 +199,8 @@ const Index = () => {
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200 bg-white">
-                                            {travelBy.length > 0 ? (
-                                                travelBy.map((item) => (
+                                            {additionItems.length > 0 ? (
+                                                additionItems.map((item) => (
                                                     <tr key={item._id}>
                                                         <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
                                                             <div className="flex items-center">
@@ -219,7 +219,7 @@ const Index = () => {
                                                         </td>
                                                         <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                                                             <Link
-                                                                href={`/admin/master-data/additional-items/update/${item._id}`}
+                                                                href={`/admin-panel/master-data/additional-items/update/${item._id}`}
                                                                 className="text-indigo-600 hover:text-indigo-900"
                                                             >
                                                                 {/* Edit<span className="sr-only">, {item.name}</span> */}
@@ -244,13 +244,13 @@ const Index = () => {
     )
 }
 
-export default Index;
+export default AddiitionalItem;
 export async function getStaticProps() {
     return {
         props: {
             asLayout: "DefaultLayout",
             withSideBar: true,
-            pageTitle: "Master Data Travel-By",
+            pageTitle: "Additional Items"
         },
     };
 }
